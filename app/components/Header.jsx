@@ -1,18 +1,27 @@
 import {Suspense} from 'react';
-import {Await, NavLink, useAsyncValue} from '@remix-run/react';
+import {
+  Await,
+  Link,
+  NavLink,
+  useAsyncValue,
+  useLocation,
+} from '@remix-run/react';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
+import {Symbol} from './Symbol';
+import {CartLink} from './CartLink';
 
 /**
  * @param {HeaderProps}
  */
 export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
+
   return (
     <header className="sticky top-0 inset-x-0 z-10 bg-white">
       <div className="container flex flex-row justify-between items-center py-2 gap-4">
         <div>
-          <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+          <NavLink prefetch="intent" to="/" end>
             <span className="sr-only">{shop.name}</span>
             La Torre Ambulante
           </NavLink>
@@ -39,8 +48,6 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
  * }}
  */
 export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
-  const {close} = useAside();
-
   return (
     <nav className="flex flex-row gap-4" role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
@@ -58,9 +65,7 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
             className="header-menu-item"
             end
             key={item.id}
-            onClick={close}
             prefetch="intent"
-            style={activeLinkStyle}
             to={url}
           >
             {item.title}
@@ -77,7 +82,7 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
 function HeaderCtas({isLoggedIn, cart}) {
   return (
     <nav className="header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
+      {/* <HeaderMenuMobileToggle /> */}
       {/* <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
@@ -85,76 +90,77 @@ function HeaderCtas({isLoggedIn, cart}) {
           </Await>
         </Suspense>
       </NavLink> */}
-      <CartToggle cart={cart} />
+      {/* <CartToggle cart={cart} /> */}
+      <CartLink cart={cart} />
     </nav>
   );
 }
 
-function HeaderMenuMobileToggle() {
-  const {open} = useAside();
-  return (
-    <button
-      className="header-menu-mobile-toggle reset"
-      onClick={() => open('mobile')}
-    >
-      <h3>☰</h3>
-    </button>
-  );
-}
+// function HeaderMenuMobileToggle() {
+//   const {open} = useAside();
+//   return (
+//     <button
+//       className="header-menu-mobile-toggle reset"
+//       onClick={() => open('mobile')}
+//     >
+//       <h3>☰</h3>
+//     </button>
+//   );
+// }
 
-function SearchToggle() {
-  const {open} = useAside();
-  return (
-    <button className="reset" onClick={() => open('search')}>
-      Search
-    </button>
-  );
-}
+// function SearchToggle() {
+//   const {open} = useAside();
+//   return (
+//     <button className="reset" onClick={() => open('search')}>
+//       Search
+//     </button>
+//   );
+// }
 
-/**
- * @param {{count: number | null}}
- */
-function CartBadge({count}) {
-  const {open} = useAside();
-  const {publish, shop, cart, prevCart} = useAnalytics();
+// /**
+//  * @param {{count: number | null}}
+//  */
+// function CartBadge({count}) {
+//   const {open} = useAside();
+//   const {publish, shop, cart, prevCart} = useAnalytics();
 
-  return (
-    <a
-      href="/cart"
-      onClick={(e) => {
-        e.preventDefault();
-        open('cart');
-        publish('cart_viewed', {
-          cart,
-          prevCart,
-          shop,
-          url: window.location.href || '',
-        });
-      }}
-    >
-      Cart {count === null ? <span>&nbsp;</span> : count}
-    </a>
-  );
-}
+//   return (
+//     <a
+//       href="/cart"
+//       onClick={(e) => {
+//         e.preventDefault();
+//         open('cart');
+//         publish('cart_viewed', {
+//           cart,
+//           prevCart,
+//           shop,
+//           url: window.location.href || '',
+//         });
+//       }}
+//     >
+//       Cart {count === null ? <span>&nbsp;</span> : count}
+//     </a>
+//   );
+// }
 
-/**
- * @param {Pick<HeaderProps, 'cart'>}
- */
-function CartToggle({cart}) {
-  return (
-    <Suspense fallback={<CartBadge count={null} />}>
-      <Await resolve={cart}>
-        <CartBanner />
-      </Await>
-    </Suspense>
-  );
-}
+// /**
+//  * @param {Pick<HeaderProps, 'cart'>}
+//  */
+// function CartToggle({cart}) {
+//   return (
+//     <Suspense fallback={<CartBadge count={null} />}>
+//       <Await resolve={cart}>
+//         <CartBanner />
+//       </Await>
+//     </Suspense>
+//   );
+// }
 
-function CartBanner() {
-  const originalCart = useAsyncValue();
-  const cart = useOptimisticCart(originalCart);
-  return <CartBadge count={cart?.totalQuantity ?? 0} />;
-}
+// function CartBanner() {
+//   const originalCart = useAsyncValue();
+//   const cart = useOptimisticCart(originalCart);
+//   return <CartBadge count={cart?.totalQuantity ?? 0} />;
+// }
 
 const FALLBACK_HEADER_MENU = {
   id: 'gid://shopify/Menu/199655587896',
@@ -198,18 +204,18 @@ const FALLBACK_HEADER_MENU = {
   ],
 };
 
-/**
- * @param {{
- *   isActive: boolean;
- *   isPending: boolean;
- * }}
- */
-function activeLinkStyle({isActive, isPending}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
-  };
-}
+// /**
+//  * @param {{
+//  *   isActive: boolean;
+//  *   isPending: boolean;
+//  * }}
+//  */
+// function activeLinkStyle({isActive, isPending}) {
+//   return {
+//     fontWeight: isActive ? 'bold' : undefined,
+//     color: isPending ? 'grey' : 'black',
+//   };
+// }
 
 /** @typedef {'desktop' | 'mobile'} Viewport */
 /**

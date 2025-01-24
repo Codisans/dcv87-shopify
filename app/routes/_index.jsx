@@ -63,10 +63,11 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
-    </div>
+    <Image
+      className="w-full object-cover"
+      src="/img/homepage-bg.jpg"
+      alt="dvc"
+    />
   );
 }
 

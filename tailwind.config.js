@@ -44,10 +44,10 @@ export default {
     colors: {
       current: 'currentColor',
       transparent: 'transparent',
-      red: '#DA0F0F',
+      red: '#B51518',
       green: '#1DB954',
       black: {
-        DEFAULT: '#151515',
+        DEFAULT: '#000',
         true: '#000000',
       },
       grey: {
@@ -63,7 +63,7 @@ export default {
       },
     },
     fontFamily: {
-      primary: ['neue-haas-grotesk-display', 'sans-serif'],
+      primary: ['Impact', 'sans-serif'],
       secondary: ['neue-haas-grotesk-display', 'sans-serif'],
     },
     fontSize: {
@@ -80,26 +80,29 @@ export default {
         },
       },
       h1: {
-        base: font(44, {
-          lineHeight: 48,
-          letterSpacing: -1.5,
+        base: font(30, {
+          lineHeight: 36,
+          letterSpacing: 0,
+          fontFamily: 'Impact',
+          textTransform: 'uppercase',
         }),
         screens: {
-          lg: font(80, {
-            lineHeight: 85,
-            letterSpacing: -1.6,
+          lg: font(100, {
+            lineHeight: 120,
+            letterSpacing: 0,
           }),
         },
       },
       h2: {
-        base: font(28, {
-          lineHeight: 32,
-          letterSpacing: -0.2,
+        base: font(20, {
+          lineHeight: 24,
+          letterSpacing: 0,
+          fontFamily: 'Impact',
         }),
         screens: {
           lg: font(50, {
-            lineHeight: 54,
-            letterSpacing: -1,
+            lineHeight: 56,
+            letterSpacing: 0,
           }),
         },
       },
@@ -107,30 +110,27 @@ export default {
         base: font(24, {
           lineHeight: 28,
           letterSpacing: -0.2,
+          fontFamily: 'Impact',
         }),
         screens: {
-          lg: font(32, {
+          lg: font(30, {
             lineHeight: 36,
             letterSpacing: -1,
           }),
         },
       },
       h4: {
-        base: font(24, {
-          lineHeight: 30,
-          letterSpacing: -0.2,
+        base: font(20, {
+          lineHeight: 24,
+          letterSpacing: 0,
+          fontFamily: 'Impact',
         }),
-        screens: {
-          lg: font(28, {
-            lineHeight: 44,
-            letterSpacing: 0,
-          }),
-        },
       },
       button: {
-        base: font(12, {
-          lineHeight: 12,
-          letterSpacing: 3,
+        base: font(16, {
+          lineHeight: 16,
+          letterSpacing: 2,
+          fontFamily: 'Impact',
         }),
       },
       nav: {

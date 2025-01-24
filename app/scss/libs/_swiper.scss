@@ -1,0 +1,5 @@
+@use 'swiper/scss';
+
+.marquee-swiper .swiper-wrapper {
+  transition-timing-function: linear;
+}
