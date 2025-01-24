@@ -1,0 +1,12 @@
+@layer base {
+	video-embed {
+		@apply block aspect-w-16 aspect-h-9;
+
+		button,
+		iframe,
+		img,
+		video {
+			@apply absolute inset-0 w-full h-full object-cover;
+		}
+	}
+}

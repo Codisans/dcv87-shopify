@@ -1,0 +1,42 @@
+@mixin text-rollback() {
+    --button-py: 0.875rem;
+    --button-px: 1.5rem;
+
+    color: transparent;
+    border-left: solid var(--button-px) transparent;
+    border-right: solid var(--button-px) transparent;
+    border-top: solid var(--button-py) transparent;
+    border-bottom: solid var(--button-py) transparent;
+    outline: 1px solid var(--button-text-color);
+    transition: background 0.6s theme("transitionTimingFunction.rollover"),
+        text-shadow 0.6s theme("transitionTimingFunction.rollover");
+    text-shadow: 0px 0px var(--button-text-color),
+        0px -3em var(--button-text-color-hover);
+
+    &:hover,
+    button:hover &,
+    &:focus-visible {
+        text-shadow: 0px 3em var(--button-text-color),
+            0px 0px var(--button-text-color-hover);
+    }
+}
+
+@mixin background-slide() {
+    background-origin: border-box;
+    background-image: linear-gradient(
+        to bottom,
+        var(--button-color) 0%,
+        var(--button-color) 50%,
+        var(--button-color-hover) 50%,
+        var(--button-color-hover) 100%
+    );
+    background-size: 100% 200%;
+    background-repeat: no-repeat;
+    background-position: 0% 0%;
+
+    &:hover,
+    button:hover &,
+    &:focus-visible {
+        background-position: 0% 100%;
+    }
+}

@@ -9,17 +9,23 @@ import {useAside} from '~/components/Aside';
 export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
   return (
-    <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-        publicStoreDomain={publicStoreDomain}
-      />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+    <header className="sticky top-0 inset-x-0 z-10 bg-white">
+      <div className="container flex flex-row justify-between items-center py-2 gap-4">
+        <div>
+          <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+            <span className="sr-only">{shop.name}</span>
+            La Torre Ambulante
+          </NavLink>
+        </div>
+        <div className="flex flex-row gap-4">
+          <HeaderMenu
+            menu={menu}
+            primaryDomainUrl={header.shop.primaryDomain.url}
+            publicStoreDomain={publicStoreDomain}
+          />
+          <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+        </div>
+      </div>
     </header>
   );
 }
@@ -32,28 +38,11 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
  *   publicStoreDomain: HeaderProps['publicStoreDomain'];
  * }}
  */
-export function HeaderMenu({
-  menu,
-  primaryDomainUrl,
-  viewport,
-  publicStoreDomain,
-}) {
-  const className = `header-menu-${viewport}`;
+export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   const {close} = useAside();
 
   return (
-    <nav className={className} role="navigation">
-      {viewport === 'mobile' && (
-        <NavLink
-          end
-          onClick={close}
-          prefetch="intent"
-          style={activeLinkStyle}
-          to="/"
-        >
-          Home
-        </NavLink>
-      )}
+    <nav className="flex flex-row gap-4" role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
@@ -89,14 +78,13 @@ function HeaderCtas({isLoggedIn, cart}) {
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
+      {/* <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
           </Await>
         </Suspense>
-      </NavLink>
-      <SearchToggle />
+      </NavLink> */}
       <CartToggle cart={cart} />
     </nav>
   );

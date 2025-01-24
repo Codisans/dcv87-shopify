@@ -1,0 +1,11 @@
+@layer base {
+	td,
+	th {
+		@apply p-0;
+	}
+
+	caption,
+	th {
+		@apply text-left;
+	}
+}

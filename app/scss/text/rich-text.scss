@@ -1,0 +1,41 @@
+.rich-text {
+  @apply flex flex-col gap-y-6 break-words;
+
+  h1,
+  h2 {
+    @apply typo-h1;
+  }
+
+  h3 {
+    @apply typo-h3;
+  }
+
+  h4 {
+    @apply typo-h4;
+  }
+
+  h5 {
+    @apply typo-h5;
+  }
+
+  ul,
+  ol {
+    @apply pl-[2.5em] list-outside;
+
+    > li {
+      @apply mt-[0.5em];
+    }
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  a {
+    @apply underline-out;
+  }
+}

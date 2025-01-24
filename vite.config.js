@@ -18,6 +18,13 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "sass:math";`,
+      },
+    },
+  },
   build: {
     // Allow a strict Content-Security-Policy
     // withtout inlining assets as base64:

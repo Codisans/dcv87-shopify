@@ -1,0 +1,5 @@
+@layer utilities {
+    .details-open summary > svg {
+        @apply rotate-45;
+    }
+}

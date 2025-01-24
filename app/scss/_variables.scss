@@ -1,0 +1,23 @@
+:root {
+  --header-h: 5rem;
+  --grid-gap: 1rem;
+  --gutter: 1.5rem;
+  --viewport: calc(100vw - var(--scrollbar-gutter, 0px));
+
+  @screen sm {
+    --gutter: 3rem;
+  }
+
+  @screen md {
+    --gutter: 4rem;
+  }
+
+  @screen lg {
+    --grid-gap: 1.5rem;
+    --gutter: 4rem;
+  }
+
+  @screen xl {
+    --header-h: 5rem;
+  }
+}

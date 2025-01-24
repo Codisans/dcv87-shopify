@@ -1,0 +1,37 @@
+:root {
+	--scrollbar-thumb: rgb(130, 130, 130);
+	--scrollbar-track: rgb(200, 200, 200);
+	--scrollbar-hover: rgb(100, 100, 100);
+	--scrollbar-active: rgb(60, 60, 60);
+
+	&.dark {
+		--scrollbar-thumb: rgb(170, 170, 170);
+		--scrollbar-track: rgb(50, 50, 50);
+		--scrollbar-hover: rgba(140, 140, 140);
+		--scrollbar-active: rgb(90, 90, 90);
+	}
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+
+	::-webkit-scrollbar {
+		height: 8px;
+		width: 8px;
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: var(--scrollbar-thumb);
+
+		&:hover {
+			background-color: var(--scrollbar-hover);
+		}
+
+		&:active {
+			background-color: var(--scrollbar-active);
+		}
+	}
+	::-webkit-scrollbar-track {
+		background-color: var(--scrollbar-track);
+	}
+}

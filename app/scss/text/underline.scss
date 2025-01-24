@@ -1,0 +1,84 @@
+@use "sass:string";
+
+@layer base {
+    :root {
+        --underline-offset: 0.075em;
+        --underline-height: max(0.03em, 1px);
+        @supports (
+            background-size: #{string.unquote(
+                    "round(nearest, max(0.03em, 1px), 1px)"
+                )}
+        ) {
+            --underline-height: round(nearest, max(0.03em, 1px), 1px);
+        }
+    }
+
+    .underline {
+        &-in,
+        &-on,
+        &-out {
+            background-position-y: min(
+                50% + 0.5em + (var(--underline-height, 1px) / 2) +
+                    var(--underline-offset, 0em),
+                100%
+            );
+            background-repeat: no-repeat;
+            @apply inline ease-in-out;
+        }
+
+        &-in,
+        &-on {
+            background-position-x: 0%;
+            background-image: linear-gradient(
+                var(--underline-color, currentColor),
+                var(--underline-color, currentColor)
+            );
+            transition-property: background-size;
+            transition-duration: 400ms;
+        }
+
+        &-in {
+            background-size: 0% var(--underline-height, 1px);
+
+            @screen mouse {
+                &:hover,
+                a:hover &,
+                button:hover & {
+                    background-size: 100% var(--underline-height, 1px);
+                }
+            }
+        }
+
+        &-on {
+            background-size: 100% var(--underline-height, 1px);
+        }
+
+        &-out {
+            background-image: linear-gradient(
+                to right,
+                var(--underline-color, currentColor) 0%,
+                var(--underline-color, currentColor) 33.333%,
+                transparent 33.333%,
+                transparent 66.666%,
+                var(--underline-color, currentColor) 66.666%,
+                var(--underline-color, currentColor) 100%
+            );
+            background-size: 300% var(--underline-height, 1px);
+            background-position-x: 100%;
+            transition-property: background-position-x;
+            transition-duration: 1200ms;
+
+            @screen mouse {
+                &:hover,
+                a:hover &,
+                button:hover & {
+                    background-position-x: 0%;
+                }
+            }
+        }
+
+        &-off {
+            background-image: none;
+        }
+    }
+}

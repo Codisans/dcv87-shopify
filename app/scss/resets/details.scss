@@ -1,0 +1,19 @@
+@layer base {
+	details {
+		& summary {
+			@apply cursor-pointer;
+
+			&::-webkit-details-marker {
+				display: none;
+			}
+
+			&::details-marker {
+				display: none;
+			}
+
+			&::marker {
+				content: "";
+			}
+		}
+	}
+}

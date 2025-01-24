@@ -1,0 +1,27 @@
+@layer base {
+    html.lenis {
+        height: auto;
+    }
+
+    .lenis.lenis-smooth {
+        scroll-behavior: auto;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+        overflow: hidden;
+        margin-right: var(--scrollbar-gutter, 0);
+
+        &::after {
+            content: "";
+            @apply fixed z-[1000] top-0 right-0 w-auto h-full overflow-y-scroll pointer-events-none select-none;
+        }
+    }
+
+    .lenis.lenis-scrolling iframe {
+        pointer-events: none;
+    }
+}

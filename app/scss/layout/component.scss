@@ -1,0 +1,22 @@
+@layer base {
+    .component {
+        @apply bg-theme text-theme-text;
+        @apply py-12 lg:py-20;
+
+        &--flat {
+            @apply py-0 lg:py-0;
+        }
+
+        &--no-top {
+            @apply pt-0 lg:pt-0;
+        }
+
+        &--no-bottom {
+            @apply pb-0 lg:pb-0;
+        }
+
+        &--page-heading {
+            @apply pt-32 lg:pt-48;
+        }
+    }
+}

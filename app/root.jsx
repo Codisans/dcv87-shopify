@@ -11,8 +11,10 @@ import {
   isRouteErrorResponse,
 } from '@remix-run/react';
 import favicon from '~/assets/favicon.svg';
-import resetStyles from '~/styles/reset.css?url';
-import appStyles from '~/styles/app.css?url';
+// import resetStyles from '~/styles/reset.css?url';
+// import appStyles from '~/styles/app.css?url';
+import mainStyles from '~/scss/main.scss?url';
+// import mainStyles from '~/scss/main.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 
@@ -37,8 +39,7 @@ export const shouldRevalidate = ({
 
 export function links() {
   return [
-    {rel: 'stylesheet', href: resetStyles},
-    {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: mainStyles},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

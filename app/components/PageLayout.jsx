@@ -3,12 +3,15 @@ import {Suspense, useId} from 'react';
 import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
+import {MobileMenuAside} from '~/components/MobileMenuAside';
 import {CartMain} from '~/components/CartMain';
 import {
   SEARCH_ENDPOINT,
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
+import {LenisScroll} from './LenisScroll';
+import {CartAside} from './CartAside';
 
 /**
  * @param {PageLayoutProps}
@@ -23,41 +26,28 @@ export function PageLayout({
 }) {
   return (
     <Aside.Provider>
-      <CartAside cart={cart} />
-      <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
-      {header && (
-        <Header
+      <LenisScroll>
+        <CartAside cart={cart} />
+        <MobileMenuAside
           header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
         />
-      )}
-      <main>{children}</main>
-      <Footer
-        footer={footer}
-        header={header}
-        publicStoreDomain={publicStoreDomain}
-      />
+        {header && (
+          <Header
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+        <main className="min-h-svh">{children}</main>
+        <Footer
+          footer={footer}
+          header={header}
+          publicStoreDomain={publicStoreDomain}
+        />
+      </LenisScroll>
     </Aside.Provider>
-  );
-}
-
-/**
- * @param {{cart: PageLayoutProps['cart']}}
- */
-function CartAside({cart}) {
-  return (
-    <Aside type="cart" heading="CART">
-      <Suspense fallback={<p>Loading cart ...</p>}>
-        <Await resolve={cart}>
-          {(cart) => {
-            return <CartMain cart={cart} layout="aside" />;
-          }}
-        </Await>
-      </Suspense>
-    </Aside>
   );
 }
 
@@ -140,28 +130,6 @@ function SearchAside() {
         </SearchResultsPredictive>
       </div>
     </Aside>
-  );
-}
-
-/**
- * @param {{
- *   header: PageLayoutProps['header'];
- *   publicStoreDomain: PageLayoutProps['publicStoreDomain'];
- * }}
- */
-function MobileMenuAside({header, publicStoreDomain}) {
-  return (
-    header.menu &&
-    header.shop.primaryDomain?.url && (
-      <Aside type="mobile" heading="MENU">
-        <HeaderMenu
-          menu={header.menu}
-          viewport="mobile"
-          primaryDomainUrl={header.shop.primaryDomain.url}
-          publicStoreDomain={publicStoreDomain}
-        />
-      </Aside>
-    )
   );
 }
 

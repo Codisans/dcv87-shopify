@@ -1,0 +1,19 @@
+@use '../mixins/scaling-font' as *;
+
+@layer base {
+  html {
+    font-size: 12px;
+
+    @media (min-width: 280px) {
+      @include scaling-font(12, 16, 280, 375);
+    }
+
+    @media (min-width: 1024px) {
+      @include scaling-font(12, 16, 1024, 1600);
+    }
+
+    & {
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+}

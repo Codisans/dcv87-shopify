@@ -1,0 +1,7 @@
+.overlay {
+    @apply relative;
+
+    &::before {
+        @apply content-[''] absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 z-1;
+    }
+}

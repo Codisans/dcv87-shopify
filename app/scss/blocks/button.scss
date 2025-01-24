@@ -1,0 +1,34 @@
+@use '../mixins/button-rollovers' as *;
+
+:root {
+  --button-text-color: theme('colors.black.DEFAULT');
+  --button-text-color-hover: theme('colors.white');
+  --button-color: theme('colors.transparent');
+  --button-color-hover: theme('colors.black.DEFAULT');
+}
+
+.button {
+  &.dark,
+  .dark & {
+    --button-text-color: theme('colors.white');
+    --button-text-color-hover: theme('colors.black.DEFAULT');
+    --button-color: theme('colors.transparent');
+    --button-color-hover: theme('colors.white');
+  }
+
+  @apply inline-block w-max h-min overflow-hidden text-button cursor-pointer text-center select-none;
+
+  @include text-rollback();
+  @include background-slide();
+
+  &--text {
+    --underline-height: 2px;
+    @apply underline-out cursor-pointer overflow-hidden text-button text-center select-none no-underline;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+  }
+
+  &-list {
+    @apply flex flex-wrap gap-3;
+  }
+}

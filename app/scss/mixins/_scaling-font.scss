@@ -1,0 +1,36 @@
+@mixin scaling-font(
+	$min-rem: 12,
+	$max-rem: 16,
+	$min-screen: 1024,
+	$max-screen: 1920
+) {
+	--min-rem: #{$min-rem};
+	--max-rem: #{$max-rem};
+	--min-screen: #{$min-screen};
+	--max-screen: #{$max-screen};
+	--rem-delta: calc(var(--max-rem) - var(--min-rem));
+	--screen-delta: calc(var(--max-screen) - var(--min-screen));
+	--scaling-font-const: 16px;
+	--scaling-font-coef: 0;
+
+	$min-query: calc($min-screen * 1px);
+	$max-query: calc($max-screen * 1px);
+
+	@media (min-width: #{$min-query}) {
+		--scaling-font-const: calc(
+			var(--min-rem) * 1px -
+				(var(--min-screen) * var(--rem-delta) / var(--screen-delta)) *
+				1px
+		);
+		--scaling-font-coef: calc(var(--rem-delta) / var(--screen-delta));
+	}
+
+	@media (min-width: #{$max-query}) {
+		--scaling-font-const: calc(var(--max-rem) * 1px);
+		--scaling-font-coef: 0;
+	}
+
+	font-size: calc(
+		var(--scaling-font-const) + var(--scaling-font-coef) * 100vw
+	);
+}

@@ -1,0 +1,7 @@
+a,
+button {
+    &:focus-visible {
+        outline: none;
+        @apply ring-1 ring-current ring-offset-2 rounded-sm;
+    }
+}
