@@ -1,0 +1,21 @@
+.clip-hover {
+  color: transparent;
+  background-image: linear-gradient(
+    to right,
+    theme('colors.white') 0%,
+    theme('colors.white') 50%,
+    theme('colors.red') 50%,
+    theme('colors.red') 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  transition: background-position 0.3s
+    theme('transitionTimingFunction.rollover');
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  &:hover {
+    background-position: 0 0;
+  }
+}

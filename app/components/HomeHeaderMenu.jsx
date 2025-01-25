@@ -47,7 +47,12 @@ export const HomeHeaderMenu = ({
                 className="flex-none w-max inline-flex items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
                 key={item.id}
               >
-                <NavLink className="w-max" end prefetch="intent" to={url}>
+                <NavLink
+                  className="w-max clip-hover"
+                  end
+                  prefetch="intent"
+                  to={url}
+                >
                   {item.title}
                 </NavLink>
               </SwiperSlide>
@@ -68,7 +73,12 @@ export const HomeHeaderMenu = ({
                 className="flex-none w-max inline-flex items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
                 key={item.id}
               >
-                <NavLink className="w-max" end prefetch="intent" to={url}>
+                <NavLink
+                  className="w-max clip-hover"
+                  end
+                  prefetch="intent"
+                  to={url}
+                >
                   {item.title}
                 </NavLink>
               </SwiperSlide>
