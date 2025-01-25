@@ -2,6 +2,7 @@ import {useLoaderData} from '@remix-run/react';
 import {CartForm} from '@shopify/hydrogen';
 import {json} from '@shopify/remix-oxygen';
 import {CartMain} from '~/components/CartMain';
+import {PageTransition} from '~/components/PageTransition';
 
 /**
  * @type {MetaFunction}
@@ -107,10 +108,12 @@ export default function Cart() {
   const cart = useLoaderData();
 
   return (
-    <div className="cart">
-      <h1>Cart</h1>
-      <CartMain layout="page" cart={cart} />
-    </div>
+    <PageTransition>
+      <div className="cart">
+        <h1>Cart</h1>
+        <CartMain cart={cart} />
+      </div>
+    </PageTransition>
   );
 }
 

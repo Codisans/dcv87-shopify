@@ -1,7 +1,7 @@
 import {NavLink} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Autoplay} from 'swiper/modules';
+import {Autoplay, FreeMode} from 'swiper/modules';
 
 export const HomeHeaderMenu = ({
   flip = false,
@@ -20,15 +20,17 @@ export const HomeHeaderMenu = ({
         role="navigation"
       >
         <Swiper
-          className="w-full marquee-swiper overflow-visible"
+          className="w-full marquee-swiper pointer-events-auto overflow-visible"
           slidesPerView="auto"
           loop={true}
-          modules={[Autoplay]}
+          modules={[Autoplay, FreeMode]}
           speed={7000}
+          freeMode={{
+            momentum: true,
+          }}
           autoplay={{
             delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: true,
             reverseDirection: flip,
           }}
         >
@@ -44,8 +46,8 @@ export const HomeHeaderMenu = ({
                 : item.url;
             return (
               <SwiperSlide
-                className="flex-none w-max inline-flex items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
-                key={item.id}
+                className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
+                key={`${item.id}${flip ? '-flip' : ''}`}
               >
                 <NavLink
                   className="w-max clip-hover"

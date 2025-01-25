@@ -8,6 +8,7 @@ import {
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import {PageTransition} from '~/components/PageTransition';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -78,30 +79,32 @@ export default function Collection() {
   const {collection} = useLoaderData();
 
   return (
-    <div className="collection">
-      <h1>{collection.title}</h1>
-      <p className="collection-description">{collection.description}</p>
-      <PaginatedResourceSection
-        connection={collection.products}
-        resourcesClassName="products-grid"
-      >
-        {({node: product, index}) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            loading={index < 8 ? 'eager' : undefined}
-          />
-        )}
-      </PaginatedResourceSection>
-      <Analytics.CollectionView
-        data={{
-          collection: {
-            id: collection.id,
-            handle: collection.handle,
-          },
-        }}
-      />
-    </div>
+    <PageTransition>
+      <div className="collection">
+        <h1>{collection.title}</h1>
+        <p className="collection-description">{collection.description}</p>
+        <PaginatedResourceSection
+          connection={collection.products}
+          resourcesClassName="products-grid"
+        >
+          {({node: product, index}) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              loading={index < 8 ? 'eager' : undefined}
+            />
+          )}
+        </PaginatedResourceSection>
+        <Analytics.CollectionView
+          data={{
+            collection: {
+              id: collection.id,
+              handle: collection.handle,
+            },
+          }}
+        />
+      </div>
+    </PageTransition>
   );
 }
 

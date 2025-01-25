@@ -295,6 +295,20 @@ export type StoreRobotsQueryVariables = StorefrontAPI.Exact<{
 
 export type StoreRobotsQuery = {shop: Pick<StorefrontAPI.Shop, 'id'>};
 
+export type HomeBackgroundQueryVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type HomeBackgroundQuery = {
+  metaobjects: {
+    edges: Array<{
+      node: Pick<StorefrontAPI.Metaobject, 'id' | 'handle'> & {
+        fields: Array<Pick<StorefrontAPI.MetaobjectField, 'value'>>;
+      };
+    }>;
+  };
+};
+
 export type FeaturedCollectionFragment = Pick<
   StorefrontAPI.Collection,
   'id' | 'title' | 'handle'
@@ -1176,6 +1190,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  query StoreRobots($country: CountryCode, $language: LanguageCode)\n   @inContext(country: $country, language: $language) {\n    shop {\n      id\n    }\n  }\n': {
     return: StoreRobotsQuery;
     variables: StoreRobotsQueryVariables;
+  };
+  '#graphql\n  query HomeBackground {\n    metaobjects(type: "home_background" first: 1) {\n      edges {\n        node {\n          id\n          handle\n          fields {\n            value\n          }\n        }\n      }\n    }\n  }\n': {
+    return: HomeBackgroundQuery;
+    variables: HomeBackgroundQueryVariables;
   };
   '#graphql\n  fragment FeaturedCollection on Collection {\n    id\n    title\n    image {\n      id\n      url\n      altText\n      width\n      height\n    }\n    handle\n  }\n  query FeaturedCollection($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...FeaturedCollection\n      }\n    }\n  }\n': {
     return: FeaturedCollectionQuery;

@@ -1,6 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
+import {PageTransition} from '~/components/PageTransition';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -72,20 +73,22 @@ export default function Article() {
   }).format(new Date(article.publishedAt));
 
   return (
-    <div className="article p-40">
-      <h1>
-        {title}
-        <div>
-          {publishedDate} &middot; {author?.name}
-        </div>
-      </h1>
+    <PageTransition>
+      <div className="article p-40">
+        <h1>
+          {title}
+          <div>
+            {publishedDate} &middot; {author?.name}
+          </div>
+        </h1>
 
-      {image && <Image data={image} sizes="90vw" loading="eager" />}
-      <div
-        dangerouslySetInnerHTML={{__html: contentHtml}}
-        className="article"
-      />
-    </div>
+        {image && <Image data={image} sizes="90vw" loading="eager" />}
+        <div
+          dangerouslySetInnerHTML={{__html: contentHtml}}
+          className="article"
+        />
+      </div>
+    </PageTransition>
   );
 }
 

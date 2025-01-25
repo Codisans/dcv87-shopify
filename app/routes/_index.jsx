@@ -2,6 +2,7 @@ import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
+import {PageTransition} from '~/components/PageTransition';
 
 /**
  * @type {MetaFunction}
@@ -20,6 +21,8 @@ export async function loader(args) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
+  console.log(criticalData);
+
   return defer({...deferredData, ...criticalData});
 }
 
@@ -29,13 +32,15 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const [{collections}] = await Promise.all([
-    context.storefront.query(FEATURED_COLLECTION_QUERY),
+  const [{metaobjects}] = await Promise.all([
+    // context.storefront.query(FEATURED_COLLECTION_QUERY),
+    context.storefront.query(HOME_BACKGROUND_QUERY),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
   return {
-    featuredCollection: collections.nodes[0],
+    // featuredCollection: collections.nodes[0],
+    background: metaobjects.edges[0].node,
   };
 }
 
@@ -61,79 +66,102 @@ function loadDeferredData({context}) {
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
-  const data = useLoaderData();
+  const {background} = useLoaderData();
+
   return (
-    <Image
-      className="w-full object-cover"
-      src="/img/homepage-bg.jpg"
-      alt="dvc"
-    />
+    <PageTransition>
+      {JSON.stringify(background)}
+      <Image
+        className="w-full object-cover max-h-[64vh]"
+        width={1600}
+        height={900}
+        data={background.fields}
+        key={background.fields.value}
+        alt="dvc"
+      />
+    </PageTransition>
   );
 }
 
-/**
- * @param {{
- *   collection: FeaturedCollectionFragment;
- * }}
- */
-function FeaturedCollection({collection}) {
-  if (!collection) return null;
-  const image = collection?.image;
-  return (
-    <Link
-      className="featured-collection"
-      to={`/collections/${collection.handle}`}
-    >
-      {image && (
-        <div className="featured-collection-image">
-          <Image data={image} sizes="100vw" />
-        </div>
-      )}
-      <h1>{collection.title}</h1>
-    </Link>
-  );
-}
+const HOME_BACKGROUND_QUERY = `#graphql
+  query HomeBackground {
+    metaobjects(type: "home_background" first: 1) {
+      edges {
+        node {
+          id
+          handle
+          fields {
+            value
+          }
+        }
+      }
+    }
+  }
+`;
 
-/**
- * @param {{
- *   products: Promise<RecommendedProductsQuery | null>;
- * }}
- */
-function RecommendedProducts({products}) {
-  return (
-    <div className="recommended-products">
-      <h2>Recommended Products</h2>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={products}>
-          {(response) => (
-            <div className="recommended-products-grid">
-              {response
-                ? response.products.nodes.map((product) => (
-                    <Link
-                      key={product.id}
-                      className="recommended-product"
-                      to={`/products/${product.handle}`}
-                    >
-                      <Image
-                        data={product.images.nodes[0]}
-                        aspectRatio="1/1"
-                        sizes="(min-width: 45em) 20vw, 50vw"
-                      />
-                      <h4>{product.title}</h4>
-                      <small>
-                        <Money data={product.priceRange.minVariantPrice} />
-                      </small>
-                    </Link>
-                  ))
-                : null}
-            </div>
-          )}
-        </Await>
-      </Suspense>
-      <br />
-    </div>
-  );
-}
+// /**
+//  * @param {{
+//  *   collection: FeaturedCollectionFragment;
+//  * }}
+//  */
+// function FeaturedCollection({collection}) {
+//   if (!collection) return null;
+//   const image = collection?.image;
+//   return (
+//     <Link
+//       className="featured-collection"
+//       to={`/collections/${collection.handle}`}
+//     >
+//       {image && (
+//         <div className="featured-collection-image">
+//           <Image data={image} sizes="100vw" />
+//         </div>
+//       )}
+//       <h1>{collection.title}</h1>
+//     </Link>
+//   );
+// }
+
+// /**
+//  * @param {{
+//  *   products: Promise<RecommendedProductsQuery | null>;
+//  * }}
+//  */
+// function RecommendedProducts({products}) {
+//   return (
+//     <div className="recommended-products">
+//       <h2>Recommended Products</h2>
+//       <Suspense fallback={<div>Loading...</div>}>
+//         <Await resolve={products}>
+//           {(response) => (
+//             <div className="recommended-products-grid">
+//               {response
+//                 ? response.products.nodes.map((product) => (
+//                     <Link
+//                       key={product.id}
+//                       className="recommended-product"
+//                       to={`/products/${product.handle}`}
+//                     >
+//                       <Image
+//                         data={product.images.nodes[0]}
+//                         aspectRatio="1/1"
+//                         sizes="(min-width: 45em) 20vw, 50vw"
+//                       />
+//                       <h4>{product.title}</h4>
+//                       <small>
+//                         <Money data={product.priceRange.minVariantPrice} />
+//                       </small>
+//                     </Link>
+//                   ))
+//                 : null}
+//             </div>
+//           )}
+//         </Await>
+//       </Suspense>
+//       <br />
+//     </div>
+//   );
+// }
 
 const FEATURED_COLLECTION_QUERY = `#graphql
   fragment FeaturedCollection on Collection {

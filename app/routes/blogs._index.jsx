@@ -2,6 +2,7 @@ import {defer} from '@shopify/remix-oxygen';
 import {Link, useLoaderData} from '@remix-run/react';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import {PageTransition} from '~/components/PageTransition';
 
 /**
  * @type {MetaFunction}
@@ -60,23 +61,25 @@ export default function Blogs() {
   const {blogs} = useLoaderData();
 
   return (
-    <div className="blogs p-40">
-      <h1>Blogs</h1>
-      <div className="blogs-grid">
-        <PaginatedResourceSection connection={blogs}>
-          {({node: blog}) => (
-            <Link
-              className="blog"
-              key={blog.handle}
-              prefetch="intent"
-              to={`/blogs/${blog.handle}`}
-            >
-              <h2>{blog.title}</h2>
-            </Link>
-          )}
-        </PaginatedResourceSection>
+    <PageTransition>
+      <div className="blogs p-40">
+        <h1>Blogs</h1>
+        <div className="blogs-grid">
+          <PaginatedResourceSection connection={blogs}>
+            {({node: blog}) => (
+              <Link
+                className="blog"
+                key={blog.handle}
+                prefetch="intent"
+                to={`/blogs/${blog.handle}`}
+              >
+                <h2>{blog.title}</h2>
+              </Link>
+            )}
+          </PaginatedResourceSection>
+        </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }
 
