@@ -4,12 +4,9 @@ import {useRef} from 'react';
 /**
  * @param {CartSummaryProps}
  */
-export function CartSummary({cart, layout}) {
-  const className =
-    layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
-
+export function CartSummary({cart}) {
   return (
-    <div aria-labelledby="cart-summary" className={className}>
+    <div aria-labelledby="cart-summary" className="">
       <h4>Totals</h4>
       <dl className="cart-subtotal">
         <dt>Subtotal</dt>

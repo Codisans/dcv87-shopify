@@ -7,7 +7,6 @@ import {
   useLocation,
 } from '@remix-run/react';
 import {Image, useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
-import {useAside} from '~/components/Aside';
 import {Symbol} from './Symbol';
 import {CartLink} from './CartLink';
 
@@ -18,15 +17,21 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
 
   return (
-    <header className="fixed inset-0 pointer-events-none hover:before:opacity-100 before:bg-black/80 before:opacity-0 before:transition-opacity before:duration-300 before:absolute before:inset-0 before:left-0 before:-z-1">
+    <header className="fixed z-50 inset-0 pointer-events-none hover:before:opacity-100 before:bg-black/40 before:backdrop-blur-sm before:opacity-0 before:transition-opacity before:duration-300 before:absolute before:inset-0 before:left-0 before:-z-1">
       <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-auto">
         <NavLink prefetch="intent" to="/" end>
           <span className="sr-only">{shop.name}</span>
-          <Image className="w-40 h-20" src="/img/dcv-logo.png" alt="DCV Logo" />
+          <Image
+            className="w-40 h-20"
+            src="/img/dcv-logo.png"
+            width={240}
+            height={120}
+            alt="DCV Logo"
+          />
         </NavLink>
       </div>
       <CartLink
-        className="fixed top-4 right-8 p-2 pointer-events-auto"
+        className="fixed top-5 right-8 pointer-events-auto"
         cart={cart}
       />
       <HeaderMenu
@@ -93,7 +98,6 @@ function HeaderCtas({isLoggedIn, cart}) {
         </Suspense>
       </NavLink> */}
       {/* <CartToggle cart={cart} /> */}
-      <CartLink cart={cart} />
     </nav>
   );
 }

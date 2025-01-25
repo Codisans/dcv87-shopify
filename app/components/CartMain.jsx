@@ -1,6 +1,5 @@
 import {useOptimisticCart} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
-import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
 
@@ -23,16 +22,16 @@ export function CartMain({layout, cart: originalCart}) {
 
   return (
     <div className={className}>
-      <CartEmpty hidden={linesCount} layout={layout} />
+      <CartEmpty hidden={linesCount} />
       <div className="cart-details">
         <div aria-labelledby="cart-lines">
           <ul>
             {(cart?.lines?.nodes ?? []).map((line) => (
-              <CartLineItem key={line.id} line={line} layout={layout} />
+              <CartLineItem key={line.id} line={line} />
             ))}
           </ul>
         </div>
-        {cartHasItems && <CartSummary cart={cart} layout={layout} />}
+        {cartHasItems && <CartSummary cart={cart} />}
       </div>
     </div>
   );
@@ -41,11 +40,9 @@ export function CartMain({layout, cart: originalCart}) {
 /**
  * @param {{
  *   hidden: boolean;
- *   layout?: CartMainProps['layout'];
  * }}
  */
 function CartEmpty({hidden = false}) {
-  const {close} = useAside();
   return (
     <div hidden={hidden}>
       <br />
@@ -54,18 +51,16 @@ function CartEmpty({hidden = false}) {
         started!
       </p>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
+      <Link to="/collections" prefetch="viewport">
         Continue shopping →
       </Link>
     </div>
   );
 }
 
-/** @typedef {'page' | 'aside'} CartLayout */
 /**
  * @typedef {{
  *   cart: CartApiQueryFragment | null;
- *   layout: CartLayout;
  * }} CartMainProps
  */
 

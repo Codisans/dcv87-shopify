@@ -1,6 +1,5 @@
 import {Link, useNavigate} from '@remix-run/react';
 import {AddToCartButton} from './AddToCartButton';
-import {useAside} from './Aside';
 
 /**
  * @param {{
@@ -10,7 +9,6 @@ import {useAside} from './Aside';
  */
 export function ProductForm({productOptions, selectedVariant}) {
   const navigate = useNavigate();
-  const {open} = useAside();
   return (
     <div className="product-form">
       {productOptions.map((option) => {
@@ -98,7 +96,7 @@ export function ProductForm({productOptions, selectedVariant}) {
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
-          open('cart');
+          console.log('add to cart');
         }}
         lines={
           selectedVariant

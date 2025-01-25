@@ -2,7 +2,6 @@ import {CartForm, Image} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import {Link} from '@remix-run/react';
 import {ProductPrice} from './ProductPrice';
-import {useAside} from './Aside';
 
 /**
  * A single line item in the cart. It displays the product image, title, price.
@@ -16,7 +15,6 @@ export function CartLineItem({layout, line}) {
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
-  const {close} = useAside();
 
   return (
     <li key={id} className="cart-line">
@@ -36,9 +34,7 @@ export function CartLineItem({layout, line}) {
           prefetch="intent"
           to={lineItemUrl}
           onClick={() => {
-            if (layout === 'aside') {
-              close();
-            }
+            console.log('click');
           }}
         >
           <p>

@@ -52,13 +52,13 @@ export default function Collections() {
 
   return (
     <div className="collections">
-      <h1>Collections</h1>
+      <h1 className="sr-only">Collections</h1>
       <PaginatedResourceSection
         connection={collections}
         resourcesClassName="collections-grid"
       >
         {({node: collection, index}) => (
-          <CollectionItem
+          <Collection
             key={collection.id}
             collection={collection}
             index={index}
@@ -75,24 +75,37 @@ export default function Collections() {
  *   index: number;
  * }}
  */
-function CollectionItem({collection, index}) {
+function Collection({collection, index}) {
   return (
-    <Link
-      className="collection-item"
+    <section
       key={collection.id}
-      to={`/collections/${collection.handle}`}
-      prefetch="intent"
+      className="first:sticky first:top-0 z-10 relative w-full h-svh p-40"
     >
-      {collection?.image && (
-        <Image
-          alt={collection.image.altText || collection.title}
-          aspectRatio="1/1"
-          data={collection.image}
-          loading={index < 3 ? 'eager' : undefined}
-        />
-      )}
-      <h5>{collection.title}</h5>
-    </Link>
+      <Image
+        className="absolute inset-0 w-full h-full object-cover"
+        alt={collection.id}
+        src="/img/homepage-bg.jpg"
+        loading="eager"
+      />
+      <div className="relative">
+        <Link
+          className="collection-item"
+          key={collection.id}
+          to={`/collections/${collection.handle}`}
+          prefetch="intent"
+        >
+          {collection?.image && (
+            <Image
+              alt={collection.image.altText || collection.title}
+              aspectRatio="1/1"
+              data={collection.image}
+              loading={index < 3 ? 'eager' : undefined}
+            />
+          )}
+          <h5>{collection.title}</h5>
+        </Link>
+      </div>
+    </section>
   );
 }
 

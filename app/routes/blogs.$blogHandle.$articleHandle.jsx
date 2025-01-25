@@ -72,7 +72,7 @@ export default function Article() {
   }).format(new Date(article.publishedAt));
 
   return (
-    <div className="article">
+    <div className="article p-40">
       <h1>
         {title}
         <div>
