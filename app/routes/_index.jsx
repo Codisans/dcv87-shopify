@@ -3,6 +3,8 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 import {PageTransition} from '~/components/PageTransition';
+import {getAsset} from '~/utils/getAsset';
+import {ASSET_QUERY} from '~/utils/queries';
 
 /**
  * @type {MetaFunction}
@@ -23,7 +25,7 @@ export async function loader(args) {
 
   console.log(criticalData);
 
-  return defer({...deferredData, ...criticalData});
+  return defer({...deferredData, ...criticalData, env: args.context.env});
 }
 
 /**
@@ -34,13 +36,14 @@ export async function loader(args) {
 async function loadCriticalData({context}) {
   const [{metaobjects}] = await Promise.all([
     // context.storefront.query(FEATURED_COLLECTION_QUERY),
-    context.storefront.query(HOME_BACKGROUND_QUERY),
+    // context.storefront.query(HOME_BACKGROUND_QUERY),
+    context.storefront.query(ASSET_QUERY('home_background', 1)),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
   return {
     // featuredCollection: collections.nodes[0],
-    background: metaobjects.edges[0].node,
+    background: metaobjects.nodes[0].fields[0].value,
   };
 }
 
@@ -66,38 +69,21 @@ function loadDeferredData({context}) {
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
-  const {background} = useLoaderData();
+  const {background, env} = useLoaderData();
+  const backgroundImageUrl = getAsset(background, env);
 
   return (
     <PageTransition>
-      {JSON.stringify(background)}
-      <Image
-        className="w-full object-cover max-h-[64vh]"
-        width={1600}
-        height={900}
-        data={background.fields}
-        key={background.fields.value}
+      <img
+        className="w-full object-cover max-h-[64vh] h-120"
+        // width={1600}
+        // height={900}
+        src={backgroundImageUrl}
         alt="dvc"
       />
     </PageTransition>
   );
 }
-
-const HOME_BACKGROUND_QUERY = `#graphql
-  query HomeBackground {
-    metaobjects(type: "home_background" first: 1) {
-      edges {
-        node {
-          id
-          handle
-          fields {
-            value
-          }
-        }
-      }
-    }
-  }
-`;
 
 // /**
 //  * @param {{

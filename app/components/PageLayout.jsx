@@ -14,6 +14,7 @@ import {LenisScroll} from './LenisScroll';
 import {CartAside} from './CartAside';
 import {HomeFooter} from './HomeFooter';
 import {HomeHeader} from './HomeHeader';
+import {AnimatePresence} from 'motion/react';
 
 /**
  * @param {PageLayoutProps}
@@ -38,7 +39,9 @@ export function PageLayout({
           isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
         />
-        <main className="w-full">{children}</main>
+        <main className="w-full">
+          <AnimatePresence>{children}</AnimatePresence>
+        </main>
         <HomeFooter
           header={header}
           cart={cart}
