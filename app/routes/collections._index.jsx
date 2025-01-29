@@ -84,12 +84,15 @@ function Collection({collection, index}) {
       key={collection.id}
       className="first:sticky first:top-0 z-10 relative w-full h-svh p-40"
     >
-      <Image
-        className="absolute inset-0 w-full h-full object-cover"
-        alt={collection.id}
-        src="/img/homepage-bg.jpg"
-        loading="eager"
-      />
+      {collection?.image && (
+        <Image
+          className="absolute inset-0 w-full h-full object-cover"
+          alt={collection.image.altText || collection.title}
+          aspectRatio="1/1"
+          data={collection.image}
+          loading={index < 3 ? 'eager' : undefined}
+        />
+      )}
       <div className="relative">
         <Link
           className="collection-item"
@@ -97,14 +100,6 @@ function Collection({collection, index}) {
           to={`/collections/${collection.handle}`}
           prefetch="intent"
         >
-          {collection?.image && (
-            <Image
-              alt={collection.image.altText || collection.title}
-              aspectRatio="1/1"
-              data={collection.image}
-              loading={index < 3 ? 'eager' : undefined}
-            />
-          )}
           <h5>{collection.title}</h5>
         </Link>
       </div>

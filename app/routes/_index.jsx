@@ -3,8 +3,7 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 import {PageTransition} from '~/components/PageTransition';
-import {getAsset} from '~/utils/getAsset';
-import {ASSET_QUERY} from '~/utils/queries';
+import {getField} from '~/utils/getField';
 
 /**
  * @type {MetaFunction}
@@ -34,16 +33,13 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const [{metaobjects}] = await Promise.all([
-    // context.storefront.query(FEATURED_COLLECTION_QUERY),
-    // context.storefront.query(HOME_BACKGROUND_QUERY),
-    context.storefront.query(ASSET_QUERY('home_background', 1)),
+  const [data] = await Promise.all([
+    context.storefront.query(HOME_PAGE_QUERY),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
   return {
-    // featuredCollection: collections.nodes[0],
-    background: metaobjects.nodes[0].fields[0].value,
+    pageData: data.metaobjects.nodes[0],
   };
 }
 
@@ -69,21 +65,47 @@ function loadDeferredData({context}) {
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
-  const {background, env} = useLoaderData();
-  const backgroundImageUrl = getAsset(background, env);
+  const {pageData, env} = useLoaderData();
 
   return (
     <PageTransition>
       <img
         className="w-full object-cover max-h-[64vh] h-120"
-        // width={1600}
-        // height={900}
-        src={backgroundImageUrl}
+        width={1600}
+        height={900}
+        src={getField(pageData.fields, 'background')?.reference?.image?.url}
         alt="dvc"
       />
     </PageTransition>
   );
 }
+
+const HOME_PAGE_QUERY = `#graphql 
+  query HomePage {  
+    metaobjects(type: "home_page" first: 1) {
+      nodes {
+        seo {
+          title {
+            value
+          }
+          description {
+            value
+          }
+        }
+        fields {
+          key
+          reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+        }
+      }
+    }
+  }
+`;
 
 // /**
 //  * @param {{
