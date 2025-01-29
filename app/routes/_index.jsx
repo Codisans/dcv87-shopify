@@ -1,7 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
+import {Image, IMAGE_FRAGMENT, Money} from '@shopify/hydrogen';
 import {PageTransition} from '~/components/PageTransition';
 import {getField} from '~/utils/getField';
 
@@ -67,14 +67,18 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const {pageData, env} = useLoaderData();
 
+  const fields = {
+    background: getField(pageData.fields, 'background'),
+  };
+
   return (
     <PageTransition>
-      <img
+      <Image
         className="w-full object-cover max-h-[64vh] h-120"
-        width={1600}
-        height={900}
-        src={getField(pageData.fields, 'background')?.reference?.image?.url}
-        alt="dvc"
+        // width={backgroundField?.reference?.image?.width}
+        // height={backgroundField?.reference?.image?.height}
+        src={fields?.background?.reference?.image?.url}
+        alt={fields?.background?.reference?.image?.altText}
       />
     </PageTransition>
   );
