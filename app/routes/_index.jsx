@@ -3,7 +3,7 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, IMAGE_FRAGMENT, Money} from '@shopify/hydrogen';
 import {PageTransition} from '~/components/PageTransition';
-import {getField} from '~/utils/getField';
+import {parseFields} from '~/utils/parseFields';
 
 /**
  * @type {MetaFunction}
@@ -67,12 +67,11 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const {pageData, env} = useLoaderData();
 
-  const fields = {
-    background: getField(pageData.fields, 'background'),
-  };
+  const fields = parseFields(pageData.fields);
 
   return (
     <PageTransition>
+      {JSON.stringify(fields?.background)}
       <Image
         className="w-full object-cover max-h-[64vh] h-120"
         // width={backgroundField?.reference?.image?.width}
