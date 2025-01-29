@@ -233,6 +233,7 @@ export default {
       zIndex: {
         '-1': -1,
         1: 1,
+        overlay: 60,
         header: 100,
       },
     },

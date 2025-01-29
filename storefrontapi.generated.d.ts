@@ -295,16 +295,28 @@ export type StoreRobotsQueryVariables = StorefrontAPI.Exact<{
 
 export type StoreRobotsQuery = {shop: Pick<StorefrontAPI.Shop, 'id'>};
 
-export type HomeBackgroundQueryVariables = StorefrontAPI.Exact<{
+export type HomePageQueryVariables = StorefrontAPI.Exact<{
   [key: string]: never;
 }>;
 
-export type HomeBackgroundQuery = {
+export type HomePageQuery = {
   metaobjects: {
-    edges: Array<{
-      node: Pick<StorefrontAPI.Metaobject, 'id' | 'handle'> & {
-        fields: Array<Pick<StorefrontAPI.MetaobjectField, 'value'>>;
-      };
+    nodes: Array<{
+      seo?: StorefrontAPI.Maybe<{
+        title?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+        description?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+      }>;
+      fields: Array<
+        Pick<StorefrontAPI.MetaobjectField, 'key'> & {
+          reference?: StorefrontAPI.Maybe<{
+            image?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Image, 'url'>>;
+          }>;
+        }
+      >;
     }>;
   };
 };
@@ -1191,9 +1203,9 @@ interface GeneratedQueryTypes {
     return: StoreRobotsQuery;
     variables: StoreRobotsQueryVariables;
   };
-  '#graphql\n  query HomeBackground {\n    metaobjects(type: "home_background" first: 1) {\n      edges {\n        node {\n          id\n          handle\n          fields {\n            value\n          }\n        }\n      }\n    }\n  }\n': {
-    return: HomeBackgroundQuery;
-    variables: HomeBackgroundQueryVariables;
+  '#graphql \n  query HomePage {  \n    metaobjects(type: "home_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
+    return: HomePageQuery;
+    variables: HomePageQueryVariables;
   };
   '#graphql\n  fragment FeaturedCollection on Collection {\n    id\n    title\n    image {\n      id\n      url\n      altText\n      width\n      height\n    }\n    handle\n  }\n  query FeaturedCollection($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...FeaturedCollection\n      }\n    }\n  }\n': {
     return: FeaturedCollectionQuery;

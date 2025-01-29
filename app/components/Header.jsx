@@ -17,21 +17,24 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
 
   return (
-    <header className="fixed z-50 inset-0 pointer-events-none hover:before:opacity-100 before:bg-black/40 before:backdrop-blur-sm before:opacity-0 before:transition-opacity before:duration-300 before:absolute before:inset-0 before:left-0 before:-z-1">
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-auto">
-        <NavLink prefetch="intent" to="/" end>
-          <span className="sr-only">{shop.name}</span>
-          <Image
-            className="w-40 h-20"
-            src="/img/dcv-logo.png"
-            width={240}
-            height={120}
-            alt="DCV Logo"
-          />
-        </NavLink>
-      </div>
+    <header className="fixed inset-0 w-full z-[60] pointer-events-none overlay-backdrop">
+      <NavLink
+        className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-auto"
+        prefetch="intent"
+        to="/"
+        end
+      >
+        <span className="sr-only">{shop.name}</span>
+        <Image
+          className="w-40 h-20"
+          src="/img/dcv-logo.png"
+          width={240}
+          height={120}
+          alt="DCV Logo"
+        />
+      </NavLink>
       <CartLink
-        className="fixed top-5 right-8 pointer-events-auto"
+        className="absolute top-5 right-8 pointer-events-auto"
         cart={cart}
       />
       <HeaderMenu
@@ -54,7 +57,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
 export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   return (
     <nav
-      className="fixed top-0 left-0 p-4 flex flex-col text-h2 pointer-events-auto"
+      className="absolute top-0 left-0 p-4 flex flex-col items-start text-h2 pointer-events-auto overlay-trigger"
       role="navigation"
     >
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
