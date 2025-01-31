@@ -1,48 +1,48 @@
 .form {
-    &-text,
-    &-textarea,
-    &-email &-password {
-        @apply text-current bg-transparent w-full typo-h3 border-b border-b-current py-3 px-1;
+  &-text,
+  &-textarea,
+  &-email &-password {
+    @apply text-current bg-transparent w-full text-h3 border-b border-b-current py-3 px-1;
 
-        &:focus,
-        &:focus-visible {
-            @apply border-b;
-            outline: none;
-            margin-bottom: -2px;
-        }
-
-        &::placeholder {
-            @apply typo-caps;
-        }
+    &:focus,
+    &:focus-visible {
+      @apply border-b;
+      outline: none;
+      margin-bottom: -2px;
     }
 
-    &-toggle {
-        &__input {
-            @apply opacity-0;
+    &::placeholder {
+      @apply text-caps;
+    }
+  }
 
-            &:checked + .form-toggle__label {
-                @apply bg-green/80 before:translate-x-6;
-            }
-        }
+  &-toggle {
+    &__input {
+      @apply opacity-0;
 
-        &__label {
-            @apply m-1 -mt-5 block w-10 h-4 rounded-full bg-grey-dark relative cursor-pointer transition-color;
-
-            &::before {
-                @apply content-[''] block w-6 h-6 rounded-full bg-current absolute -top-1 -left-1 transition-transform ease-in-out;
-            }
-        }
+      &:checked + .form-toggle__label {
+        @apply bg-green/80 before:translate-x-6;
+      }
     }
 
-    &-textarea {
-        @apply border-l border-r border-t border-current focus:ring-current focus:border-b focus:border-black;
-    }
+    &__label {
+      @apply m-1 -mt-5 block w-10 h-4 rounded-full bg-grey-dark relative cursor-pointer transition-color;
 
-    &-select {
-        @apply px-1 py-3 border-current;
+      &::before {
+        @apply content-[''] block w-6 h-6 rounded-full bg-current absolute -top-1 -left-1 transition-transform ease-in-out;
+      }
     }
+  }
 
-    &-checkbox &-radio {
-        @apply text-current p-1;
-    }
+  &-textarea {
+    @apply border-l border-r border-t border-current focus:ring-current focus:border-b focus:border-black;
+  }
+
+  &-select {
+    @apply px-1 py-3 border-current;
+  }
+
+  &-checkbox &-radio {
+    @apply text-current p-1;
+  }
 }

@@ -1,5 +1,5 @@
 @layer base {
-    .grid-layout {
-        @apply grid grid-cols-12 gap-x-gg;
-    }
+  .grid-layout {
+    @apply grid grid-cols-12 gap-x-grid;
+  }
 }

@@ -2,13 +2,14 @@ import {useOptimisticCart} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
+import {CartLines} from './CartLines';
 
 /**
  * The main cart component that displays the cart items and summary.
  * It is used by both the /cart route and the cart aside dialog.
  * @param {CartMainProps}
  */
-export function CartMain({layout, cart: originalCart}) {
+export function CartMain({cart: originalCart}) {
   // The useOptimisticCart hook applies pending actions to the cart
   // so the user immediately sees feedback when they modify the cart.
   const cart = useOptimisticCart(originalCart);
@@ -21,18 +22,16 @@ export function CartMain({layout, cart: originalCart}) {
   const cartHasItems = cart?.totalQuantity > 0;
 
   return (
-    <div className={className}>
+    <div className="w-full flex flex-col">
       <CartEmpty hidden={linesCount} />
-      <div className="cart-details">
-        <div aria-labelledby="cart-lines">
-          <ul>
-            {(cart?.lines?.nodes ?? []).map((line) => (
-              <CartLineItem key={line.id} line={line} />
-            ))}
-          </ul>
-        </div>
-        {cartHasItems && <CartSummary cart={cart} />}
+      <div aria-labelledby="cart-lines">
+        <ul>
+          {(cart?.lines?.nodes ?? []).map((line) => (
+            <CartLineItem key={line.id} line={line} />
+          ))}
+        </ul>
       </div>
+      <div className="">{cartHasItems && <CartSummary cart={cart} />}</div>
     </div>
   );
 }

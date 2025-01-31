@@ -23,21 +23,8 @@ export default {
       addVariant('on', ['.on &', '&.on']);
       addVariant('alt', ['.alt &', '&.alt']); // for alternate styling
       addVariant('error', ['.error &', '&.error']); // form error styling
-      addVariant('transparent', [
-        // add styles for transparent header - can use alternative theme
-        'html:has(main section:first-of-type.transparent-header) &',
-      ]);
       addVariant('open', ['.open &', '&.open']);
-      addVariant('header-visible', ['html:not(:has(header.folded)) &']);
-      addVariant('header-folded', ['html:has(header.folded) &']);
-      addVariant('scrolled', ['html.scrolled:has(:not(.a.b)) &']); // ':has(:not(.a.b))' to increase specificity and override "transparent"
-      addVariant('menu-open', [
-        // header menu open
-        `:has(.group\\/menu[open]) &`,
-        `&:has(.group\\/menu[open])`,
-        `:has(header[is='site-header'].open:not(.a.b)) &`,
-        `html:has(header[is='site-header'].open) &`,
-      ]);
+      addVariant('scrolled', ['html.scrolled &']);
     }),
   ],
   theme: {
@@ -64,7 +51,7 @@ export default {
     },
     fontFamily: {
       primary: ['Impact', 'sans-serif'],
-      secondary: ['neue-haas-grotesk-display', 'sans-serif'],
+      courier: ['Courier', 'monospace'],
     },
     fontSize: {
       body: {
@@ -126,6 +113,13 @@ export default {
           fontFamily: 'Impact',
         }),
       },
+      h5: {
+        base: font(20, {
+          lineHeight: 24,
+          letterSpacing: 0,
+          fontFamily: 'Impact',
+        }),
+      },
       button: {
         base: font(16, {
           lineHeight: 16,
@@ -158,10 +152,17 @@ export default {
         },
       },
       small: {
-        base: font(12, {
-          lineHeight: 14,
+        base: font(16, {
+          lineHeight: 16,
           letterSpacing: 0,
+          fontFamily: 'courier',
         }),
+        screens: {
+          lg: font(20, {
+            lineHeight: 20,
+            letterSpacing: 0,
+          }),
+        },
       },
     },
     extend: {
@@ -185,18 +186,22 @@ export default {
         25: rem(100),
         30: rem(120),
         37.5: rem(150),
+        104: rem(416),
         gutter: 'var(--gutter)',
         header: 'var(--header-height)',
-        gg: 'var(--grid-gap)',
+        gap: 'var(--grid-gap)',
         scrollbar: 'var(--scrollbar-gutter, 0px)',
         viewport: 'var(--viewport)',
       },
       gap: {
+        grid: 'var(--grid-gap)',
         3.75: rem(15),
       },
       zIndex: {
         '-1': -1,
         1: 1,
+        header: 100,
+        footer: 100,
       },
       maxHeight: {
         0: '0px',
