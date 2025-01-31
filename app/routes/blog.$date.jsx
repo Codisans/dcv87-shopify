@@ -83,29 +83,16 @@ export default function Blog() {
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         alt="Blog"
-        loading="eager"
         data={fields.background.reference.image}
       />
       <div className="relative z-10 py-64 container grid-layout">
         <div className="col-start-1 col-end-3">
           <ul className="sticky top-64 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
             <li>
-              <Link to="/blog">Latest</Link>
+              <Link to="/blog">All</Link>
             </li>
             <li>
-              <Link to="/blog">Jan 2024</Link>
-            </li>
-            <li>
-              <Link to="/blog">Feb 2024</Link>
-            </li>
-            <li>
-              <Link to="/blog">Mar 2024</Link>
-            </li>
-            <li>
-              <Link to="/blog">Apr 2024</Link>
-            </li>
-            <li>
-              <Link to="/blog">May 2024</Link>
+              <Link to="/blog/live">Live</Link>
             </li>
           </ul>
         </div>

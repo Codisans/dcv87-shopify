@@ -7,6 +7,7 @@ import {
   getProductOptions,
   getAdjacentAndFirstAvailableVariants,
   useSelectedOptionInUrlParam,
+  Image,
 } from '@shopify/hydrogen';
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
@@ -18,7 +19,7 @@ import {PageTransition} from '~/components/PageTransition';
  */
 export const meta = ({data}) => {
   return [
-    {title: `Hydrogen | ${data?.product.title ?? ''}`},
+    {title: `DCV'87 | ${data?.product.title ?? ''}`},
     {
       rel: 'canonical',
       href: `/products/${data?.product.handle}`,
@@ -105,44 +106,46 @@ export default function Product() {
 
   return (
     <PageTransition>
-      <div className="product">
-        <ProductImage image={selectedVariant?.image} />
-        <div className="product-main">
-          <h1>{title}</h1>
-          <ProductPrice
-            price={selectedVariant?.price}
-            compareAtPrice={selectedVariant?.compareAtPrice}
-          />
-          <br />
-          <ProductForm
-            productOptions={productOptions}
-            selectedVariant={selectedVariant}
-          />
-          <br />
-          <br />
-          <p>
-            <strong>Description</strong>
-          </p>
-          <br />
-          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-          <br />
+      <Image
+        className="fixed inset-0 w-full h-full object-cover"
+        loading="eager"
+        src={product?.metafield?.reference?.image?.url}
+        alt={product?.metafield?.reference?.image?.altText}
+      />
+      <div className="min-h-svh flex flex-col justify-center relative z-10 container bg-black/20">
+        `
+        <div className="flex flex-col items-center mx-auto">
+          <ProductImage image={selectedVariant?.image} />
+          <div className="max-w-sm">
+            <h1>{title}</h1>
+            <ProductPrice
+              price={selectedVariant?.price}
+              compareAtPrice={selectedVariant?.compareAtPrice}
+            />
+            <ProductForm
+              productOptions={productOptions}
+              selectedVariant={selectedVariant}
+            />
+            <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+          </div>
         </div>
-        <Analytics.ProductView
-          data={{
-            products: [
-              {
-                id: product.id,
-                title: product.title,
-                price: selectedVariant?.price.amount || '0',
-                vendor: product.vendor,
-                variantId: selectedVariant?.id || '',
-                variantTitle: selectedVariant?.title || '',
-                quantity: 1,
-              },
-            ],
-          }}
-        />
       </div>
+      `
+      <Analytics.ProductView
+        data={{
+          products: [
+            {
+              id: product.id,
+              title: product.title,
+              price: selectedVariant?.price.amount || '0',
+              vendor: product.vendor,
+              variantId: selectedVariant?.id || '',
+              variantTitle: selectedVariant?.title || '',
+              quantity: 1,
+            },
+          ],
+        }}
+      />
     </PageTransition>
   );
 }
@@ -207,6 +210,15 @@ const PRODUCT_FRAGMENT = `#graphql
             previewImage {
               url
             }
+          }
+        }
+      }
+    }
+    metafield(namespace: "custom" key: "background") {
+      reference {
+        ... on MediaImage {
+          image {
+            url
           }
         }
       }

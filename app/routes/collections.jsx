@@ -7,16 +7,16 @@ import {
   Analytics,
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
-import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {PageTransition} from '~/components/PageTransition';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import {Autoplay, FreeMode} from 'swiper/modules';
+import {parseFields} from '~/utils/parseFields';
+import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import gsap from 'gsap';
 
 /**
  * @type {MetaFunction<typeof loader>}
  */
-export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
+export const meta = () => {
+  return [{title: `DCV'87 | Shop`}];
 };
 
 /**
@@ -38,17 +38,17 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context, request}) {
-  const handle = 'latest';
+  const handle = 'live';
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
     pageBy: 24,
   });
 
-  const [{collection}] = await Promise.all([
+  const [{collection}, {metaobjects}] = await Promise.all([
     storefront.query(COLLECTION_QUERY, {
       variables: {handle, ...paginationVariables},
-      // Add other queries here, so that they are loaded in parallel
     }),
+    context.storefront.query(SHOP_PAGE_QUERY),
   ]);
 
   if (!collection) {
@@ -59,6 +59,7 @@ async function loadCriticalData({context, request}) {
 
   return {
     collection,
+    metaobjects,
   };
 }
 
@@ -74,62 +75,119 @@ function loadDeferredData({context}) {
 
 export default function Collection() {
   /** @type {LoaderReturnData} */
-  const {collection} = useLoaderData();
+  const {collection, metaobjects} = useLoaderData();
+  const pageData = metaobjects?.nodes[0];
+  const fields = parseFields(pageData?.fields);
+
+  const groupRef = useRef(null);
+  const itemsArrayRef = useRef([]);
+  const [tickerDimensions, setTickerDimensions] = useState(null);
+
+  const addItemRef = useCallback((node) => {
+    if (node && !itemsArrayRef.current.includes(node)) {
+      itemsArrayRef.current.push(node);
+    }
+  }, []);
+
+  const getTickerDimensions = () => {
+    const visibleWidth = groupRef.current?.clientWidth;
+    const itemWidth = itemsArrayRef.current[0]?.clientWidth;
+    const totalWidth = itemWidth * itemsArrayRef.current.length;
+    const extraWidth = visibleWidth + Math.max(visibleWidth - totalWidth, 0);
+    const extraItems = Math.ceil(extraWidth / itemWidth);
+    return {
+      visibleWidth,
+      itemWidth,
+      totalWidth,
+      extraWidth,
+      extraItems,
+    };
+  };
+
+  useEffect(() => {
+    if (!groupRef.current || !itemsArrayRef.current.length) {
+      return;
+    }
+
+    setTickerDimensions(getTickerDimensions());
+    const resizeObserver = new ResizeObserver(() => {
+      setTickerDimensions(getTickerDimensions());
+    });
+    resizeObserver.observe(groupRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!tickerDimensions) {
+      return;
+    }
+
+    const {totalWidth} = tickerDimensions;
+
+    const tween = gsap.to(groupRef.current, {
+      translateX: `-=${totalWidth}`,
+      duration: totalWidth / 75,
+      ease: 'none',
+      repeat: -1,
+      onReverseComplete: () => {
+        tween.totalTime(tween.totalTime() + tween.duration() * 100, true);
+      },
+    });
+
+    return () => {
+      if (groupRef.current) {
+        gsap.set(groupRef.current, {clearProps: 'all'});
+      }
+      tween?.kill();
+    };
+  }, [tickerDimensions]);
+
+  const products = collection.products.nodes;
 
   return (
-    <PageTransition>
+    <PageTransition className="min-h-svh flex flex-col justify-center">
       <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
         Shop
       </h1>
-      <div className="">
-        <div className="container">
-          <h2>{collection.title}</h2>
-          <p className="collection-description">{collection.description}</p>
-        </div>
+      <Image
+        className="fixed inset-0 w-full h-full object-cover"
+        loading="eager"
+        src={fields?.background?.reference?.image?.url}
+        alt={fields?.background?.reference?.image?.altText}
+      />
+      {products.map((product, index) => (
+        <Image
+          id={`${product.handle}-image`}
+          className="fixed inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300"
+          loading="lazy"
+          src={product.metafield?.reference?.image?.url}
+          alt={product.metafield?.reference?.image?.altText}
+        />
+      ))}
+
+      <div className="py-40 relative z-10">
         <div className="w-full overflow-hidden">
-          <Swiper
-            className="container marquee-swiper pointer-events-auto overflow-visible select-none"
-            slidesPerView="auto"
-            loop={true}
-            modules={[Autoplay, FreeMode]}
-            speed={7000}
-            freeMode={{
-              momentum: true,
-            }}
-            autoplay={{
-              delay: 0,
-              disableOnInteraction: false,
-            }}
-          >
-            {collection.products.nodes.map((product, index) => (
-              <>
-                <SwiperSlide className="w-80" key={index}>
-                  <ProductItem
-                    product={product}
-                    loading={index < 8 ? 'eager' : undefined}
-                  />
-                </SwiperSlide>
-                <SwiperSlide className="w-80" key={index + 100}>
-                  <ProductItem
-                    product={product}
-                    loading={index < 8 ? 'eager' : undefined}
-                  />
-                </SwiperSlide>
-                <SwiperSlide className="w-80" key={index + 100000}>
-                  <ProductItem
-                    product={product}
-                    loading={index < 8 ? 'eager' : undefined}
-                  />
-                </SwiperSlide>
-                <SwiperSlide className="w-80" key={index + 1000}>
-                  <ProductItem
-                    product={product}
-                    loading={index < 8 ? 'eager' : undefined}
-                  />
-                </SwiperSlide>
-              </>
+          <ul ref={groupRef} className="flex w-full items-center">
+            {products?.map((product, i) => (
+              <li ref={addItemRef} key={i} className="flex-none pr-16 lg:pr-36">
+                <ProductItem
+                  product={product}
+                  loading={i < 8 ? 'eager' : undefined}
+                />
+              </li>
             ))}
-          </Swiper>
+            {Array.from(
+              {length: tickerDimensions?.extraItems || 0},
+              (_, index) => products[index % products.length],
+            )?.map((product, i) => (
+              <li key={i} className="flex-none pr-16 lg:pr-36">
+                <ProductItem product={product} loading={'lazy'} />
+              </li>
+            ))}
+          </ul>
         </div>
         <Analytics.CollectionView
           data={{
@@ -152,8 +210,21 @@ export default function Collection() {
  */
 function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    if (!product || imageRef.current) return;
+
+    imageRef.current = document.getElementById(`${product.handle}-image`);
+  }, [product]);
+
   return (
-    <div key={product.id} className="relative h-80 w-full">
+    <div
+      key={product.id}
+      onMouseEnter={() => imageRef.current.classList.add('!opacity-100')}
+      onMouseLeave={() => imageRef.current.classList.remove('!opacity-100')}
+      className="relative p-12"
+    >
       {product.featuredImage && (
         <Image
           className="w-80 h-80 object-contain"
@@ -176,6 +247,34 @@ function ProductItem({product, loading}) {
   );
 }
 
+const SHOP_PAGE_QUERY = `#graphql 
+  query ShopPage {  
+    metaobjects(type: "shop_page" first: 1) {
+      nodes {
+        seo {
+          title {
+            value
+          }
+          description {
+            value
+          }
+        }
+        fields {
+          key
+          value
+          reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+        }
+      }
+    }
+  }
+`;
+
 const PRODUCT_ITEM_FRAGMENT = `#graphql
   fragment MoneyProductItem on MoneyV2 {
     amount
@@ -191,6 +290,15 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       url
       width
       height
+    }
+    metafield(namespace: "custom" key: "background") {
+      reference {
+        ... on MediaImage {
+          image {
+            url
+          }
+        }
+      }
     }
     priceRange {
       minVariantPrice {

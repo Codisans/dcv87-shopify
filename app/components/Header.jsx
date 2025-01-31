@@ -55,36 +55,46 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   const showBackButton = pathname != '/collections';
 
   return (
-    <nav
-      className="absolute top-0 left-0 p-4 flex flex-col items-start text-h2 pointer-events-auto overlay-trigger"
-      role="navigation"
-    >
-      {showBackButton ? (
-        <BackButton />
-      ) : (
-        (menu || FALLBACK_HEADER_MENU).items.map((item) => {
-          if (!item.url || item?.url.endsWith('/cart')) return null;
+    <nav className="absolute top-0 left-0 p-gutter" role="navigation">
+      <ul className="flex flex-col items-start pointer-events-auto text-h2 overlay-trigger">
+        {showBackButton ? (
+          <BackButton />
+        ) : (
+          (menu || FALLBACK_HEADER_MENU).items.map((item) => {
+            if (!item.url || item?.url.endsWith('/cart')) return null;
 
-          // if the url is internal, we strip the domain
-          const url =
-            item.url.includes('myshopify.com') ||
-            item.url.includes(publicStoreDomain) ||
-            item.url.includes(primaryDomainUrl)
-              ? new URL(item.url).pathname
-              : item.url;
-          return (
-            <NavLink
-              className="clip-hover"
-              end
-              key={item.id}
-              prefetch="intent"
-              to={url}
-            >
-              {item.title}
-            </NavLink>
-          );
-        })
-      )}
+            // if the url is internal, we strip the domain
+            const url =
+              item.url.includes('myshopify.com') ||
+              item.url.includes(publicStoreDomain) ||
+              item.url.includes(primaryDomainUrl)
+                ? new URL(item.url).pathname
+                : item.url;
+            const isExternal = !url.startsWith('/');
+            return isExternal ? (
+              <a
+                className="clip-hover"
+                href={url}
+                key={item.id}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {item.title}
+              </a>
+            ) : (
+              <NavLink
+                className="clip-hover"
+                end
+                key={item.id}
+                prefetch="intent"
+                to={url}
+              >
+                {item.title}
+              </NavLink>
+            );
+          })
+        )}
+      </ul>
     </nav>
   );
 }

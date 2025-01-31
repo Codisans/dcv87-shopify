@@ -51,7 +51,7 @@ export default {
     },
     fontFamily: {
       primary: ['Impact', 'sans-serif'],
-      courier: ['Courier', 'Courier New', 'monospace'],
+      courier: ['Courier', 'monospace'],
     },
     fontSize: {
       body: {
@@ -152,11 +152,17 @@ export default {
         },
       },
       small: {
-        base: font(12, {
-          lineHeight: 14,
+        base: font(16, {
+          lineHeight: 16,
           letterSpacing: 0,
-          fontFamily: 'Courier',
+          fontFamily: 'courier',
         }),
+        screens: {
+          lg: font(20, {
+            lineHeight: 20,
+            letterSpacing: 0,
+          }),
+        },
       },
     },
     extend: {
@@ -180,6 +186,7 @@ export default {
         25: rem(100),
         30: rem(120),
         37.5: rem(150),
+        104: rem(416),
         gutter: 'var(--gutter)',
         header: 'var(--header-height)',
         gap: 'var(--grid-gap)',

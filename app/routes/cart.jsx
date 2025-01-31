@@ -8,7 +8,7 @@ import {PageTransition} from '~/components/PageTransition';
  * @type {MetaFunction}
  */
 export const meta = () => {
-  return [{title: `Hydrogen | Cart`}];
+  return [{title: `DCV'87 | Cart`}];
 };
 
 /**

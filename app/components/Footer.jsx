@@ -9,7 +9,7 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
     <Suspense>
       <Await resolve={footerPromise}>
         {(footer) => (
-          <footer className="fixed left-gutter bottom-gutter z-50">
+          <footer className="fixed left-gutter bottom-6 z-header">
             {footer?.menu && header.shop.primaryDomain?.url && (
               <FooterMenu
                 menu={footer.menu}
@@ -33,7 +33,10 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
  */
 function FooterMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   return (
-    <nav className="flex gap-4 text-white text-small" role="navigation">
+    <nav
+      className="flex gap-4 opacity-60 transition-opacity duration-300 ease-in-out hover:opacity-100 text-small font-courier overlay-trigger"
+      role="navigation"
+    >
       {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
         if (!item.url) return null;
         // if the url is internal, we strip the domain

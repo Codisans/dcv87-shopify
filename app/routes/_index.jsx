@@ -9,7 +9,7 @@ import {parseFields} from '~/utils/parseFields';
  * @type {MetaFunction}
  */
 export const meta = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: "DCV'87 | Home"}];
 };
 
 /**
@@ -49,7 +49,7 @@ export default function Homepage() {
   const fields = parseFields(pageData.fields);
 
   return (
-    <PageTransition>
+    <PageTransition className="h-min">
       <Image
         className="w-full object-cover max-h-[64vh] h-120"
         // width={backgroundField?.reference?.image?.width}
