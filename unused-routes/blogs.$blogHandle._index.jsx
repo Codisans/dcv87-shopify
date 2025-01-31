@@ -65,7 +65,7 @@ function loadDeferredData({context}) {
   return {};
 }
 
-export default function Blog() {
+export default function BlogCategory() {
   /** @type {LoaderReturnData} */
   const {blog} = useLoaderData();
   const {articles} = blog;
@@ -124,7 +124,7 @@ function ArticleItem({article, loading}) {
 }
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/objects/blog
-const BLOGS_QUERY = `#graphql
+export const BLOGS_QUERY = `#graphql
   query Blog(
     $language: LanguageCode
     $blogHandle: String!
@@ -175,6 +175,7 @@ const BLOGS_QUERY = `#graphql
     }
     publishedAt
     title
+    contentHtml
     blog {
       handle
     }
