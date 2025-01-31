@@ -1,8 +1,10 @@
 import {useLoaderData} from '@remix-run/react';
-import {CartForm} from '@shopify/hydrogen';
-import {json} from '@shopify/remix-oxygen';
+import {CartForm, Image} from '@shopify/hydrogen';
+import {defer, json} from '@shopify/remix-oxygen';
 import {CartMain} from '~/components/CartMain';
+import {CartSummary} from '~/components/CartSummary';
 import {PageTransition} from '~/components/PageTransition';
+import {parseFields} from '~/utils/parseFields';
 
 /**
  * @type {MetaFunction}
@@ -96,29 +98,89 @@ export async function action({request, context}) {
 }
 
 /**
+ * @param {LoaderFunctionArgs} args
+ */
+export async function loader(args) {
+  const deferredData = loadDeferredData(args);
+  const criticalData = await loadCriticalData(args);
+
+  return defer({...deferredData, ...criticalData, env: args.context.env});
+}
+
+/**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({context}) {
+async function loadCriticalData({context}) {
   const {cart} = context;
-  return json(await cart.get());
+
+  const [{metaobjects}] = await Promise.all([
+    context.storefront.query(CART_PAGE_QUERY),
+  ]);
+
+  return {
+    cart: await cart.get(),
+    pageData: metaobjects.nodes[0],
+  };
+}
+
+/**
+ * @param {LoaderFunctionArgs}
+ */
+function loadDeferredData({context}) {
+  return {};
 }
 
 export default function Cart() {
   /** @type {LoaderReturnData} */
-  const cart = useLoaderData();
+  const {cart, pageData} = useLoaderData();
+  const fields = parseFields(pageData.fields);
 
   return (
     <PageTransition>
-      <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
+      <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red z-10">
         Cart
       </h1>
-      <div className="cart">
-        <h1>Cart</h1>
-        <CartMain cart={cart} />
+      <Image
+        className="fixed inset-0 w-full h-full object-cover"
+        loading="eager"
+        src={fields?.background?.reference?.image?.url}
+        alt={fields?.background?.reference?.image?.altText}
+      />
+      <div className="container grid-layout relative z-10 pt-40 pb-20">
+        <div className="col-start-3 col-end-11">
+          <CartMain cart={cart} />
+        </div>
       </div>
     </PageTransition>
   );
 }
+
+const CART_PAGE_QUERY = `#graphql 
+  query CartPage {  
+    metaobjects(type: "cart_page" first: 1) {
+      nodes {
+        seo {
+          title {
+            value
+          }
+          description {
+            value
+          }
+        }
+        fields {
+          key
+          reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+        }
+      }
+    }
+  }
+`;
 
 /** @template T @typedef {import('@remix-run/react').MetaFunction<T>} MetaFunction */
 /** @typedef {import('@shopify/hydrogen').CartQueryDataReturn} CartQueryDataReturn */

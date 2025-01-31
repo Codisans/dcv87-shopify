@@ -7,29 +7,34 @@ import {ProductPrice} from './ProductPrice';
  * A single line item in the cart. It displays the product image, title, price.
  * It also provides controls to update the quantity or remove the line item.
  * @param {{
- *   layout: CartLayout;
  *   line: CartLine;
  * }}
  */
-export function CartLineItem({layout, line}) {
+export function CartLineItem({line}) {
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
 
   return (
-    <li key={id} className="cart-line">
+    <li
+      key={id}
+      className="grid-layout border-t last:border-b border-white py-4"
+    >
       {image && (
-        <Image
-          alt={title}
-          aspectRatio="1/1"
-          data={image}
-          height={100}
-          loading="lazy"
-          width={100}
-        />
+        <div className="col-start-1 col-end-4 flex-none">
+          <Image
+            className="w-full"
+            alt={title}
+            aspectRatio="1/1"
+            data={image}
+            height={160}
+            loading="lazy"
+            width={160}
+          />
+        </div>
       )}
 
-      <div>
+      <div className="col-start-4 col-end-12 flex flex-col">
         <Link
           prefetch="intent"
           to={lineItemUrl}
@@ -70,7 +75,7 @@ function CartLineQuantity({line}) {
   const nextQuantity = Number((quantity + 1).toFixed(0));
 
   return (
-    <div className="cart-line-quantity">
+    <div className="flex flex-row items-center gap-4s">
       <small>Quantity: {quantity} &nbsp;&nbsp;</small>
       <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
         <button
@@ -143,6 +148,5 @@ function CartLineUpdateButton({children, lines}) {
 /** @typedef {OptimisticCartLine<CartApiQueryFragment>} CartLine */
 
 /** @typedef {import('@shopify/hydrogen/storefront-api-types').CartLineUpdateInput} CartLineUpdateInput */
-/** @typedef {import('~/components/CartMain').CartLayout} CartLayout */
 /** @typedef {import('@shopify/hydrogen').OptimisticCartLine} OptimisticCartLine */
 /** @typedef {import('storefrontapi.generated').CartApiQueryFragment} CartApiQueryFragment */

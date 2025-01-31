@@ -113,7 +113,6 @@ export default function Product() {
         alt={product?.metafield?.reference?.image?.altText}
       />
       <div className="min-h-svh flex flex-col justify-center relative z-10 container bg-black/20">
-        `
         <div className="flex flex-col items-center mx-auto">
           <ProductImage image={selectedVariant?.image} />
           <div className="max-w-sm">
@@ -130,7 +129,6 @@ export default function Product() {
           </div>
         </div>
       </div>
-      `
       <Analytics.ProductView
         data={{
           products: [

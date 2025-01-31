@@ -1,17 +1,7 @@
-import {Await, Link, useLocation} from '@remix-run/react';
-import {Suspense, useEffect, useId} from 'react';
-import {Aside} from '~/components/Aside';
+import {Link, useLocation} from '@remix-run/react';
+import {useEffect, useId} from 'react';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
-import {MobileMenuAside} from '~/components/MobileMenuAside';
-import {CartMain} from '~/components/CartMain';
-import {
-  SEARCH_ENDPOINT,
-  SearchFormPredictive,
-} from '~/components/SearchFormPredictive';
-import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
-import {LenisScroll} from './LenisScroll';
-import {CartAside} from './CartAside';
 import {HomeFooter} from './HomeFooter';
 import {HomeHeader} from './HomeHeader';
 import {AnimatePresence} from 'motion/react';
