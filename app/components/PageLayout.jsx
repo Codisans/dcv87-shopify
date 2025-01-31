@@ -1,5 +1,5 @@
 import {Await, Link, useLocation} from '@remix-run/react';
-import {Suspense, useId} from 'react';
+import {Suspense, useEffect, useId} from 'react';
 import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
@@ -33,27 +33,32 @@ export function PageLayout({
   if (isHome) {
     return (
       <div className="flex flex-col justify-center min-h-svh">
-        <HomeHeader
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
+        {header && (
+          <HomeHeader
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+
         <main className="w-full">
           <AnimatePresence>{children}</AnimatePresence>
         </main>
-        <HomeFooter
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
+        {footer && (
+          <HomeFooter
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
       </div>
     );
   }
 
   return (
-    <LenisScroll>
+    <>
       {header && (
         <Header
           header={header}
@@ -63,12 +68,14 @@ export function PageLayout({
         />
       )}
       <main className="min-h-svh">{children}</main>
-      <Footer
-        footer={footer}
-        header={header}
-        publicStoreDomain={publicStoreDomain}
-      />
-    </LenisScroll>
+      {footer && (
+        <Footer
+          footer={footer}
+          header={header}
+          publicStoreDomain={publicStoreDomain}
+        />
+      )}
+    </>
   );
 }
 

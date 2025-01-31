@@ -64,7 +64,7 @@ export default {
     },
     fontFamily: {
       primary: ['Impact', 'sans-serif'],
-      secondary: ['neue-haas-grotesk-display', 'sans-serif'],
+      courier: ['Courier', 'Courier New', 'monospace'],
     },
     fontSize: {
       body: {
@@ -120,6 +120,13 @@ export default {
         },
       },
       h4: {
+        base: font(20, {
+          lineHeight: 24,
+          letterSpacing: 0,
+          fontFamily: 'Impact',
+        }),
+      },
+      h5: {
         base: font(20, {
           lineHeight: 24,
           letterSpacing: 0,
@@ -197,6 +204,8 @@ export default {
       zIndex: {
         '-1': -1,
         1: 1,
+        header: 100,
+        footer: 100,
       },
       maxHeight: {
         0: '0px',

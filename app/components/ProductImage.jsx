@@ -10,8 +10,9 @@ export function ProductImage({image}) {
     return <div className="product-image" />;
   }
   return (
-    <div className="product-image">
+    <div className="w-80 h-80">
       <Image
+        className="object-contain"
         alt={image.altText || 'Product Image'}
         aspectRatio="1/1"
         data={image}

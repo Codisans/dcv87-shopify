@@ -9,6 +9,8 @@ import {
 import {useVariantUrl} from '~/lib/variants';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {PageTransition} from '~/components/PageTransition';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Autoplay, FreeMode} from 'swiper/modules';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -76,21 +78,56 @@ export default function Collection() {
 
   return (
     <PageTransition>
-      <div className="collection">
-        <h1>{collection.title}</h1>
-        <p className="collection-description">{collection.description}</p>
-        <PaginatedResourceSection
-          connection={collection.products}
-          resourcesClassName="products-grid"
-        >
-          {({node: product, index}) => (
-            <ProductItem
-              key={product.id}
-              product={product}
-              loading={index < 8 ? 'eager' : undefined}
-            />
-          )}
-        </PaginatedResourceSection>
+      <div className="">
+        <div className="container">
+          <h1>{collection.title}</h1>
+          <p className="collection-description">{collection.description}</p>
+        </div>
+        <div className="w-full overflow-hidden">
+          <Swiper
+            className="container marquee-swiper pointer-events-auto overflow-visible select-none"
+            slidesPerView="auto"
+            loop={true}
+            modules={[Autoplay, FreeMode]}
+            speed={7000}
+            freeMode={{
+              momentum: true,
+            }}
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+            }}
+          >
+            {collection.products.nodes.map((product, index) => (
+              <>
+                <SwiperSlide className="w-80" key={index}>
+                  <ProductItem
+                    product={product}
+                    loading={index < 8 ? 'eager' : undefined}
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="w-80" key={index + 100}>
+                  <ProductItem
+                    product={product}
+                    loading={index < 8 ? 'eager' : undefined}
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="w-80" key={index + 100000}>
+                  <ProductItem
+                    product={product}
+                    loading={index < 8 ? 'eager' : undefined}
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="w-80" key={index + 1000}>
+                  <ProductItem
+                    product={product}
+                    loading={index < 8 ? 'eager' : undefined}
+                  />
+                </SwiperSlide>
+              </>
+            ))}
+          </Swiper>
+        </div>
         <Analytics.CollectionView
           data={{
             collection: {
@@ -113,14 +150,10 @@ export default function Collection() {
 function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle);
   return (
-    <Link
-      className="product-item"
-      key={product.id}
-      prefetch="intent"
-      to={variantUrl}
-    >
+    <div key={product.id} className="relative h-80 w-full">
       {product.featuredImage && (
         <Image
+          className="w-80 h-80 object-contain"
           alt={product.featuredImage.altText || product.title}
           aspectRatio="1/1"
           data={product.featuredImage}
@@ -128,11 +161,15 @@ function ProductItem({product, loading}) {
           sizes="(min-width: 45em) 400px, 100vw"
         />
       )}
-      <h4>{product.title}</h4>
-      <small>
-        <Money data={product.priceRange.minVariantPrice} />
-      </small>
-    </Link>
+      <Link
+        className="absolute inset-0"
+        key={product.id}
+        prefetch="intent"
+        to={variantUrl}
+      >
+        <h4 className="sr-only">{product.title}</h4>
+      </Link>
+    </div>
   );
 }
 
