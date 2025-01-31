@@ -26,10 +26,12 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const [data] = await Promise.all([context.storefront.query(HOME_PAGE_QUERY)]);
+  const [{metaobjects}] = await Promise.all([
+    context.storefront.query(HOME_PAGE_QUERY),
+  ]);
 
   return {
-    pageData: data.metaobjects.nodes[0],
+    pageData: metaobjects.nodes[0],
   };
 }
 

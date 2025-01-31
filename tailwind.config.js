@@ -23,21 +23,8 @@ export default {
       addVariant('on', ['.on &', '&.on']);
       addVariant('alt', ['.alt &', '&.alt']); // for alternate styling
       addVariant('error', ['.error &', '&.error']); // form error styling
-      addVariant('transparent', [
-        // add styles for transparent header - can use alternative theme
-        'html:has(main section:first-of-type.transparent-header) &',
-      ]);
       addVariant('open', ['.open &', '&.open']);
-      addVariant('header-visible', ['html:not(:has(header.folded)) &']);
-      addVariant('header-folded', ['html:has(header.folded) &']);
-      addVariant('scrolled', ['html.scrolled:has(:not(.a.b)) &']); // ':has(:not(.a.b))' to increase specificity and override "transparent"
-      addVariant('menu-open', [
-        // header menu open
-        `:has(.group\\/menu[open]) &`,
-        `&:has(.group\\/menu[open])`,
-        `:has(header[is='site-header'].open:not(.a.b)) &`,
-        `html:has(header[is='site-header'].open) &`,
-      ]);
+      addVariant('scrolled', ['html.scrolled &']);
     }),
   ],
   theme: {
@@ -168,6 +155,7 @@ export default {
         base: font(12, {
           lineHeight: 14,
           letterSpacing: 0,
+          fontFamily: 'Courier',
         }),
       },
     },
@@ -194,11 +182,12 @@ export default {
         37.5: rem(150),
         gutter: 'var(--gutter)',
         header: 'var(--header-height)',
-        gg: 'var(--grid-gap)',
+        gap: 'var(--grid-gap)',
         scrollbar: 'var(--scrollbar-gutter, 0px)',
         viewport: 'var(--viewport)',
       },
       gap: {
+        grid: 'var(--grid-gap)',
         3.75: rem(15),
       },
       zIndex: {

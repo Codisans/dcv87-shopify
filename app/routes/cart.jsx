@@ -109,6 +109,9 @@ export default function Cart() {
 
   return (
     <PageTransition>
+      <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
+        Cart
+      </h1>
       <div className="cart">
         <h1>Cart</h1>
         <CartMain cart={cart} />

@@ -321,6 +321,32 @@ export type HomePageQuery = {
   };
 };
 
+export type BlogPageQueryVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type BlogPageQuery = {
+  metaobjects: {
+    nodes: Array<{
+      seo?: StorefrontAPI.Maybe<{
+        title?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+        description?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+      }>;
+      fields: Array<
+        Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'> & {
+          reference?: StorefrontAPI.Maybe<{
+            image?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Image, 'url'>>;
+          }>;
+        }
+      >;
+    }>;
+  };
+};
+
 export type BlogQueryVariables = StorefrontAPI.Exact<{
   blogHandle: StorefrontAPI.Scalars['String']['input'];
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
@@ -763,6 +789,10 @@ interface GeneratedQueryTypes {
   '#graphql \n  query HomePage {  \n    metaobjects(type: "home_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
     return: HomePageQuery;
     variables: HomePageQueryVariables;
+  };
+  '#graphql \n  query BlogPage {  \n    metaobjects(type: "blog_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
+    return: BlogPageQuery;
+    variables: BlogPageQueryVariables;
   };
   '#graphql\n  query Blog(\n    $blogHandle: String!\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(language: $language) {\n    blog(handle: $blogHandle) {\n      title\n      seo {\n        title\n        description\n      }\n      articles(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ArticleItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n  fragment ArticleItem on Article {\n    author: authorV2 {\n      name\n    }\n    contentHtml\n    handle\n    id\n    image {\n      id\n      altText\n      url\n      width\n      height\n    }\n    publishedAt\n    title\n    contentHtml\n    blog {\n      handle\n    }\n  }\n': {
     return: BlogQuery;

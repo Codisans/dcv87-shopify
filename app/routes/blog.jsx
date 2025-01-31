@@ -5,6 +5,7 @@ import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {PageTransition} from '~/components/PageTransition';
 import {Article} from '~/components/Article';
 import {useEffect} from 'react';
+import {parseFields} from '~/utils/parseFields';
 
 /**
  * @type {MetaFunction}
@@ -36,21 +37,21 @@ async function loadCriticalData({context, request}) {
     pageBy: 12,
   });
 
-  const [{blog}] = await Promise.all([
+  const [{blog}, {metaobjects}] = await Promise.all([
     context.storefront.query(BLOG_QUERY, {
       variables: {
         blogHandle: 'news',
         ...paginationVariables,
       },
     }),
-    // Add other queries here, so that they are loaded in parallel
+    context.storefront.query(BLOG_PAGE_QUERY),
   ]);
 
   if (!blog) {
     throw new Response('Not found', {status: 404});
   }
 
-  return {blog};
+  return {blog, metaobjects};
 }
 
 /**
@@ -65,17 +66,21 @@ function loadDeferredData({context}) {
 
 export default function Blog() {
   /** @type {LoaderReturnData} */
-  const {blog} = useLoaderData();
+  const {blog, metaobjects} = useLoaderData();
   const {articles} = blog;
+  const pageData = metaobjects.nodes[0];
+  const fields = parseFields(pageData.fields);
 
   useEffect(() => {
-    console.log(blog);
-  }, [blog]);
+    console.log(fields);
+  }, [fields]);
 
   return (
     <PageTransition>
       <div className="blogs p-40">
-        <h1>Blog</h1>
+        <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
+          Blog
+        </h1>
         <div className="grid-layout">
           <div className="col-start-1 col-end-11">
             <PaginatedResourceSection connection={articles}>
@@ -128,6 +133,34 @@ function BlogPost({article, loading}) {
     </div>
   );
 }
+
+const BLOG_PAGE_QUERY = `#graphql 
+  query BlogPage {  
+    metaobjects(type: "blog_page" first: 1) {
+      nodes {
+        seo {
+          title {
+            value
+          }
+          description {
+            value
+          }
+        }
+        fields {
+          key
+          value
+          reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+        }
+      }
+    }
+  }
+`;
 
 const BLOG_QUERY = `#graphql
   query Blog(

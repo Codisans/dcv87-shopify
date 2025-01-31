@@ -78,9 +78,12 @@ export default function Collection() {
 
   return (
     <PageTransition>
+      <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
+        Shop
+      </h1>
       <div className="">
         <div className="container">
-          <h1>{collection.title}</h1>
+          <h2>{collection.title}</h2>
           <p className="collection-description">{collection.description}</p>
         </div>
         <div className="w-full overflow-hidden">
