@@ -227,12 +227,16 @@ export default {
         fade: 'cubic-bezier(.645,.045,.355,1)',
         rollover: 'cubic-bezier(.16,.16,.2,.9)',
       },
+      transitionDuration: {
+        clip: '200ms',
+      },
       transitionProperty: {
         'visibility/opacity': 'visibility, opacity',
         opacity: 'opacity',
         color: 'color',
         'bg-color': 'background-color',
-        'clip-path': 'clip-path',
+        clip: 'clip-path',
+
         height: 'height, max-height',
       },
       zIndex: {

@@ -10,12 +10,20 @@
   background-size: 100% 200%;
   background-position: 0 0;
   background-repeat: no-repeat;
-  transition: background-position 0.3s
+  transition: background-position theme('transitionDuration.clip')
     theme('transitionTimingFunction.rollover');
   background-clip: text;
   -webkit-background-clip: text;
 
   &:hover {
     background-position: 0 100%;
+  }
+
+  &--white {
+    background-position: 0 100%;
+
+    &:hover {
+      background-position: 0 0;
+    }
   }
 }

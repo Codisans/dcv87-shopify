@@ -1,0 +1,23 @@
+@layer utilities {
+  .clip-inset {
+    &-0 {
+      clip-path: inset(0% 0% 0% 0%);
+    }
+
+    &-t {
+      clip-path: inset(0% 0% 100% 0%);
+    }
+
+    &-b {
+      clip-path: inset(100% 0% 0% 0%);
+    }
+
+    &-l {
+      clip-path: inset(0% 100% 0% 0%);
+    }
+
+    &-r {
+      clip-path: inset(0% 0% 0% 100%);
+    }
+  }
+}

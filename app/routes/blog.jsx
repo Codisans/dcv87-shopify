@@ -90,22 +90,34 @@ export default function Blog() {
         <div className="col-start-1 col-end-3">
           <ul className="sticky top-64 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
             <li>
-              <Link to="/blog">Latest</Link>
+              <Link className="clip-hover clip-hover--white" to="/blog">
+                Latest
+              </Link>
             </li>
             <li>
-              <Link to="/blog">Jan 2024</Link>
+              <Link className="clip-hover clip-hover--white" to="/blog">
+                Jan 2024
+              </Link>
             </li>
             <li>
-              <Link to="/blog">Feb 2024</Link>
+              <Link className="clip-hover clip-hover--white" to="/blog">
+                Feb 2024
+              </Link>
             </li>
             <li>
-              <Link to="/blog">Mar 2024</Link>
+              <Link className="clip-hover clip-hover--white" to="/blog">
+                Mar 2024
+              </Link>
             </li>
             <li>
-              <Link to="/blog">Apr 2024</Link>
+              <Link className="clip-hover clip-hover--white" to="/blog">
+                Apr 2024
+              </Link>
             </li>
             <li>
-              <Link to="/blog">May 2024</Link>
+              <Link className="clip-hover clip-hover--white" to="/blog">
+                May 2024
+              </Link>
             </li>
           </ul>
         </div>
