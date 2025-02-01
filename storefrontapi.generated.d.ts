@@ -313,7 +313,9 @@ export type HomePageQuery = {
       fields: Array<
         Pick<StorefrontAPI.MetaobjectField, 'key'> & {
           reference?: StorefrontAPI.Maybe<{
-            image?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Image, 'url'>>;
+            image?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
+            >;
           }>;
         }
       >;
@@ -874,7 +876,7 @@ interface GeneratedQueryTypes {
     return: StoreRobotsQuery;
     variables: StoreRobotsQueryVariables;
   };
-  '#graphql \n  query HomePage {  \n    metaobjects(type: "home_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
+  '#graphql \n  query HomePage {  \n    metaobjects(type: "home_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
     return: HomePageQuery;
     variables: HomePageQueryVariables;
   };

@@ -52,8 +52,8 @@ export default function Homepage() {
     <PageTransition className="h-min">
       <Image
         className="w-full object-cover max-h-[64vh] h-120"
-        // width={backgroundField?.reference?.image?.width}
-        // height={backgroundField?.reference?.image?.height}
+        width={fields?.background?.reference?.image?.width}
+        height={fields?.background?.reference?.image?.height}
         src={fields?.background?.reference?.image?.url}
         alt={fields?.background?.reference?.image?.altText}
       />
@@ -79,6 +79,9 @@ const HOME_PAGE_QUERY = `#graphql
               ... on MediaImage {
                 image {
                   url
+                  width
+                  height
+                  altText
                 }
               }
             }
