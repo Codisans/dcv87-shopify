@@ -9,14 +9,12 @@ export const ParallaxLogos = ({data}) => {
   if (!data) return null;
 
   const containerRef = useRef(null);
-  const wrapperRef = useRef(null);
+  const animationRef = useRef(null);
 
-  const lenis = useLenis((scroll) => {
-    console.log(scroll);
-  });
+  const lenis = useLenis();
 
   useEffect(() => {
-    if (!containerRef.current || !wrapperRef.current) return;
+    if (!containerRef.current) return;
 
     const animationCallback = () => {
       const scrollY = lenis?.animatedScroll;
@@ -25,18 +23,22 @@ export const ParallaxLogos = ({data}) => {
         `${scrollY / 2}px`,
       );
 
-      window.requestAnimationFrame(() => {
+      animationRef.current = window.requestAnimationFrame(() => {
         animationCallback();
       });
     };
 
     animationCallback();
+
+    return () => {
+      window.cancelAnimationFrame(animationRef.current);
+    };
   }, [containerRef.current, lenis]);
 
   return (
-    <div ref={containerRef} className="w-full h-full">
+    <div className="w-full h-full">
       <ul
-        ref={wrapperRef}
+        ref={containerRef}
         className="flex flex-col will-change-transform h-min translate-y-[var(--translate-y,0)]"
       >
         {data.metaobjects.nodes?.map((logo, i) => {
