@@ -404,6 +404,22 @@ export type ArticleItemFragment = Pick<
   blog: Pick<StorefrontAPI.Blog, 'handle'>;
 };
 
+export type LogosQueryVariables = StorefrontAPI.Exact<{[key: string]: never}>;
+
+export type LogosQuery = {
+  metaobjects: {
+    nodes: Array<{
+      fields: Array<
+        Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'> & {
+          reference?: StorefrontAPI.Maybe<{
+            image?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Image, 'url'>>;
+          }>;
+        }
+      >;
+    }>;
+  };
+};
+
 export type CartPageQueryVariables = StorefrontAPI.Exact<{
   [key: string]: never;
 }>;
@@ -869,6 +885,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  query Blog(\n    $blogHandle: String!\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(language: $language) {\n    blog(handle: $blogHandle) {\n      title\n      seo {\n        title\n        description\n      }\n      articles(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ArticleItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n  fragment ArticleItem on Article {\n    author: authorV2 {\n      name\n    }\n    contentHtml\n    handle\n    id\n    image {\n      id\n      altText\n      url\n      width\n      height\n    }\n    publishedAt\n    title\n    contentHtml\n    blog {\n      handle\n    }\n  }\n': {
     return: BlogQuery;
     variables: BlogQueryVariables;
+  };
+  '#graphql \n  query Logos {  \n    metaobjects(type: "logo" first: 20) {\n      nodes {\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
+    return: LogosQuery;
+    variables: LogosQueryVariables;
   };
   '#graphql \n  query CartPage {  \n    metaobjects(type: "cart_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
     return: CartPageQuery;

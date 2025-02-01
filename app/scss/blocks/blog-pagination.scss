@@ -1,0 +1,14 @@
+.blog-pagination div > a {
+  &:first-child,
+  &:last-child {
+    @apply uppercase ml-auto text-h4 clip-hover block w-max;
+  }
+
+  &:first-child {
+    @apply mb-4;
+  }
+
+  &:last-child {
+    @apply mt-4;
+  }
+}

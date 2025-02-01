@@ -50,7 +50,7 @@ export default {
       },
     },
     fontFamily: {
-      primary: ['Impact', 'sans-serif'],
+      impact: ['Impact', 'sans-serif'],
       courier: ['Courier', 'monospace'],
     },
     fontSize: {
@@ -229,6 +229,7 @@ export default {
       },
       transitionDuration: {
         clip: '200ms',
+        200: '200ms',
       },
       transitionProperty: {
         'visibility/opacity': 'visibility, opacity',

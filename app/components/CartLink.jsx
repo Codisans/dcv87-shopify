@@ -1,12 +1,8 @@
 import {Await, Link} from '@remix-run/react';
 import {Symbol} from './Symbol';
-import {Suspense, useEffect} from 'react';
+import {Suspense} from 'react';
 
 export function CartLink({cart, className = 'relative'}) {
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
-
   return (
     <Link
       className={`p-3 [--clip-value:100%] hover:[--clip-value:0] ${className}`}

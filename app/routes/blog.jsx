@@ -1,10 +1,10 @@
 import {defer} from '@shopify/remix-oxygen';
-import {Link, useLoaderData} from '@remix-run/react';
+import {Await, Link, useLoaderData} from '@remix-run/react';
 import {getPaginationVariables, Image} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {PageTransition} from '~/components/PageTransition';
 import {Article} from '~/components/Article';
-import {useEffect} from 'react';
+import {Suspense, useEffect, useRef} from 'react';
 import {parseFields} from '~/utils/parseFields';
 
 /**
@@ -34,7 +34,7 @@ export async function loader(args) {
  */
 async function loadCriticalData({context, request}) {
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 12,
+    pageBy: 6,
   });
 
   const [{blog}, {metaobjects}] = await Promise.all([
@@ -61,19 +61,53 @@ async function loadCriticalData({context, request}) {
  * @param {LoaderFunctionArgs}
  */
 function loadDeferredData({context}) {
-  return {};
+  const logosData = context.storefront.query(LOGOS_QUERY).catch((error) => {
+    // Log query errors, but don't throw them so the page can still render
+    console.error(error);
+    return null;
+  });
+  return {logos: logosData};
 }
 
 export default function Blog() {
   /** @type {LoaderReturnData} */
-  const {blog, metaobjects} = useLoaderData();
+  const {blog, metaobjects, logos} = useLoaderData();
   const {articles} = blog;
   const pageData = metaobjects.nodes[0];
   const fields = parseFields(pageData.fields);
+  const loadMoreRef = useRef(null);
+  const observerRef = useRef(null);
 
   useEffect(() => {
-    console.log(fields);
-  }, [fields]);
+    if (observerRef.current != null) return;
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadMoreRef.current.click();
+          }
+        });
+      },
+      {
+        rootMargin: '0px 0px 300px 0px',
+      },
+    );
+  }, []);
+
+  useEffect(() => {
+    if (observerRef.current == null) return;
+    if (loadMoreRef.current != null) {
+      observerRef.current.unobserve(loadMoreRef.current);
+    }
+
+    loadMoreRef.current = document.querySelector(
+      '.paginated-resource-section + a',
+    );
+
+    if (loadMoreRef.current == null) return;
+
+    observerRef.current.observe(loadMoreRef.current);
+  }, [articles, observerRef.current]);
 
   return (
     <PageTransition>
@@ -99,31 +133,11 @@ export default function Blog() {
                 Jan 2024
               </Link>
             </li>
-            <li>
-              <Link className="clip-hover clip-hover--white" to="/blog">
-                Feb 2024
-              </Link>
-            </li>
-            <li>
-              <Link className="clip-hover clip-hover--white" to="/blog">
-                Mar 2024
-              </Link>
-            </li>
-            <li>
-              <Link className="clip-hover clip-hover--white" to="/blog">
-                Apr 2024
-              </Link>
-            </li>
-            <li>
-              <Link className="clip-hover clip-hover--white" to="/blog">
-                May 2024
-              </Link>
-            </li>
           </ul>
         </div>
-        <div className="col-start-3 col-end-10">
+        <div className="col-start-3 col-end-10 blog-pagination">
           <PaginatedResourceSection
-            resourcesClassName="flex flex-col gap-y-10"
+            resourcesClassName="flex flex-col gap-y-10 paginated-resource-section"
             connection={articles}
           >
             {({node: article, index}) => (
@@ -134,6 +148,53 @@ export default function Blog() {
               />
             )}
           </PaginatedResourceSection>
+        </div>
+        <div className="col-start-10 col-end-12">
+          <ul className="flex flex-col">
+            <Suspense>
+              <Await resolve={logos}>
+                {(data) =>
+                  data.metaobjects.nodes?.map((logo, i) => {
+                    const logoFields = parseFields(logo.fields);
+                    if (!logoFields?.image?.reference?.image?.url) return null;
+                    const hasLink = logoFields?.link?.value != null;
+                    return (
+                      <li
+                        key={i}
+                        className={`relative w-full ${
+                          hasLink ? 'group/logo' : ''
+                        }`}
+                      >
+                        <Image
+                          className={`object-contain w-full ${
+                            hasLink
+                              ? 'group-hover/logo:opacity-80 transition-opacity duration-200 ease-in-out'
+                              : ''
+                          }`}
+                          src={logoFields.image.reference.image.url}
+                          alt={logoFields.image.reference.image.altText}
+                          aspectRatio="1/1"
+                          width={240}
+                          height={240}
+                        />
+                        {hasLink && (
+                          <a
+                            className="absolute inset-0"
+                            href={logoFields?.link?.value}
+                            target="_blank"
+                          >
+                            <span className="sr-only">
+                              {logoFields?.link?.name?.value}
+                            </span>
+                          </a>
+                        )}
+                      </li>
+                    );
+                  })
+                }
+              </Await>
+            </Suspense>
+          </ul>
         </div>
       </div>
     </PageTransition>
@@ -187,6 +248,26 @@ const BLOG_PAGE_QUERY = `#graphql
             value
           }
         }
+        fields {
+          key
+          value
+          reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+        }
+      }
+    }
+  }
+`;
+
+const LOGOS_QUERY = `#graphql 
+  query Logos {  
+    metaobjects(type: "logo" first: 20) {
+      nodes {
         fields {
           key
           value
@@ -259,98 +340,6 @@ const BLOG_QUERY = `#graphql
     }
   }
 `;
-
-// const BLOGS_QUERY = `#graphql
-//   query Blog(
-//     $language: LanguageCode
-//     $blogHandle: String!
-//     $first: Int
-//     $last: Int
-//     $startCursor: String
-//     $endCursor: String
-//   ) @inContext(language: $language) {
-//     blog(handle: $blogHandle) {
-//       title
-//       seo {
-//         title
-//         description
-//       }
-//       articles(
-//         first: $first,
-//         last: $last,
-//         before: $startCursor,
-//         after: $endCursor
-//       ) {
-//         nodes {
-//           ...ArticleItem
-//         }
-//         pageInfo {
-//           hasPreviousPage
-//           hasNextPage
-//           hasNextPage
-//           endCursor
-//           startCursor
-//         }
-
-//       }
-//     }
-//   }
-//   fragment ArticleItem on Article {
-//     author: authorV2 {
-//       name
-//     }
-//     contentHtml
-//     handle
-//     id
-//     image {
-//       id
-//       altText
-//       url
-//       width
-//       height
-//     }
-//     publishedAt
-//     title
-//     contentHtml
-//     blog {
-//       handle
-//     }
-//   }
-// `;
-
-// NOTE: https://shopify.dev/docs/api/storefront/latest/objects/blog
-// const BLOGS_QUERY = `#graphql
-//   query Blogs(
-//     $country: CountryCode
-//     $endCursor: String
-//     $first: Int
-//     $language: LanguageCode
-//     $last: Int
-//     $startCursor: String
-//   ) @inContext(country: $country, language: $language) {
-//     blogs(
-//       first: $first,
-//       last: $last,
-//       before: $startCursor,
-//       after: $endCursor
-//     ) {
-//       pageInfo {
-//         hasNextPage
-//         hasPreviousPage
-//         startCursor
-//         endCursor
-//       }
-//       nodes {
-//         title
-//         handle
-//         seo {
-//           title
-//           description
-//         }
-//       }
-//     }
-//   }
-// `;
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
 /** @template T @typedef {import('@remix-run/react').MetaFunction<T>} MetaFunction */

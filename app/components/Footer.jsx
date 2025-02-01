@@ -116,19 +116,6 @@ const FALLBACK_FOOTER_MENU = {
 };
 
 /**
- * @param {{
- *   isActive: boolean;
- *   isPending: boolean;
- * }}
- */
-function activeLinkStyle({isActive, isPending}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
-  };
-}
-
-/**
  * @typedef {Object} FooterProps
  * @property {Promise<FooterQuery|null>} footer
  * @property {HeaderQuery} header
