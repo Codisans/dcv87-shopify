@@ -14,11 +14,11 @@ export const ParallaxLogos = ({data}) => {
   const lenis = useLenis();
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef?.current) return;
 
     const animationCallback = () => {
       const scrollY = lenis?.animatedScroll;
-      containerRef.current.style.setProperty(
+      containerRef.current?.style?.setProperty(
         '--translate-y',
         `${scrollY / 2}px`,
       );

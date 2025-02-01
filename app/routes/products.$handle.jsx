@@ -105,10 +105,12 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <PageTransition>
+    <PageTransition page="product">
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"
+        width={product?.metafield?.reference?.image?.width}
+        height={product?.metafield?.reference?.image?.height}
         src={product?.metafield?.reference?.image?.url}
         alt={product?.metafield?.reference?.image?.altText}
       />
@@ -207,8 +209,12 @@ const PRODUCT_FRAGMENT = `#graphql
           image {
             previewImage {
               url
+              width
+              height
+              altText
             }
           }
+
         }
       }
     }
@@ -217,8 +223,12 @@ const PRODUCT_FRAGMENT = `#graphql
         ... on MediaImage {
           image {
             url
+            width
+            height
+            altText
           }
         }
+
       }
     }
     selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {

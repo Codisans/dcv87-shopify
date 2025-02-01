@@ -155,14 +155,20 @@ export default function Collection() {
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"
+        width={fields?.background?.reference?.image?.width}
+        height={fields?.background?.reference?.image?.height}
         src={fields?.background?.reference?.image?.url}
         alt={fields?.background?.reference?.image?.altText}
       />
+
       {products.map((product, index) => (
         <Image
+          key={`${product.handle}-image`}
           id={`${product.handle}-image`}
           className="fixed inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300"
           loading="lazy"
+          width={product.metafield?.reference?.image?.width}
+          height={product.metafield?.reference?.image?.height}
           src={product.metafield?.reference?.image?.url}
           alt={product.metafield?.reference?.image?.altText}
         />
@@ -183,7 +189,7 @@ export default function Collection() {
               {length: tickerDimensions?.extraItems || 0},
               (_, index) => products[index % products.length],
             )?.map((product, i) => (
-              <li key={i} className="flex-none pr-16 lg:pr-36">
+              <li key={`${i}-extra`} className="flex-none pr-16 lg:pr-36">
                 <ProductItem product={product} loading={'lazy'} />
               </li>
             ))}
@@ -228,6 +234,8 @@ function ProductItem({product, loading}) {
       {product.featuredImage && (
         <Image
           className="w-80 h-80 object-contain"
+          width={product.featuredImage.width}
+          height={product.featuredImage.height}
           alt={product.featuredImage.altText || product.title}
           aspectRatio="1/1"
           data={product.featuredImage}
@@ -266,8 +274,12 @@ const SHOP_PAGE_QUERY = `#graphql
               ... on MediaImage {
                 image {
                   url
+                  width
+                  height
+                  altText
                 }
               }
+
             }
         }
       }
@@ -296,8 +308,12 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         ... on MediaImage {
           image {
             url
+            width
+            height
+            altText
           }
         }
+
       }
     }
     priceRange {

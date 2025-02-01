@@ -143,9 +143,12 @@ export default function Cart() {
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"
+        width={fields?.background?.reference?.image?.width}
+        height={fields?.background?.reference?.image?.height}
         src={fields?.background?.reference?.image?.url}
         alt={fields?.background?.reference?.image?.altText}
       />
+
       <div className="container grid-layout relative z-10 pt-40 pb-20">
         <div className="col-start-3 col-end-11">
           <CartMain cart={cart} />
@@ -173,8 +176,12 @@ const CART_PAGE_QUERY = `#graphql
               ... on MediaImage {
                 image {
                   url
+                  width
+                  height
+                  altText
                 }
               }
+
             }
         }
       }

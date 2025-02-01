@@ -119,7 +119,10 @@ export default function Blog() {
         className="fixed inset-0 w-full h-full object-cover"
         alt="Blog"
         loading="eager"
-        data={fields.background.reference.image}
+        width={fields?.background?.reference?.image?.width}
+        height={fields?.background?.reference?.image?.height}
+        src={fields?.background?.reference?.image?.url}
+        alt={fields?.background?.reference?.image?.altText}
       />
       <div className="relative z-10 py-64 container grid-layout">
         <div className="col-start-1 col-end-3">
@@ -216,8 +219,12 @@ const BLOG_PAGE_QUERY = `#graphql
               ... on MediaImage {
                 image {
                   url
+                  width
+                  height
+                  altText
                 }
               }
+
             }
         }
       }
