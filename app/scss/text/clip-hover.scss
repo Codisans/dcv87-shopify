@@ -11,7 +11,7 @@
   background-position: 0 0;
   background-repeat: no-repeat;
   transition: background-position theme('transitionDuration.clip')
-    theme('transitionTimingFunction.rollover');
+    theme('transitionTimingFunction.clip');
   background-clip: text;
   -webkit-background-clip: text;
 

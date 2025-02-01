@@ -226,6 +226,7 @@ export default {
         shift: 'cubic-bezier(0.22, 1, 0.36, 1)',
         fade: 'cubic-bezier(.645,.045,.355,1)',
         rollover: 'cubic-bezier(.16,.16,.2,.9)',
+        clip: 'cubic-bezier(0.95, 0.2, 0.25, 1)',
       },
       transitionDuration: {
         clip: '200ms',
@@ -237,7 +238,6 @@ export default {
         color: 'color',
         'bg-color': 'background-color',
         clip: 'clip-path',
-
         height: 'height, max-height',
       },
       zIndex: {

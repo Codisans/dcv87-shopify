@@ -44,22 +44,31 @@ export const HomeHeaderMenu = ({
               item.url.includes(primaryDomainUrl)
                 ? new URL(item.url).pathname
                 : item.url;
+            const isExternal = !url.startsWith('/');
             return (
               <SwiperSlide
                 className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
                 key={`${item.id}${flip ? '-flip' : ''}`}
               >
-                <NavLink
-                  className="w-max clip-hover"
-                  end
-                  prefetch="intent"
-                  to={url}
-                >
-                  {item.title}
-                </NavLink>
+                {isExternal ? (
+                  <a className="clip-hover" href={url} target="_blank">
+                    {item.title}
+                  </a>
+                ) : (
+                  <NavLink
+                    className="clip-hover"
+                    end
+                    prefetch={isExternal ? undefined : 'intent'}
+                    target={isExternal ? '_blank' : '_self'}
+                    to={url}
+                  >
+                    {item.title}
+                  </NavLink>
+                )}
               </SwiperSlide>
             );
           })}
+
           {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
             if (!item.url) return null;
 
