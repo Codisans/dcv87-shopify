@@ -20,9 +20,9 @@ export default function Policies() {
   const {policies} = useLoaderData();
 
   return (
-    <div className="policies">
-      <h1>Policies</h1>
-      <div>
+    <main className="container grid-layout pt-40 pb-20 lg:pt-64">
+      <div className="flex flex-col gap-grid col-start-1 col-end-13 sm:col-start-2 sm:col-end-12 md:col-start-3 md:col-end-11">
+        <h1 className="text-h1 pb-10">Policies</h1>
         {policies.map((policy) => {
           if (!policy) return null;
           return (
@@ -32,7 +32,7 @@ export default function Policies() {
           );
         })}
       </div>
-    </div>
+    </main>
   );
 }
 

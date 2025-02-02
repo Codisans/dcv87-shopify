@@ -1,6 +1,7 @@
-import {useLoaderData} from '@remix-run/react';
+import {Await, useLoaderData} from '@remix-run/react';
 import {CartForm, Image} from '@shopify/hydrogen';
 import {defer, json} from '@shopify/remix-oxygen';
+import {Suspense} from 'react';
 import {CartMain} from '~/components/CartMain';
 import {CartSummary} from '~/components/CartSummary';
 import {parseFields} from '~/utils/parseFields';
@@ -136,10 +137,8 @@ export default function Cart() {
 
   return (
     <main className="min-h-svh">
-      <h1 className="sr-only">Cart</h1>
-
       <Image
-        className="fixed inset-0 w-full h-full object-cover"
+        className="fixed inset-0 w-full h-full object-cover brightness-75"
         loading="eager"
         width={fields?.background?.reference?.image?.width}
         height={fields?.background?.reference?.image?.height}
@@ -147,8 +146,22 @@ export default function Cart() {
         alt={fields?.background?.reference?.image?.altText}
       />
 
-      <div className="container grid-layout relative z-10 pt-40 pb-20">
+      <div className="container grid-layout relative z-10 pt-48 pb-20">
         <div className="col-start-3 col-end-11">
+          <div className="flex flex-row justify-between gap-grid">
+            <h1 className="text-h2 uppercase text-red pb-4">Cart</h1>
+            <Suspense fallback={<span>0</span>}>
+              <Await resolve={cart}>
+                {(c) => (
+                  <span className="text-h2 uppercase">
+                    {c?.totalQuantity || 0}
+                    {c?.totalQuantity === 1 ? 'item' : 'items'}
+                  </span>
+                )}
+              </Await>
+            </Suspense>
+          </div>
+
           <CartMain cart={cart} />
         </div>
       </div>
