@@ -20,7 +20,7 @@ export default {
     FontSizes,
     NoJs,
     require('tailwindcss/plugin')(function ({addVariant}) {
-      addVariant('on', ['.on &', '&.on']);
+      addVariant('active', ['.active &', '&.active']);
       addVariant('alt', ['.alt &', '&.alt']); // for alternate styling
       addVariant('error', ['.error &', '&.error']); // form error styling
       addVariant('open', ['.open &', '&.open']);

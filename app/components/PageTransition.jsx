@@ -1,15 +1,24 @@
-import {motion} from 'motion/react';
+import {Outlet, useLocation} from '@remix-run/react';
+import {AnimatePresence, motion} from 'motion/react';
+import {useEffect, useState} from 'react';
 
-export const PageTransition = ({className = 'min-h-svh', children}) => {
+export const PageTransition = ({className = 'min-h-svh', children, page}) => {
+  const {pathname} = useLocation();
+
+  if (page === 'product') {
+    return <main className={className}>{children}</main>;
+  }
+
   return (
-    <motion.div
+    <motion.main
       className={className}
+      key={pathname}
       initial={{opacity: 0}}
       animate={{opacity: 1}}
-      transition={{duration: 0.5, delay: 0}}
-      exit={{opacity: 0, duration: 0.5, delay: 0.5}}
+      exit={{opacity: 0}}
+      transition={{duration: 1}}
     >
       {children}
-    </motion.div>
+    </motion.main>
   );
 };

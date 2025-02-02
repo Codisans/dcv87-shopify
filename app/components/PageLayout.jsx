@@ -20,36 +20,17 @@ export function PageLayout({
   const {pathname} = useLocation();
   const isHome = pathname == '/';
 
-  if (isHome) {
-    return (
-      <div className="flex flex-col justify-center min-h-svh">
-        {header && (
-          <HomeHeader
-            header={header}
-            cart={cart}
-            isLoggedIn={isLoggedIn}
-            publicStoreDomain={publicStoreDomain}
-          />
-        )}
-
-        <main>
-          <AnimatePresence>{children}</AnimatePresence>
-        </main>
-        {footer && (
-          <HomeFooter
-            header={header}
-            cart={cart}
-            isLoggedIn={isLoggedIn}
-            publicStoreDomain={publicStoreDomain}
-          />
-        )}
-      </div>
-    );
-  }
-
   return (
-    <>
-      {header && (
+    <div className={isHome ? 'flex flex-col justify-center min-h-svh' : ''}>
+      {isHome && header && (
+        <HomeHeader
+          header={header}
+          cart={cart}
+          isLoggedIn={isLoggedIn}
+          publicStoreDomain={publicStoreDomain}
+        />
+      )}
+      {header && !isHome && (
         <Header
           header={header}
           cart={cart}
@@ -57,17 +38,25 @@ export function PageLayout({
           publicStoreDomain={publicStoreDomain}
         />
       )}
-      <main>
-        <AnimatePresence>{children}</AnimatePresence>
-      </main>
-      {footer && (
+
+      <AnimatePresence exitBeforeEnter={true}>{children}</AnimatePresence>
+
+      {footer && !isHome && (
         <Footer
           footer={footer}
           header={header}
           publicStoreDomain={publicStoreDomain}
         />
       )}
-    </>
+      {footer && isHome && (
+        <HomeFooter
+          header={header}
+          cart={cart}
+          isLoggedIn={isLoggedIn}
+          publicStoreDomain={publicStoreDomain}
+        />
+      )}
+    </div>
   );
 }
 

@@ -52,7 +52,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
  */
 export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   const {pathname} = useLocation();
-  const showBackButton = pathname != '/collections';
+  const showBackButton = !['/collections', '/cart'].includes(pathname);
 
   return (
     <nav className="absolute top-0 left-0 p-gutter" role="navigation">
