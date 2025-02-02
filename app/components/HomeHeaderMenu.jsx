@@ -1,8 +1,7 @@
-import {NavLink} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import {Autoplay, FreeMode} from 'swiper/modules';
 import {TransitionLink} from './TransitionLink';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import gsap from 'gsap';
 
 export const HomeHeaderMenu = ({
   flip = false,
@@ -10,6 +9,72 @@ export const HomeHeaderMenu = ({
   primaryDomainUrl,
   publicStoreDomain,
 }) => {
+  const groupRef = useRef(null);
+  const itemsArrayRef = useRef([]);
+  const [tickerDimensions, setTickerDimensions] = useState(null);
+
+  const addItemRef = useCallback((node) => {
+    if (node && !itemsArrayRef.current.includes(node)) {
+      itemsArrayRef.current.push(node);
+    }
+  }, []);
+
+  const getTickerDimensions = () => {
+    const visibleWidth = groupRef.current?.clientWidth;
+    const itemWidth = itemsArrayRef.current[0]?.clientWidth;
+    const totalWidth = itemWidth * itemsArrayRef.current.length;
+    const extraWidth = visibleWidth + Math.max(visibleWidth - totalWidth, 0);
+    const extraItems = Math.ceil(extraWidth / itemWidth);
+    return {
+      visibleWidth,
+      itemWidth,
+      totalWidth,
+      extraWidth,
+      extraItems,
+    };
+  };
+
+  useEffect(() => {
+    if (!groupRef.current || !itemsArrayRef.current.length) {
+      return;
+    }
+
+    setTickerDimensions(getTickerDimensions());
+    const resizeObserver = new ResizeObserver(() => {
+      setTickerDimensions(getTickerDimensions());
+    });
+    resizeObserver.observe(groupRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!tickerDimensions) {
+      return;
+    }
+
+    const {totalWidth} = tickerDimensions;
+
+    const tween = gsap.to(groupRef.current, {
+      translateX: `-=${totalWidth}`,
+      duration: totalWidth / 75,
+      ease: 'none',
+      repeat: -1,
+      onReverseComplete: () => {
+        tween.totalTime(tween.totalTime() + tween.duration() * 100, true);
+      },
+    });
+
+    return () => {
+      if (groupRef.current) {
+        gsap.set(groupRef.current, {clearProps: 'all'});
+      }
+      tween?.kill();
+    };
+  }, [tickerDimensions]);
+
   return (
     <div
       className={`overflow-hidden w-full flex relative ${
@@ -20,22 +85,8 @@ export const HomeHeaderMenu = ({
         className="w-4/5 text-red text-h1 overflow-hidden pl-12 py-4"
         role="navigation"
       >
-        <Swiper
-          className="w-full marquee-swiper pointer-events-auto overflow-visible"
-          slidesPerView="auto"
-          loop={true}
-          modules={[Autoplay, FreeMode]}
-          speed={7000}
-          freeMode={{
-            momentum: true,
-          }}
-          autoplay={{
-            delay: 0,
-            disableOnInteraction: false,
-            reverseDirection: flip,
-          }}
-        >
-          {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+        <ul ref={groupRef} className="flex w-full items-center">
+          {(menu || FALLBACK_HEADER_MENU).items?.map((item, i) => {
             if (!item.url) return null;
 
             // if the url is internal, we strip the domain
@@ -47,9 +98,10 @@ export const HomeHeaderMenu = ({
                 : item.url;
             const isExternal = !url.startsWith('/');
             return (
-              <SwiperSlide
+              <li
+                ref={addItemRef}
+                key={i}
                 className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
-                key={`${item.id}${flip ? '-flip' : ''}`}
               >
                 {isExternal ? (
                   <a className="clip-hover" href={url} target="_blank">
@@ -66,11 +118,17 @@ export const HomeHeaderMenu = ({
                     {item.title}
                   </TransitionLink>
                 )}
-              </SwiperSlide>
+              </li>
             );
           })}
+          {Array.from(
+            {length: tickerDimensions?.extraItems || 0},
 
-          {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+            (_, index) =>
+              (menu || FALLBACK_HEADER_MENU).items[
+                index % (menu || FALLBACK_HEADER_MENU).items.length
+              ],
+          )?.map((item, i) => {
             if (!item.url) return null;
 
             // if the url is internal, we strip the domain
@@ -80,23 +138,32 @@ export const HomeHeaderMenu = ({
               item.url.includes(primaryDomainUrl)
                 ? new URL(item.url).pathname
                 : item.url;
+            const isExternal = !url.startsWith('/');
+
             return (
-              <SwiperSlide
-                className="flex-none w-max inline-flex items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
-                key={item.id}
+              <li
+                key={`${i}-extra`}
+                className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
               >
-                <NavLink
-                  className="w-max clip-hover"
-                  end
-                  prefetch="intent"
-                  to={url}
-                >
-                  {item.title}
-                </NavLink>
-              </SwiperSlide>
+                {isExternal ? (
+                  <a className="clip-hover" href={url} target="_blank">
+                    {item.title}
+                  </a>
+                ) : (
+                  <TransitionLink
+                    className="clip-hover"
+                    end
+                    prefetch={isExternal ? undefined : 'intent'}
+                    target={isExternal ? '_blank' : '_self'}
+                    to={url}
+                  >
+                    {item.title}
+                  </TransitionLink>
+                )}
+              </li>
             );
           })}
-        </Swiper>
+        </ul>
       </nav>
       <Image
         className={`absolute top-4 right-[calc(20%-4rem)] size-32 object-contain z-10 ${
