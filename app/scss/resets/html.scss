@@ -5,7 +5,7 @@
     font-size: 12px;
 
     @media (min-width: 280px) {
-      @include scaling-font(12, 16, 280, 375);
+      @include scaling-font(12, 16, 280, 480);
     }
 
     @media (min-width: 1024px) {

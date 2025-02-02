@@ -22,16 +22,19 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   return (
     <header className="fixed inset-0 w-full z-[60] pointer-events-none overlay-backdrop">
       <TransitionLink
-        className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-auto"
+        className="absolute top-gutter md:top-8 left-1/2 -translate-x-1/2 pointer-events-auto"
         prefetch="intent"
         to="/"
         end
       >
         <span className="sr-only">{shop.name}</span>
-        <Symbol className="w-[16.375rem] h-[5.125rem] text-red" name="logo" />
+        <Symbol
+          className="w-[8.375rem] h-[3.5rem] md:w-[16.375rem] md:h-[5.125rem] text-red"
+          name="logo"
+        />
       </TransitionLink>
       <CartLink
-        className="absolute top-5 right-8 pointer-events-auto"
+        className="absolute top-gutter md:top-8 right-gutter pointer-events-auto"
         cart={cart}
       />
       <HeaderMenu
@@ -56,8 +59,11 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   const showBackButton = !['/collections', '/cart', '/blog'].includes(pathname);
 
   return (
-    <nav className="absolute top-0 left-0 p-gutter" role="navigation">
-      <ul className="flex flex-col items-start pointer-events-auto text-h2 overlay-trigger">
+    <nav
+      className="absolute top-0 left-0 px-gutter pt-gutter md:pt-8"
+      role="navigation"
+    >
+      <ul className="flex flex-col items-start pointer-events-auto text-nav overlay-trigger">
         {showBackButton ? (
           <BackButton />
         ) : (

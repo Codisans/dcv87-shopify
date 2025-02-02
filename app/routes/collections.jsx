@@ -147,11 +147,8 @@ export default function Collection() {
   const products = collection.products.nodes;
 
   return (
-    <main className="page-transition min-h-svh flex flex-col justify-center">
-      <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
-        Shop
-      </h1>
-
+    <main className="min-h-svh flex flex-col justify-center">
+      <h1 className="sr-only">Shop</h1>
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"

@@ -112,10 +112,7 @@ export default function Blog() {
 
   return (
     <main className="page-transition min-h-svh">
-      <h1 className="fixed z-header top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
-        Blog
-      </h1>
-
+      <h1 className="sr-only">Blog</h1>
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"
@@ -125,7 +122,7 @@ export default function Blog() {
         alt={fields?.background?.reference?.image?.altText}
       />
       <div className="relative z-10 py-64 container grid-layout">
-        <div className="col-start-1 col-end-3">
+        <div className="-sm:hidden col-start-1 col-end-3">
           <ul className="sticky top-64 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
             <li>
               <Link className="clip-hover clip-hover--white" to="/blog">
@@ -139,7 +136,7 @@ export default function Blog() {
             </li>
           </ul>
         </div>
-        <div className="col-start-3 col-end-10 blog-pagination">
+        <div className="col-start-1 sm:col-start-3 col-end-10 blog-pagination">
           <PaginatedResourceSection
             resourcesClassName="flex flex-col gap-y-10 paginated-resource-section"
             connection={articles}
@@ -153,7 +150,7 @@ export default function Blog() {
             )}
           </PaginatedResourceSection>
         </div>
-        <div className="col-start-10 col-end-12">
+        <div className="col-start-10 col-end-13 sm:col-end-12">
           <Suspense>
             <Await resolve={logos}>
               {(data) => <ParallaxLogos data={data} />}

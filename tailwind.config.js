@@ -129,14 +129,15 @@ export default {
         }),
       },
       nav: {
-        base: font(16, {
-          lineHeight: 21,
-          letterSpacing: 0.2,
+        base: font(36, {
+          lineHeight: 36,
+          letterSpacing: 0,
+          fontFamily: 'Impact',
         }),
         screens: {
-          lg: font(18, {
-            lineHeight: 24,
-            letterSpacing: 0.2,
+          lg: font(50, {
+            lineHeight: 56,
+            letterSpacing: 0,
           }),
         },
       },

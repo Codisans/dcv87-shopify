@@ -136,9 +136,7 @@ export default function Cart() {
 
   return (
     <main className="min-h-svh">
-      <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red z-10">
-        Cart
-      </h1>
+      <h1 className="sr-only">Cart</h1>
 
       <Image
         className="fixed inset-0 w-full h-full object-cover"
