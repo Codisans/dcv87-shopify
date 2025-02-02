@@ -1,0 +1,7 @@
+a {
+  @apply active:pointer-events-none;
+
+  * {
+    pointer-events: none;
+  }
+}

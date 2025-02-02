@@ -27,6 +27,7 @@ export default {
       addVariant('scrolled', ['html.scrolled &']);
     }),
   ],
+
   theme: {
     colors: {
       current: 'currentColor',

@@ -2,7 +2,6 @@ import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, IMAGE_FRAGMENT, Money} from '@shopify/hydrogen';
-import {PageTransition} from '~/components/PageTransition';
 import {parseFields} from '~/utils/parseFields';
 
 /**
@@ -49,7 +48,8 @@ export default function Homepage() {
   const fields = parseFields(pageData.fields);
 
   return (
-    <PageTransition className="h-min">
+    <main className="page-transition">
+      <h1 className="sr-only">DCV'87</h1>
       <Image
         className="w-full object-cover max-h-[64vh] h-120"
         width={fields?.background?.reference?.image?.width}
@@ -57,7 +57,7 @@ export default function Homepage() {
         src={fields?.background?.reference?.image?.url}
         alt={fields?.background?.reference?.image?.altText}
       />
-    </PageTransition>
+    </main>
   );
 }
 

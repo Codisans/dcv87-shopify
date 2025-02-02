@@ -12,7 +12,6 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
-import {PageTransition} from '~/components/PageTransition';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -105,7 +104,7 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <PageTransition page="product">
+    <main className="page-transition page-transition--product min-h-svh">
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"
@@ -146,7 +145,7 @@ export default function Product() {
           ],
         }}
       />
-    </PageTransition>
+    </main>
   );
 }
 

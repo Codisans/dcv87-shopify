@@ -2,10 +2,10 @@ import {defer} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData} from '@remix-run/react';
 import {getPaginationVariables, Image} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
-import {PageTransition} from '~/components/PageTransition';
 import {Article} from '~/components/Article';
 import {Suspense, useEffect, useRef} from 'react';
 import {parseFields} from '~/utils/parseFields';
+
 import {ParallaxLogos} from '~/components/ParallaxLogos';
 
 /**
@@ -111,13 +111,13 @@ export default function Blog() {
   }, [articles, observerRef.current]);
 
   return (
-    <PageTransition>
+    <main className="page-transition min-h-svh">
       <h1 className="fixed z-header top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
         Blog
       </h1>
+
       <Image
         className="fixed inset-0 w-full h-full object-cover"
-        alt="Blog"
         loading="eager"
         width={fields?.background?.reference?.image?.width}
         height={fields?.background?.reference?.image?.height}
@@ -161,7 +161,7 @@ export default function Blog() {
           </Suspense>
         </div>
       </div>
-    </PageTransition>
+    </main>
   );
 }
 

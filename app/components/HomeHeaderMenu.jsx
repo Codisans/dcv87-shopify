@@ -2,6 +2,7 @@ import {NavLink} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Autoplay, FreeMode} from 'swiper/modules';
+import {TransitionLink} from './TransitionLink';
 
 export const HomeHeaderMenu = ({
   flip = false,
@@ -55,7 +56,7 @@ export const HomeHeaderMenu = ({
                     {item.title}
                   </a>
                 ) : (
-                  <NavLink
+                  <TransitionLink
                     className="clip-hover"
                     end
                     prefetch={isExternal ? undefined : 'intent'}
@@ -63,7 +64,7 @@ export const HomeHeaderMenu = ({
                     to={url}
                   >
                     {item.title}
-                  </NavLink>
+                  </TransitionLink>
                 )}
               </SwiperSlide>
             );

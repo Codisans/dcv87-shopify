@@ -7,9 +7,8 @@ import {
   Analytics,
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
-import {PageTransition} from '~/components/PageTransition';
 import {parseFields} from '~/utils/parseFields';
-import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import gsap from 'gsap';
 
 /**
@@ -148,10 +147,11 @@ export default function Collection() {
   const products = collection.products.nodes;
 
   return (
-    <PageTransition className="min-h-svh flex flex-col justify-center">
+    <main className="page-transition min-h-svh flex flex-col justify-center">
       <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
         Shop
       </h1>
+
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"
@@ -204,7 +204,7 @@ export default function Collection() {
           }}
         />
       </div>
-    </PageTransition>
+    </main>
   );
 }
 

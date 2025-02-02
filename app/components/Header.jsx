@@ -11,6 +11,7 @@ import {Image, useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {Symbol} from './Symbol';
 import {CartLink} from './CartLink';
 import {BackButton} from './BackButton';
+import {TransitionLink} from './TransitionLink';
 
 /**
  * @param {HeaderProps}
@@ -20,7 +21,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
 
   return (
     <header className="fixed inset-0 w-full z-[60] pointer-events-none overlay-backdrop">
-      <NavLink
+      <TransitionLink
         className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-auto"
         prefetch="intent"
         to="/"
@@ -28,7 +29,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
       >
         <span className="sr-only">{shop.name}</span>
         <Symbol className="w-[16.375rem] h-[5.125rem] text-red" name="logo" />
-      </NavLink>
+      </TransitionLink>
       <CartLink
         className="absolute top-5 right-8 pointer-events-auto"
         cart={cart}
@@ -52,7 +53,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
  */
 export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   const {pathname} = useLocation();
-  const showBackButton = !['/collections', '/cart'].includes(pathname);
+  const showBackButton = !['/collections', '/cart', '/blog'].includes(pathname);
 
   return (
     <nav className="absolute top-0 left-0 p-gutter" role="navigation">
@@ -82,7 +83,7 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
                 {item.title}
               </a>
             ) : (
-              <NavLink
+              <TransitionLink
                 className="clip-hover"
                 end
                 key={item.id}
@@ -90,7 +91,7 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
                 to={url}
               >
                 {item.title}
-              </NavLink>
+              </TransitionLink>
             );
           })
         )}

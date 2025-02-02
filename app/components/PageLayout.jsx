@@ -1,10 +1,10 @@
-import {Link, useLocation} from '@remix-run/react';
-import {useEffect, useId} from 'react';
+import {useLocation} from '@remix-run/react';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {HomeFooter} from './HomeFooter';
 import {HomeHeader} from './HomeHeader';
-import {AnimatePresence} from 'motion/react';
+import {TransitionProvider, useTransitionContext} from './TransitionContext';
+import {useEffect, useRef} from 'react';
 
 /**
  * @param {PageLayoutProps}
@@ -18,18 +18,23 @@ export function PageLayout({
   publicStoreDomain,
 }) {
   const {pathname} = useLocation();
+  const {containerRef, setTransitionContainer} = useTransitionContext();
+  const transitionContainerRef = useRef(null);
   const isHome = pathname == '/';
+
+  // useEffect(() => {
+  //   if (containerRef.current || !transitionContainerRef.current) return;
+  //   containerRef.current = transitionContainerRef.current;
+  //   console.log('containerRef', containerRef.current);
+  // }, [transitionContainerRef]);
+
+  useEffect(() => {
+    if (!transitionContainerRef.current) return;
+    setTransitionContainer(transitionContainerRef.current);
+  }, [transitionContainerRef]);
 
   return (
     <div className={isHome ? 'flex flex-col justify-center min-h-svh' : ''}>
-      {isHome && header && (
-        <HomeHeader
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
-      )}
       {header && !isHome && (
         <Header
           header={header}
@@ -38,21 +43,29 @@ export function PageLayout({
           publicStoreDomain={publicStoreDomain}
         />
       )}
-
-      <AnimatePresence exitBeforeEnter={true}>{children}</AnimatePresence>
-
+      <div className="opacity-0" ref={transitionContainerRef}>
+        {isHome && header && (
+          <HomeHeader
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+        {children}
+        {footer && isHome && (
+          <HomeFooter
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+      </div>
       {footer && !isHome && (
         <Footer
           footer={footer}
           header={header}
-          publicStoreDomain={publicStoreDomain}
-        />
-      )}
-      {footer && isHome && (
-        <HomeFooter
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
         />
       )}

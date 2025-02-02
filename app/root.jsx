@@ -16,6 +16,7 @@ import mainStyles from '~/scss/main.scss?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import {LenisScroll} from './components/LenisScroll';
+import {TransitionProvider} from './components/TransitionContext';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -156,7 +157,9 @@ export function Layout({children}) {
             consent={data.consent}
           >
             <LenisScroll>
-              <PageLayout {...data}>{children}</PageLayout>
+              <TransitionProvider>
+                <PageLayout {...data}>{children}</PageLayout>
+              </TransitionProvider>
             </LenisScroll>
           </Analytics.Provider>
         ) : (

@@ -3,7 +3,6 @@ import {CartForm, Image} from '@shopify/hydrogen';
 import {defer, json} from '@shopify/remix-oxygen';
 import {CartMain} from '~/components/CartMain';
 import {CartSummary} from '~/components/CartSummary';
-import {PageTransition} from '~/components/PageTransition';
 import {parseFields} from '~/utils/parseFields';
 
 /**
@@ -136,10 +135,11 @@ export default function Cart() {
   const fields = parseFields(pageData.fields);
 
   return (
-    <PageTransition>
+    <main className="min-h-svh">
       <h1 className="fixed top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red z-10">
         Cart
       </h1>
+
       <Image
         className="fixed inset-0 w-full h-full object-cover"
         loading="eager"
@@ -154,7 +154,7 @@ export default function Cart() {
           <CartMain cart={cart} />
         </div>
       </div>
-    </PageTransition>
+    </main>
   );
 }
 
