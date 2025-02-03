@@ -59,7 +59,7 @@ export const HomeHeaderMenu = ({
     const {totalWidth} = tickerDimensions;
 
     const tween = gsap.to(groupRef.current, {
-      translateX: `-=${totalWidth}`,
+      translateX: flip ? `+=${totalWidth}` : `-=${totalWidth}`,
       duration: totalWidth / 50,
       ease: 'none',
       repeat: -1,
@@ -86,7 +86,12 @@ export const HomeHeaderMenu = ({
         className="w-[calc(100vw-1.5em)] sm:w-[calc(100vw-2.5em)] flex-none text-red overflow-hidden"
         role="navigation"
       >
-        <ul ref={groupRef} className="flex w-full items-center">
+        <ul
+          ref={groupRef}
+          className={`flex w-full items-center ${
+            flip ? '[direction:rtl]' : ''
+          }`}
+        >
           {(menu || FALLBACK_HEADER_MENU).items?.map((item, i) => {
             if (!item.url) return null;
 
