@@ -190,7 +190,7 @@ export default function Collection() {
         />
       ))}
 
-      <div className="relative min-h-lvh z-10 flex flex-col justify-center pt-32 lg:py-20">
+      <div className="relative min-h-lvh z-10 flex flex-col justify-center pt-16 pb-4 lg:py-20">
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
             {products?.map((product, i) => (
