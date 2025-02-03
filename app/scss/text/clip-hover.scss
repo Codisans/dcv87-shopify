@@ -17,8 +17,10 @@
   background-clip: text;
   -webkit-background-clip: text;
 
-  &:hover {
-    background-position: 0 100%;
+  @screen mouse {
+    &:hover {
+      background-position: 0 100%;
+    }
   }
 
   &.active::before {

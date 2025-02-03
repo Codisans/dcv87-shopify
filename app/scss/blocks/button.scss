@@ -42,13 +42,15 @@
     background-position: 0% 0%;
   }
 
-  &:hover,
-  button:hover &,
-  &:focus-visible {
-    background-position: 0 0;
+  @screen mouse {
+    &:hover,
+    button:hover &,
+    &:focus-visible {
+      background-position: 0 0;
 
-    &::before {
-      background-position: 0% 100%;
+      &::before {
+        background-position: 0% 100%;
+      }
     }
   }
 
