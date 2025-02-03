@@ -10,6 +10,7 @@ import {useVariantUrl} from '~/lib/variants';
 import {parseFields} from '~/utils/parseFields';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import gsap from 'gsap';
+import {BackgroundMedia} from '~/components/BackgroundMedia';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -103,6 +104,9 @@ export default function Collection() {
     };
   };
 
+  let vcX = 0;
+  let vcY = 0;
+
   useEffect(() => {
     if (!groupRef.current || !itemsArrayRef.current.length) {
       return;
@@ -136,10 +140,32 @@ export default function Collection() {
       },
     });
 
+    const lerp = (start, end, t) => {
+      return start + t * (end - start);
+    };
+
+    const handleDrag = (e) => {
+      if (!vcX) {
+        vcX = e.clientX;
+        return;
+      }
+
+      const newX = lerp(e.clientX, vcX, 0.1);
+
+      vcX = newX;
+
+      tween.seek(newX - vcX);
+    };
+
+    window.addEventListener('drag', handleDrag);
+    window.addEventListener('touchmove', handleDrag);
+
     return () => {
       if (groupRef.current) {
         gsap.set(groupRef.current, {clearProps: 'all'});
       }
+      window.removeEventListener('drag', handleDrag);
+      window.removeEventListener('touchmove', handleDrag);
       tween?.kill();
     };
   }, [tickerDimensions]);
@@ -149,13 +175,9 @@ export default function Collection() {
   return (
     <main className="min-h-svh flex flex-col justify-center">
       <h1 className="sr-only">Shop</h1>
-      <Image
-        className="fixed inset-0 w-full h-full object-cover"
+      <BackgroundMedia
         loading="eager"
-        width={fields?.background?.reference?.image?.width}
-        height={fields?.background?.reference?.image?.height}
-        src={fields?.background?.reference?.image?.url}
-        alt={fields?.background?.reference?.image?.altText}
+        image={fields?.background?.reference?.image}
       />
 
       {products.map((product, index) => (

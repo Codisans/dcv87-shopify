@@ -116,13 +116,9 @@ export default function Product() {
 
   return (
     <main className="page-transition page-transition--product min-h-svh">
-      <Image
-        className="fixed inset-0 w-full h-full object-cover"
+      <BackgroundMedia
         loading="eager"
-        width={product?.metafield?.reference?.image?.width}
-        height={product?.metafield?.reference?.image?.height}
-        src={product?.metafield?.reference?.image?.url}
-        alt={product?.metafield?.reference?.image?.altText}
+        image={product?.metafield?.reference?.image}
       />
       <div className="min-h-svh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container bg-black/20">
         <div className="relative px-20 sm:px-32">

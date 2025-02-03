@@ -2,6 +2,7 @@ import {Await, useLoaderData} from '@remix-run/react';
 import {CartForm, Image} from '@shopify/hydrogen';
 import {defer, json} from '@shopify/remix-oxygen';
 import {Suspense} from 'react';
+import {BackgroundMedia} from '~/components/BackgroundMedia';
 import {CartMain} from '~/components/CartMain';
 import {CartSummary} from '~/components/CartSummary';
 import {parseFields} from '~/utils/parseFields';
@@ -137,13 +138,9 @@ export default function Cart() {
 
   return (
     <main className="min-h-svh">
-      <Image
-        className="fixed inset-0 w-full h-full object-cover brightness-75"
+      <BackgroundMedia
         loading="eager"
-        width={fields?.background?.reference?.image?.width}
-        height={fields?.background?.reference?.image?.height}
-        src={fields?.background?.reference?.image?.url}
-        alt={fields?.background?.reference?.image?.altText}
+        image={fields?.background?.reference?.image}
       />
 
       <div className="container grid-layout relative z-10 pt-48 pb-24">

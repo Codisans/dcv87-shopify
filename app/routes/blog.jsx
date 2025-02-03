@@ -7,6 +7,7 @@ import {Suspense, useEffect, useRef} from 'react';
 import {parseFields} from '~/utils/parseFields';
 
 import {ParallaxLogos} from '~/components/ParallaxLogos';
+import {BackgroundMedia} from '~/components/BackgroundMedia';
 
 /**
  * @type {MetaFunction}
@@ -113,13 +114,9 @@ export default function Blog() {
   return (
     <main className="page-transition min-h-svh">
       <h1 className="sr-only">Blog</h1>
-      <Image
-        className="fixed inset-0 w-full h-full object-cover"
+      <BackgroundMedia
         loading="eager"
-        width={fields?.background?.reference?.image?.width}
-        height={fields?.background?.reference?.image?.height}
-        src={fields?.background?.reference?.image?.url}
-        alt={fields?.background?.reference?.image?.altText}
+        image={fields?.background?.reference?.image}
       />
       <div className="relative z-10 py-64 container grid-layout">
         <div className="-sm:hidden col-start-1 col-end-3">
