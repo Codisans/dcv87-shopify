@@ -5,8 +5,8 @@ export const ParallaxLogos = ({data}) => {
   if (!data) return null;
 
   return (
-    <div className="w-full h-full">
-      <ul className="flex flex-col h-min will-change-transform translate-y-[calc(var(--scroll-y,0)*0.5px)]">
+    <div className="sticky top-64 z-10 w-full h-min">
+      <ul className="flex flex-col h-min will-change-transform translate-y-[calc(var(--scroll-y,0)*-0.5px)]">
         {data.metaobjects.nodes?.map((logo, i) => {
           const logoFields = parseFields(logo.fields);
           if (!logoFields?.image?.reference?.image?.url) return null;
