@@ -1,6 +1,7 @@
 .clip-hover {
-  position: relative;
-  color: transparent;
+  @apply relative inline-block text-transparent;
+
+  line-height: 1;
   background-image: linear-gradient(
     to top,
     theme('colors.white') 0%,
@@ -36,7 +37,7 @@
     clip-path: inset(0 100% 0 0);
     content: '';
     position: absolute;
-    inset: 0.24em 0.2em;
+    inset: 0.12em 0.08em;
     background-color: theme('colors.black.DEFAULT');
     z-index: -1;
     transition: clip-path theme('transitionDuration.clip')

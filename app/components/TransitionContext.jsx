@@ -34,16 +34,17 @@ const transitionTo = (container, navigate, href) => {
 };
 
 export const TransitionContext = createContext({
-  // containerRef: null,
   transitionContainer: null,
   setTransitionContainer: () => {},
   transitionIn: () => {},
   transitionTo: () => {},
+  transitionElements: [],
+  setTransitionElements: () => {},
 });
 
 export const TransitionProvider = ({children}) => {
-  // const containerRef = useRef(null);
   const [transitionContainer, setTransitionContainer] = useState(null);
+  const [transitionElements, setTransitionElements] = useState([]);
   const {pathname} = useLocation();
   const navigate = useNavigate();
 
@@ -54,7 +55,8 @@ export const TransitionProvider = ({children}) => {
   return (
     <TransitionContext.Provider
       value={{
-        // containerRef: containerRef,
+        transitionElements: transitionElements,
+        setTransitionElements: setTransitionElements,
         transitionContainer: transitionContainer,
         setTransitionContainer: setTransitionContainer,
         transitionIn: () => transitionIn(transitionContainer),
