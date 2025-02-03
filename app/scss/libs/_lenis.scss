@@ -1,11 +1,11 @@
 @layer base {
-  html.lenis {
+  html.lenis,
+  html.lenis body {
     height: auto;
-    overscroll-behavior: none;
   }
 
   .lenis.lenis-smooth {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 
   .lenis.lenis-smooth [data-lenis-prevent] {
@@ -14,7 +14,8 @@
 
   .lenis.lenis-stopped {
     overflow: hidden;
-    margin-right: var(--scrollbar-gutter, 0);
+
+    border-right: var(--scrollbar-gutter, 0) solid transparent;
 
     &::after {
       content: '';

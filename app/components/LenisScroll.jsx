@@ -7,7 +7,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const LenisScroll = ({children}) => {
   const lenisRef = useRef(null);
+
   let lenis = useLenis(({scroll}) => {
+    document.documentElement.style.setProperty('--scroll-y', scroll);
     ScrollTrigger.update();
   });
 
