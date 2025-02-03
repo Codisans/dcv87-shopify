@@ -104,9 +104,6 @@ export default function Collection() {
     };
   };
 
-  let vcX = 0;
-  let vcY = 0;
-
   useEffect(() => {
     if (!groupRef.current || !itemsArrayRef.current.length) {
       return;
@@ -140,32 +137,10 @@ export default function Collection() {
       },
     });
 
-    const lerp = (start, end, t) => {
-      return start + t * (end - start);
-    };
-
-    const handleDrag = (e) => {
-      if (!vcX) {
-        vcX = e.clientX;
-        return;
-      }
-
-      const newX = lerp(e.clientX, vcX, 0.1);
-
-      vcX = newX;
-
-      tween.seek(newX - vcX);
-    };
-
-    window.addEventListener('drag', handleDrag);
-    window.addEventListener('touchmove', handleDrag);
-
     return () => {
       if (groupRef.current) {
         gsap.set(groupRef.current, {clearProps: 'all'});
       }
-      window.removeEventListener('drag', handleDrag);
-      window.removeEventListener('touchmove', handleDrag);
       tween?.kill();
     };
   }, [tickerDimensions]);
@@ -175,22 +150,30 @@ export default function Collection() {
   return (
     <main>
       <h1 className="sr-only">Shop</h1>
-      <BackgroundMedia
-        loading="eager"
-        image={fields?.background?.reference?.image}
-      />
-
-      {products.map((product, index) => (
-        <BackgroundMedia
-          key={`${product.handle}-image`}
-          id={`${product.handle}-image`}
-          className="touch:hidden opacity-0 transition-opacity duration-300"
-          loading="lazy"
-          image={product?.metafield?.reference?.image}
+      <div className="sticky top-0 inset-x-0 min-h-lvh h-lvh overflow-hidden clip-inset-0 mb-[-100lvh]">
+        <Image
+          className="w-full h-lvh object-cover"
+          loading="eager"
+          width={fields?.background?.reference?.image?.width}
+          height={fields?.background?.reference?.image?.height}
+          src={fields?.background?.reference?.image?.url}
+          alt={fields?.background?.reference?.image?.altText}
         />
-      ))}
+        {products.map((product, index) => (
+          <Image
+            key={`${product.handle}-image`}
+            id={`${product.handle}-image`}
+            className="absolute inset-0 w-full h-full touch:hidden opacity-0 transition-opacity duration-300 object-cover"
+            loading="lazy"
+            src={product?.metafield?.reference?.image?.url}
+            width={product?.metafield?.reference?.image?.width}
+            height={product?.metafield?.reference?.image?.height}
+            alt={product?.metafield?.reference?.image?.altText}
+          />
+        ))}
+      </div>
 
-      <div className="relative min-h-svh z-10 flex flex-col justify-center pt-16 pb-4 lg:py-20">
+      <div className="relative h-screen z-10 flex flex-col justify-center pt-12 lg:py-20">
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
             {products?.map((product, i) => (
