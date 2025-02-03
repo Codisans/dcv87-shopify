@@ -1,9 +1,9 @@
 import {Image} from '@shopify/hydrogen';
 
-export const BackgroundMedia = ({image, ...props}) => {
+export const BackgroundMedia = ({image, className, ...props}) => {
   if (!image) return;
   return (
-    <div className="fixed inset-0 overflow-hidden clip-inset-0">
+    <div className="sticky top-0 inset-x-0 min-h-lvh h-lvh overflow-hidden clip-inset-0 mb-[-100lvh]">
       <Image
         {...props}
         className="w-full h-lvh object-cover"

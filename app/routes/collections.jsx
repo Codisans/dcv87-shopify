@@ -173,7 +173,7 @@ export default function Collection() {
   const products = collection.products.nodes;
 
   return (
-    <main className="min-h-lvh flex flex-col justify-center pt-32 lg:py-20">
+    <main>
       <h1 className="sr-only">Shop</h1>
       <BackgroundMedia
         loading="eager"
@@ -190,7 +190,7 @@ export default function Collection() {
         />
       ))}
 
-      <div className="relative z-10">
+      <div className="relative min-h-lvh z-10 flex flex-col justify-center pt-32 lg:py-20">
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
             {products?.map((product, i) => (
