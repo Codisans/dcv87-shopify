@@ -13,6 +13,10 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {Symbol} from '~/components/Symbol';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {useEffect, useRef} from 'react';
+import {Navigation} from 'swiper/modules';
+import {ProductColors} from '~/components/ProductColors';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -85,6 +89,8 @@ function loadDeferredData({context, params}) {
 export default function Product() {
   /** @type {LoaderReturnData} */
   const {product} = useLoaderData();
+  const nextRef = useRef(null);
+  const prevRef = useRef(null);
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -104,6 +110,10 @@ export default function Product() {
 
   const {title, descriptionHtml} = product;
 
+  useEffect(() => {
+    console.log(product, productOptions);
+  }, [product]);
+
   return (
     <main className="page-transition page-transition--product min-h-svh">
       <Image
@@ -115,13 +125,38 @@ export default function Product() {
         alt={product?.metafield?.reference?.image?.altText}
       />
       <div className="min-h-svh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container bg-black/20">
-        <div className="flex flex-row gap-grid flex-nowrap items-center">
-          <button className="clip-hover">
-            <Symbol className="w-24 h-24 -scale-x-100" name="hand-pointer" />
+        <div className="relative px-20 sm:px-32">
+          <Swiper
+            className="w-full max-w-[56vw] sm:max-w-[min(30vw,32rem)]"
+            modules={[Navigation]}
+            speed={0}
+            slidesPerView={1}
+            navigation={{
+              nextEl: nextRef.current,
+              prevEl: prevRef.current,
+            }}
+          >
+            <SwiperSlide>
+              <ProductImage image={selectedVariant?.image} />
+            </SwiperSlide>
+          </Swiper>
+          <button
+            ref={prevRef}
+            className="absolute top-1/2 left-0 -translate-y-1/2"
+          >
+            <Symbol
+              className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 -scale-x-100"
+              name="hand-pointer"
+            />
           </button>
-          <ProductImage image={selectedVariant?.image} />
-          <button className="clip-hover">
-            <Symbol className="w-24 h-24" name="hand-pointer" />
+          <button
+            ref={nextRef}
+            className="absolute top-1/2 right-0 -translate-y-1/2"
+          >
+            <Symbol
+              className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
+              name="hand-pointer"
+            />
           </button>
         </div>
 
@@ -133,14 +168,26 @@ export default function Product() {
             compareAtPrice={selectedVariant?.compareAtPrice}
           />
           <div
-            className="mb-8"
+            className="mb-8 rich-text"
             dangerouslySetInnerHTML={{__html: descriptionHtml}}
           />
+          <div className="md:hidden">
+            <ProductColors
+              productOptions={productOptions}
+              selectedVariant={selectedVariant}
+            />
+          </div>
           <ProductForm
             productOptions={productOptions}
             selectedVariant={selectedVariant}
           />
         </div>
+      </div>
+      <div className="-md:hidden fixed left-gutter top-48 lg:top-auto lg:bottom-20 z-10">
+        <ProductColors
+          productOptions={productOptions}
+          selectedVariant={selectedVariant}
+        />
       </div>
       <Analytics.ProductView
         data={{
@@ -195,6 +242,19 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
       amount
       currencyCode
     }
+    metafield(namespace: "custom" key: "carousel_media") {
+      reference {
+        ... on MediaImage {
+          image {
+          url
+          width
+          height
+          altText
+        }
+      }
+
+    }
+  }
   }
 `;
 

@@ -6,14 +6,12 @@ import {Image} from '@shopify/hydrogen';
  * }}
  */
 export function ProductImage({image}) {
-  if (!image) {
-    return <div className="product-image" />;
-  }
+  if (!image) return;
+
   return (
-    <div className="w-80 h-80">
+    <div key={image.id} className="w-full aspect-square relative">
       <Image
-        key={image.id}
-        className="object-contain"
+        className="object-contain w-full h-full asbolute inset-0"
         alt={image.altText || 'Product Image'}
         width={image.width}
         height={image.height}
