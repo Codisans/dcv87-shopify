@@ -150,9 +150,9 @@ export default function Collection() {
   return (
     <main>
       <h1 className="sr-only">Shop</h1>
-      <div className="sticky top-0 inset-x-0 min-h-lvh h-lvh overflow-hidden clip-inset-0 mb-[-100lvh]">
+      <div className="sticky top-0 inset-x-0 min-h-svh h-svh overflow-hidden clip-inset-0 mb-[-100svh]">
         <Image
-          className="w-full h-lvh object-cover"
+          className="w-full h-svh object-cover"
           loading="eager"
           width={fields?.background?.reference?.image?.width}
           height={fields?.background?.reference?.image?.height}
@@ -173,7 +173,7 @@ export default function Collection() {
         ))}
       </div>
 
-      <div className="relative h-screen z-10 flex flex-col justify-center pt-12 lg:py-20">
+      <div className="relative h-svh z-10 flex flex-col justify-center pt-12 lg:py-20">
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
             {products?.map((product, i) => (
