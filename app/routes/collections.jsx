@@ -129,7 +129,7 @@ export default function Collection() {
 
     const tween = gsap.to(groupRef.current, {
       translateX: `-=${totalWidth}`,
-      duration: totalWidth / 75,
+      duration: totalWidth / 120,
       ease: 'none',
       repeat: -1,
       onReverseComplete: () => {
@@ -177,7 +177,11 @@ export default function Collection() {
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
             {products?.map((product, i) => (
-              <li ref={addItemRef} key={i} className="flex-none pr-16 lg:pr-36">
+              <li
+                ref={addItemRef}
+                key={i}
+                className="flex-none pr-8 sm:pr-12 lg:pr-20"
+              >
                 <ProductItem
                   product={product}
                   loading={i < 8 ? 'eager' : undefined}
@@ -188,7 +192,10 @@ export default function Collection() {
               {length: tickerDimensions?.extraItems || 0},
               (_, index) => products[index % products.length],
             )?.map((product, i) => (
-              <li key={`${i}-extra`} className="flex-none pr-16 lg:pr-36">
+              <li
+                key={`${i}-extra`}
+                className="flex-none pr-8 sm:pr-12 lg:pr-20"
+              >
                 <ProductItem product={product} loading={'lazy'} />
               </li>
             ))}
@@ -232,7 +239,7 @@ function ProductItem({product, loading}) {
     >
       {product.featuredImage && (
         <Image
-          className="w-80 h-80 object-contain"
+          className="w-80 h-80 sm:h-96 sm:w-96 lg:w-120 lg:h-120 object-contain"
           width={product.featuredImage.width}
           height={product.featuredImage.height}
           alt={product.featuredImage.altText || product.title}
