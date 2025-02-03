@@ -63,6 +63,9 @@ export const HomeHeaderMenu = ({
       duration: totalWidth / 50,
       ease: 'none',
       repeat: -1,
+      startAt: {
+        translateX: flip ? totalWidth / 2 : 0,
+      },
       onReverseComplete: () => {
         tween.totalTime(tween.totalTime() + tween.duration() * 100, true);
       },
@@ -76,6 +79,9 @@ export const HomeHeaderMenu = ({
     };
   }, [tickerDimensions]);
 
+  const liClasses =
+    "flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-[0.3em] after:bg-red after:mx-[0.4em] after:mt-[0.1em]";
+
   return (
     <div
       className={`text-home-nav overflow-hidden w-full flex relative items-center ${
@@ -83,13 +89,13 @@ export const HomeHeaderMenu = ({
       } flex-nowrap`}
     >
       <nav
-        className="w-[calc(100vw-1.5em)] sm:w-[calc(100vw-2.5em)] flex-none text-red overflow-hidden"
+        className="w-[calc(100vw-1em)] sm:w-[calc(100vw-2.5em)] flex-none text-red overflow-hidden"
         role="navigation"
       >
         <ul
           ref={groupRef}
           className={`flex w-full items-center ${
-            flip ? '[direction:rtl] flex-row-reverse' : 'flex-row'
+            flip ? 'flex-row-reverse' : 'flex-row'
           }`}
         >
           {(menu || FALLBACK_HEADER_MENU).items?.map((item, i) => {
@@ -104,11 +110,7 @@ export const HomeHeaderMenu = ({
                 : item.url;
             const isExternal = !url.startsWith('/');
             return (
-              <li
-                ref={addItemRef}
-                key={i}
-                className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-[0.3em] after:bg-red after:mx-8 after:mt-[0.1em]"
-              >
+              <li ref={addItemRef} key={i} className={liClasses}>
                 {isExternal ? (
                   <a className="clip-hover" href={url} target="_blank">
                     {item.title}
@@ -147,10 +149,7 @@ export const HomeHeaderMenu = ({
             const isExternal = !url.startsWith('/');
 
             return (
-              <li
-                key={`${i}-extra`}
-                className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
-              >
+              <li key={`${i}-extra`} className={liClasses}>
                 {isExternal ? (
                   <a className="clip-hover" href={url} target="_blank">
                     {item.title}
