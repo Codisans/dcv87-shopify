@@ -6,7 +6,7 @@
 }
 
 .button {
-  @apply inline-block rounded-full w-max h-min overflow-hidden text-button cursor-pointer text-center select-none;
+  @apply inline-block w-max h-min overflow-hidden text-button cursor-pointer text-center select-none;
   @apply relative px-5 pb-3 pt-3.5;
   color: transparent;
   background-image: linear-gradient(

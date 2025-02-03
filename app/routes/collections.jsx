@@ -184,13 +184,13 @@ export default function Collection() {
         <BackgroundMedia
           key={`${product.handle}-image`}
           id={`${product.handle}-image`}
-          className=" opacity-0 transition-opacity duration-300"
+          className="touch:hidden opacity-0 transition-opacity duration-300"
           loading="lazy"
           image={product?.metafield?.reference?.image}
         />
       ))}
 
-      <div className="relative min-h-lvh z-10 flex flex-col justify-center pt-16 pb-4 lg:py-20">
+      <div className="relative min-h-svh z-10 flex flex-col justify-center pt-16 pb-4 lg:py-20">
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
             {products?.map((product, i) => (

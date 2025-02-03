@@ -89,7 +89,7 @@ export const HomeHeaderMenu = ({
         <ul
           ref={groupRef}
           className={`flex w-full items-center ${
-            flip ? '[direction:rtl]' : ''
+            flip ? '[direction:rtl] flex-row-reverse' : 'flex-row'
           }`}
         >
           {(menu || FALLBACK_HEADER_MENU).items?.map((item, i) => {
