@@ -135,6 +135,7 @@ export default function Product() {
             className="w-full max-w-[56vw] sm:max-w-[min(30vw,32rem)]"
             modules={[Navigation]}
             speed={0}
+            spaceBetween={2}
             slidesPerView={1}
             loop={true}
             navigation={{
