@@ -80,12 +80,11 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
             const isExternal = !url.startsWith('/');
 
             return (
-              <li className="pb-0.5 last:pb-0">
+              <li key={item.id} className="pb-0.5 last:pb-0">
                 {isExternal ? (
                   <a
                     className="clip-hover"
                     href={url}
-                    key={item.id}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -95,7 +94,6 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
                   <TransitionLink
                     className="clip-hover"
                     end
-                    key={item.id}
                     prefetch="intent"
                     to={url}
                   >

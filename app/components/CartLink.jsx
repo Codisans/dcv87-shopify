@@ -6,7 +6,7 @@ import {TransitionLink} from './TransitionLink';
 export function CartLink({cart, className = 'relative'}) {
   return (
     <TransitionLink
-      className={`p-3 [--clip-value:100%] active:[--clip-value:0] hover:[--clip-value:0] ${className}`}
+      className={`p-3 overlay-trigger [--clip-value:100%] active:[--clip-value:0] hover:[--clip-value:0] ${className}`}
       to="/cart"
     >
       <span className="sr-only">Cart </span>

@@ -12,6 +12,7 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
+import {Symbol} from '~/components/Symbol';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -113,21 +114,32 @@ export default function Product() {
         src={product?.metafield?.reference?.image?.url}
         alt={product?.metafield?.reference?.image?.altText}
       />
-      <div className="min-h-svh flex flex-col justify-center relative z-10 container bg-black/20">
-        <div className="flex flex-col items-center mx-auto">
+      <div className="min-h-svh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container bg-black/20">
+        <div className="flex flex-row gap-grid flex-nowrap items-center">
+          <button className="clip-hover">
+            <Symbol className="w-24 h-24 -scale-x-100" name="hand-pointer" />
+          </button>
           <ProductImage image={selectedVariant?.image} />
-          <div className="max-w-sm">
-            <h1>{title}</h1>
-            <ProductPrice
-              price={selectedVariant?.price}
-              compareAtPrice={selectedVariant?.compareAtPrice}
-            />
-            <ProductForm
-              productOptions={productOptions}
-              selectedVariant={selectedVariant}
-            />
-            <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-          </div>
+          <button className="clip-hover">
+            <Symbol className="w-24 h-24" name="hand-pointer" />
+          </button>
+        </div>
+
+        <div className="max-w-md flex flex-col gap-2">
+          <h1 className="text-h3 text-red">{title}</h1>
+          <ProductPrice
+            className="text-h3"
+            price={selectedVariant?.price}
+            compareAtPrice={selectedVariant?.compareAtPrice}
+          />
+          <div
+            className="mb-8"
+            dangerouslySetInnerHTML={{__html: descriptionHtml}}
+          />
+          <ProductForm
+            productOptions={productOptions}
+            selectedVariant={selectedVariant}
+          />
         </div>
       </div>
       <Analytics.ProductView
