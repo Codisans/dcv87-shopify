@@ -1,22 +1,48 @@
 import gsap from 'gsap';
-import {ReactLenis} from 'lenis/react';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {ReactLenis, useLenis} from 'lenis/react';
 import {useEffect, useRef} from 'react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const LenisScroll = ({children}) => {
-  const lenisRef = useRef();
+  const lenisRef = useRef(null);
+  let lenis = useLenis(({scroll}) => {
+    ScrollTrigger.update();
+  });
 
   useEffect(() => {
-    function update(time) {
-      lenisRef.current?.lenis?.raf(time * 1000);
+    if (!lenis) return;
+
+    window.lenis = lenis;
+
+    const updateLenis = (time) => {
+      lenis?.raf(time * 1000);
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+    });
+
+    ScrollTrigger.clearScrollMemory('manual');
+    ScrollTrigger.refresh();
+
+    gsap.ticker.add(updateLenis);
+
+    if (lenis?.options.content) {
+      resizeObserver.observe(lenis.options.content);
     }
 
-    gsap.ticker.add(update);
-
-    return () => gsap.ticker.remove(update);
-  }, []);
+    return () => {
+      resizeObserver?.disconnect();
+      gsap.ticker.remove(updateLenis);
+    };
+  }, [lenis]);
 
   return (
-    <ReactLenis root options={{autoRaf: false}} ref={lenisRef}>
+    <ReactLenis root autoRaf={false}>
       {children}
     </ReactLenis>
   );
