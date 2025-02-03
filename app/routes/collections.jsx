@@ -181,15 +181,12 @@ export default function Collection() {
       />
 
       {products.map((product, index) => (
-        <Image
+        <BackgroundMedia
           key={`${product.handle}-image`}
           id={`${product.handle}-image`}
-          className="fixed inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300"
+          className=" opacity-0 transition-opacity duration-300"
           loading="lazy"
-          width={product.metafield?.reference?.image?.width}
-          height={product.metafield?.reference?.image?.height}
-          src={product.metafield?.reference?.image?.url}
-          alt={product.metafield?.reference?.image?.altText}
+          image={product?.metafield?.reference?.image}
         />
       ))}
 

@@ -121,7 +121,7 @@ export default function Product() {
         loading="eager"
         image={product?.metafield?.reference?.image}
       />
-      <div className="min-h-svh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container bg-black/20">
+      <div className="min-h-lvh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container bg-black/20">
         <div className="relative px-20 sm:px-32">
           <Swiper
             className="w-full max-w-[56vw] sm:max-w-[min(30vw,32rem)]"
