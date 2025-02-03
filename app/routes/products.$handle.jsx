@@ -17,6 +17,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import {useEffect, useRef} from 'react';
 import {Navigation} from 'swiper/modules';
 import {ProductColors} from '~/components/ProductColors';
+import {BackgroundMedia} from '~/components/BackgroundMedia';
 
 /**
  * @type {MetaFunction<typeof loader>}
