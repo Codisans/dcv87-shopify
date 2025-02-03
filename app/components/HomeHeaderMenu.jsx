@@ -2,6 +2,7 @@ import {Image} from '@shopify/hydrogen';
 import {TransitionLink} from './TransitionLink';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import gsap from 'gsap';
+import {Symbol} from './Symbol';
 
 export const HomeHeaderMenu = ({
   flip = false,
@@ -77,12 +78,12 @@ export const HomeHeaderMenu = ({
 
   return (
     <div
-      className={`overflow-hidden w-full flex relative ${
+      className={`text-home-nav overflow-hidden w-full flex relative items-center ${
         flip ? 'flex-row-reverse' : 'flex-row'
       } flex-nowrap`}
     >
       <nav
-        className="w-4/5 text-red text-h1 overflow-hidden pl-12 py-4"
+        className="w-[calc(100vw-1.5em)] sm:w-[calc(100vw-2.5em)] flex-none text-red overflow-hidden"
         role="navigation"
       >
         <ul ref={groupRef} className="flex w-full items-center">
@@ -101,7 +102,7 @@ export const HomeHeaderMenu = ({
               <li
                 ref={addItemRef}
                 key={i}
-                className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-6 after:bg-red after:mx-8 after:mt-4"
+                className="flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-[0.3em] after:bg-red after:mx-8 after:mt-[0.1em]"
               >
                 {isExternal ? (
                   <a className="clip-hover" href={url} target="_blank">
@@ -165,17 +166,19 @@ export const HomeHeaderMenu = ({
           })}
         </ul>
       </nav>
-      <Image
-        className={`absolute top-4 right-[calc(20%-4rem)] size-32 object-contain z-10 ${
-          flip
-            ? 'left-[calc(20%-4rem)]'
-            : 'right-[calc(20%-4rem)] rotate-180 scale-y-[-1]'
-        }`}
-        width={100}
-        height={100}
-        src="/img/cool-hand.png"
-        alt="cool hand"
-      />
+      <div className="grow">
+        <Image
+          className={`size-[1.6em] object-contain z-10 ${
+            flip
+              ? 'ml-auto translate-x-1/2'
+              : 'mr-auto -translate-x-1/2 rotate-180 scale-y-[-1]'
+          }`}
+          width={120}
+          height={120}
+          src="/img/cool-hand.png"
+          alt="cool hand"
+        />
+      </div>
     </div>
   );
 };
