@@ -1,5 +1,5 @@
 import {defer} from '@shopify/remix-oxygen';
-import {useLoaderData} from '@remix-run/react';
+import {useLoaderData, useSearchParams} from '@remix-run/react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -90,10 +90,17 @@ function loadDeferredData({context, params}) {
 export default function Product() {
   /** @type {LoaderReturnData} */
   const {product} = useLoaderData();
+  const searchParams = useSearchParams();
+  const swiperRef = useRef(null);
   const nextRef = useRef(null);
   const prevRef = useRef(null);
 
+  useEffect(() => {
+    swiperRef.current?.swiper?.slideTo(0, 0, false);
+  }, [searchParams]);
+
   // Optimistically selects a variant with given available variant information
+
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
     getAdjacentAndFirstAvailableVariants(product),
@@ -110,10 +117,10 @@ export default function Product() {
   });
 
   const {title, descriptionHtml} = product;
-
-  useEffect(() => {
-    console.log(product, productOptions);
-  }, [product]);
+  const variantMedia =
+    selectedVariant?.metafield?.references?.nodes?.map((node) => node.image) ||
+    [];
+  const carouselMedia = [selectedVariant.image, ...variantMedia];
 
   return (
     <main className="min-h-lvh">
@@ -124,18 +131,22 @@ export default function Product() {
       <div className="min-h-lvh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container">
         <div className="relative px-20 sm:px-32">
           <Swiper
+            ref={swiperRef}
             className="w-full max-w-[56vw] sm:max-w-[min(30vw,32rem)]"
             modules={[Navigation]}
             speed={0}
             slidesPerView={1}
+            loop={true}
             navigation={{
               nextEl: nextRef.current,
               prevEl: prevRef.current,
             }}
           >
-            <SwiperSlide>
-              <ProductImage image={selectedVariant?.image} />
-            </SwiperSlide>
+            {carouselMedia.map((media, i) => (
+              <SwiperSlide key={i}>
+                <ProductImage image={media} />
+              </SwiperSlide>
+            ))}
           </Swiper>
           <button
             ref={prevRef}
@@ -240,18 +251,19 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
       currencyCode
     }
     metafield(namespace: "custom" key: "carousel_media") {
-      reference {
-        ... on MediaImage {
-          image {
-          url
-          width
-          height
-          altText
+      references(first: 6) {
+        nodes {
+          ... on MediaImage {
+            image {
+              url
+              width
+              height
+              altText
+            }
+          }
         }
       }
-
     }
-  }
   }
 `;
 

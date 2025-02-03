@@ -46,7 +46,7 @@ export function ProductColors({productOptions, selectedVariant}) {
                 <button
                   type="button"
                   className={`absolute inset-0 z-10 border-b-4 md:border-l-4 md:border-b-0 lg:border-l-0 lg:border-b-4 ${
-                    exists && !selected ? '  border-red' : 'border-white'
+                    exists && !selected ? '  border-white' : 'border-red'
                   }`}
                   key={colorOption.name + name}
                   disabled={!exists}

@@ -187,7 +187,7 @@ function BlogPost({article, loading}) {
         />
       )}
       <div
-        className="rich-text"
+        className="rich-text sm:pr-8 lg:pr-12"
         dangerouslySetInnerHTML={{__html: article.contentHtml}}
       />
     </div>

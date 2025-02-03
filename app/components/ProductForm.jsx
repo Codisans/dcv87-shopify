@@ -40,9 +40,9 @@ export function ProductForm({productOptions, selectedVariant}) {
                   // as an anchor tag
                   return (
                     <Link
-                      className={`py-2 px-2.5 hover:ring-2 hover:ring-red ${
-                        selected ? 'ring-2 ring-black' : ''
-                      } ${exists && !selected ? ' link' : ''}`}
+                      className={`py-2 px-2.5 hover:ring-2 hover:ring-white ${
+                        selected ? 'text-red !opacity-100' : ''
+                      } ${available ? '' : 'opacity-40 pointer-events-none'}`}
                       key={option.name + name}
                       prefetch="intent"
                       preventScrollReset
@@ -61,9 +61,9 @@ export function ProductForm({productOptions, selectedVariant}) {
                   return (
                     <button
                       type="button"
-                      className={`py-2 px-2.5 hover:ring-2 hover:ring-red ${
-                        selected ? 'ring-2 ring-black' : ''
-                      } ${exists && !selected ? ' link' : ''}`}
+                      className={`py-2 px-2.5 hover:ring-2 hover:ring-white ${
+                        selected ? 'text-red !opacity-100' : ''
+                      } ${available ? '' : 'opacity-40 pointer-events-none'}`}
                       key={option.name + name}
                       disabled={!exists}
                       onClick={() => {
