@@ -13,6 +13,9 @@ export function ProductColors({productOptions, selectedVariant}) {
   const colorOption = productOptions.find(
     (option) => option.name?.toLowerCase() === 'color',
   );
+
+  if (!colorOption || colorOption?.optionValues.length === 1) return null;
+
   return (
     <div className="product-form">
       <div className="product-options">
@@ -32,7 +35,7 @@ export function ProductColors({productOptions, selectedVariant}) {
             } = value;
 
             return (
-              <div className={`relative pb-4`}>
+              <div key={name} className={`relative pb-4`}>
                 {variant.image && (
                   <Image
                     className="w-24 h-24 object-contain"
