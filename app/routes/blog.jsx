@@ -112,7 +112,7 @@ export default function Blog() {
   }, [articles, observerRef.current]);
 
   return (
-    <main className="page-transition min-h-svh">
+    <main className="min-h-lvh">
       <h1 className="sr-only">Blog</h1>
       <BackgroundMedia
         loading="eager"

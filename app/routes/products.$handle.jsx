@@ -116,7 +116,7 @@ export default function Product() {
   }, [product]);
 
   return (
-    <main className="page-transition page-transition--product min-h-svh">
+    <main className="min-h-lvh">
       <BackgroundMedia
         loading="eager"
         image={product?.metafield?.reference?.image}

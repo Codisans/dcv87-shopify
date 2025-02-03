@@ -173,7 +173,7 @@ export default function Collection() {
   const products = collection.products.nodes;
 
   return (
-    <main className="min-h-svh flex flex-col justify-center">
+    <main className="min-h-lvh flex flex-col justify-center">
       <h1 className="sr-only">Shop</h1>
       <BackgroundMedia
         loading="eager"

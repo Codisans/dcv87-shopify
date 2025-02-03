@@ -137,7 +137,7 @@ export default function Cart() {
   const fields = parseFields(pageData.fields);
 
   return (
-    <main className="min-h-svh">
+    <main className="min-h-lvh">
       <BackgroundMedia
         loading="eager"
         image={fields?.background?.reference?.image}
