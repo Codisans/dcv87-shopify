@@ -8,21 +8,15 @@ import {parseFields} from '~/utils/parseFields';
 export const ParallaxLogos = ({data}) => {
   if (!data) return null;
 
-  const containerRef = useRef(null);
   const animationRef = useRef(null);
-
   const lenis = useLenis();
 
   useEffect(() => {
-    if (!containerRef?.current) return;
-
     const animationCallback = () => {
-      const scrollY = lenis?.animatedScroll;
-      containerRef.current?.style?.setProperty(
-        '--translate-y',
-        `${scrollY / 2}px`,
+      document.documentElement.style.setProperty(
+        '--scroll-y',
+        lenis?.animatedScroll,
       );
-
       animationRef.current = window.requestAnimationFrame(() => {
         animationCallback();
       });
@@ -33,14 +27,11 @@ export const ParallaxLogos = ({data}) => {
     return () => {
       window.cancelAnimationFrame(animationRef.current);
     };
-  }, [containerRef.current, lenis]);
+  }, []);
 
   return (
     <div className="w-full h-full">
-      <ul
-        ref={containerRef}
-        className="flex flex-col will-change-transform h-min translate-y-[var(--translate-y,0)]"
-      >
+      <ul className="flex flex-col h-min will-change-transform translate-y-[calc(var(--scroll-y,0)*0.5px)]">
         {data.metaobjects.nodes?.map((logo, i) => {
           const logoFields = parseFields(logo.fields);
           if (!logoFields?.image?.reference?.image?.url) return null;

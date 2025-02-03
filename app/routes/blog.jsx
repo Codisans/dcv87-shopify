@@ -118,7 +118,7 @@ export default function Blog() {
         loading="eager"
         image={fields?.background?.reference?.image}
       />
-      <div className="relative z-10 py-64 container grid-layout">
+      <div className="relative z-10 pt-64 pb-32 container grid-layout">
         <div className="-sm:hidden col-start-1 col-end-3">
           <ul className="sticky top-64 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
             <li>
