@@ -6,10 +6,12 @@ import {useRef} from 'react';
  */
 export function CartSummary({cart}) {
   return (
-    <div aria-labelledby="cart-summary" className="">
-      <h4>Totals</h4>
-      <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
+    <div
+      aria-labelledby="Cart subtotal"
+      className="w-full flex-col -sm:px-gutter gap-gutter flex sm:flex-row sm:items-center justify-between text-h3 py-4"
+    >
+      <dl className="flex flex-row flex-nowrap gap-2">
+        <dt>Subtotal:</dt>
         <dd>
           {cart.cost?.subtotalAmount?.amount ? (
             <Money data={cart.cost?.subtotalAmount} />
@@ -18,24 +20,23 @@ export function CartSummary({cart}) {
           )}
         </dd>
       </dl>
-      <CartDiscounts discountCodes={cart.discountCodes} />
-      <CartGiftCard giftCardCodes={cart.appliedGiftCards} />
-      <CartCheckoutActions checkoutUrl={cart.checkoutUrl} />
+      {/* <CartDiscounts discountCodes={cart.discountCodes} />
+      <CartGiftCard giftCardCodes={cart.appliedGiftCards} /> */}
+      <CartCheckoutActions className="ml-auto" checkoutUrl={cart.checkoutUrl} />
     </div>
   );
 }
 /**
  * @param {{checkoutUrl?: string}}
  */
-function CartCheckoutActions({checkoutUrl}) {
+function CartCheckoutActions({checkoutUrl, ...props}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+    <div {...props}>
+      <a className="button" href={checkoutUrl} target="_self">
+        Continue to Checkout &rarr;
       </a>
-      <br />
     </div>
   );
 }

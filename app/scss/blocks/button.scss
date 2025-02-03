@@ -1,25 +1,56 @@
-@use '../mixins/button-rollovers' as *;
-
 :root {
-  --button-text-color: theme('colors.black.DEFAULT');
-  --button-text-color-hover: theme('colors.white');
-  --button-color: theme('colors.transparent');
-  --button-color-hover: theme('colors.black.DEFAULT');
+  --button-text-color: theme('colors.white');
+  --button-text-color-hover: theme('colors.red');
+  --button-color: theme('colors.red');
+  --button-color-hover: theme('colors.white');
 }
 
 .button {
-  &.dark,
-  .dark & {
-    --button-text-color: theme('colors.white');
-    --button-text-color-hover: theme('colors.black.DEFAULT');
-    --button-color: theme('colors.transparent');
-    --button-color-hover: theme('colors.white');
+  @apply inline-block rounded-full w-max h-min overflow-hidden text-button cursor-pointer text-center select-none;
+  @apply relative px-5 py-3;
+  color: transparent;
+  background-image: linear-gradient(
+    to top,
+    theme('colors.white') 0%,
+    theme('colors.white') 50%,
+    theme('colors.red') 50%,
+    theme('colors.red') 100%
+  );
+  background-size: 100% 200%;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-position theme('transitionDuration.clip')
+    theme('transitionTimingFunction.clip');
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  &::before {
+    content: '';
+    @apply absolute inset-0 -z-1;
+    transition: background theme('transitionDuration.clip')
+      theme('transitionTimingFunction.clip');
+    background-origin: border-box;
+    background-image: linear-gradient(
+      to bottom,
+      var(--button-color) 0%,
+      var(--button-color) 50%,
+      var(--button-color-hover) 50%,
+      var(--button-color-hover) 100%
+    );
+    background-size: 100% 200%;
+    background-repeat: no-repeat;
+    background-position: 0% 0%;
   }
 
-  @apply inline-block w-max h-min overflow-hidden text-button cursor-pointer text-center select-none;
+  &:hover,
+  button:hover &,
+  &:focus-visible {
+    background-position: 0 0;
 
-  @include text-rollback();
-  @include background-slide();
+    &::before {
+      background-position: 0% 100%;
+    }
+  }
 
   &--text {
     --underline-height: 2px;

@@ -59,7 +59,7 @@ export const HomeHeaderMenu = ({
 
     const tween = gsap.to(groupRef.current, {
       translateX: `-=${totalWidth}`,
-      duration: totalWidth / 75,
+      duration: totalWidth / 50,
       ease: 'none',
       repeat: -1,
       onReverseComplete: () => {

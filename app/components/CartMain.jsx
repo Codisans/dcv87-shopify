@@ -25,13 +25,13 @@ export function CartMain({cart: originalCart}) {
     <div className="w-full flex flex-col">
       <CartEmpty hidden={linesCount} />
       <div aria-labelledby="cart-lines">
-        <ul>
+        <ul className="w-full">
           {(cart?.lines?.nodes ?? []).map((line) => (
             <CartLineItem key={line.id} line={line} />
           ))}
         </ul>
       </div>
-      <div className="">{cartHasItems && <CartSummary cart={cart} />}</div>
+      {cartHasItems && <CartSummary cart={cart} />}
     </div>
   );
 }
