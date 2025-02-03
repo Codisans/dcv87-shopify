@@ -78,26 +78,31 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
                 ? new URL(item.url).pathname
                 : item.url;
             const isExternal = !url.startsWith('/');
-            return isExternal ? (
-              <a
-                className="clip-hover"
-                href={url}
-                key={item.id}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {item.title}
-              </a>
-            ) : (
-              <TransitionLink
-                className="clip-hover"
-                end
-                key={item.id}
-                prefetch="intent"
-                to={url}
-              >
-                {item.title}
-              </TransitionLink>
+
+            return (
+              <li className="pb-0.5 last:pb-0">
+                {isExternal ? (
+                  <a
+                    className="clip-hover"
+                    href={url}
+                    key={item.id}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  <TransitionLink
+                    className="clip-hover"
+                    end
+                    key={item.id}
+                    prefetch="intent"
+                    to={url}
+                  >
+                    {item.title}
+                  </TransitionLink>
+                )}
+              </li>
             );
           })
         )}

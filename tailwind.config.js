@@ -124,7 +124,8 @@ export default {
       button: {
         base: font(16, {
           lineHeight: 16,
-          letterSpacing: 2,
+          letterSpacing: 0,
+          textTransform: 'uppercase',
           fontFamily: 'Impact',
         }),
       },
@@ -136,7 +137,7 @@ export default {
         }),
         screens: {
           lg: font(50, {
-            lineHeight: 56,
+            lineHeight: 50,
             letterSpacing: 0,
           }),
         },

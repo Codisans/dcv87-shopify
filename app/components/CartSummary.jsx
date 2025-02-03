@@ -8,7 +8,7 @@ export function CartSummary({cart}) {
   return (
     <div
       aria-labelledby="Cart subtotal"
-      className="w-full flex-col -sm:px-gutter gap-gutter flex sm:flex-row sm:items-center justify-between text-h3 py-4"
+      className="w-full flex-col -sm:px-gutter gap-4 flex sm:flex-row sm:items-center justify-between text-h3 py-6 sm:py-8"
     >
       <dl className="flex flex-row flex-nowrap gap-2">
         <dt>Subtotal:</dt>
