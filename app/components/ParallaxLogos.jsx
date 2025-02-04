@@ -8,26 +8,6 @@ import {parseFields} from '~/utils/parseFields';
 export const ParallaxLogos = ({data}) => {
   if (!data) return null;
 
-  const animationRef = useRef(null);
-
-  useEffect(() => {
-    const animationCallback = () => {
-      document.documentElement.style.setProperty(
-        '--scroll-y',
-        window.lenis?.animatedScroll,
-      );
-      animationRef.current = window.requestAnimationFrame(() => {
-        animationCallback();
-      });
-    };
-
-    animationCallback();
-
-    return () => {
-      window.cancelAnimationFrame(animationRef.current);
-    };
-  }, []);
-
   return (
     <div className="sticky top-64 w-full h-min -mb-64">
       <ul className="flex flex-col h-min will-change-transform translate-y-[calc(var(--scroll-y,0)*-0.5px)]">
