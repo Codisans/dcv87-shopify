@@ -29,7 +29,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
       >
         <span className="sr-only">{shop.name}</span>
         <Symbol
-          className="w-[8.375rem] h-[3.5rem] md:w-[16.375rem] md:h-[5.125rem] text-red"
+          className="w-[8.375rem] h-[3.5rem] md:w-[16.375rem] md:h-[5.125rem] lg:w-[21rem] lg:h-[7rem] text-red"
           name="logo"
         />
       </TransitionLink>

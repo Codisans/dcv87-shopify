@@ -149,24 +149,28 @@ export default function Product() {
               </SwiperSlide>
             ))}
           </Swiper>
-          <button
-            ref={prevRef}
-            className="absolute top-1/2 left-0 -translate-y-1/2"
-          >
-            <Symbol
-              className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 -scale-x-100"
-              name="hand-pointer"
-            />
-          </button>
-          <button
-            ref={nextRef}
-            className="absolute top-1/2 right-0 -translate-y-1/2"
-          >
-            <Symbol
-              className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
-              name="hand-pointer"
-            />
-          </button>
+          {carouselMedia.length > 1 && (
+            <>
+              <button
+                ref={prevRef}
+                className="absolute top-1/2 left-0 -translate-y-1/2"
+              >
+                <Symbol
+                  className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 -scale-x-100"
+                  name="hand-pointer"
+                />
+              </button>
+              <button
+                ref={nextRef}
+                className="absolute top-1/2 right-0 -translate-y-1/2"
+              >
+                <Symbol
+                  className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
+                  name="hand-pointer"
+                />
+              </button>
+            </>
+          )}
         </div>
 
         <div className="max-w-md flex flex-col gap-2">

@@ -180,7 +180,7 @@ export default function Collection() {
               <li
                 ref={addItemRef}
                 key={i}
-                className="flex-none pr-8 sm:pr-12 lg:pr-20"
+                className="flex-none pr-8 sm:pr-10 lg:pr-12"
               >
                 <ProductItem
                   product={product}
@@ -194,7 +194,7 @@ export default function Collection() {
             )?.map((product, i) => (
               <li
                 key={`${i}-extra`}
-                className="flex-none pr-8 sm:pr-12 lg:pr-20"
+                className="flex-none pr-8 sm:pr-10 lg:pr-12"
               >
                 <ProductItem product={product} loading={'lazy'} />
               </li>

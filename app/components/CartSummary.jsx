@@ -35,7 +35,7 @@ function CartCheckoutActions({checkoutUrl, ...props}) {
   return (
     <div {...props}>
       <a className="button" href={checkoutUrl} target="_self">
-        Continue to Checkout &rarr;
+        Continue to Checkout
       </a>
     </div>
   );

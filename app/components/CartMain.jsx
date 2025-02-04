@@ -3,6 +3,7 @@ import {Link} from '@remix-run/react';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
 import {CartLines} from './CartLines';
+import {TransitionLink} from './TransitionLink';
 
 /**
  * The main cart component that displays the cart items and summary.
@@ -44,15 +45,18 @@ export function CartMain({cart: originalCart}) {
 function CartEmpty({hidden = false}) {
   return (
     <div hidden={hidden}>
-      <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
-      <br />
-      <Link to="/collections" prefetch="viewport">
-        Continue shopping →
-      </Link>
+      <div className="flex flex-col items-center gap-8">
+        <p className="py-20 lg:py-24 text-h3 max-w-md text-center">
+          Add items to cart
+        </p>
+        <TransitionLink
+          className="button"
+          to="/collections"
+          prefetch="viewport"
+        >
+          Continue shopping
+        </TransitionLink>
+      </div>
     </div>
   );
 }
