@@ -1,5 +1,5 @@
 .clip-hover {
-  @apply relative inline-block text-transparent;
+  @apply relative inline-flex items-center text-transparent;
 
   line-height: 1;
   background-image: linear-gradient(
@@ -24,7 +24,7 @@
   }
 
   &.active::before {
-    clip-path: inset(0 0 0 0);
+    @apply content-[''] absolute right-full mr-[0.15em] sm:mr-[0.25em] bg-red rounded-full size-[0.25em];
   }
 
   &--white {
@@ -33,16 +33,5 @@
     &:hover {
       background-position: 0 0;
     }
-  }
-
-  &::before {
-    clip-path: inset(0 100% 0 0);
-    content: '';
-    position: absolute;
-    inset: 0.12em 0.08em;
-    background-color: theme('colors.black.DEFAULT');
-    z-index: -1;
-    transition: clip-path theme('transitionDuration.clip')
-      theme('transitionTimingFunction.clip');
   }
 }

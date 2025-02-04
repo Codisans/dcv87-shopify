@@ -145,8 +145,8 @@ export default function Cart() {
 
       <div className="container grid-layout relative z-10 pt-48 pb-24">
         <div className="col-start-1 col-end-13 sm:col-start-2 sm:col-end-12 lg:col-start-3 lg:col-end-11">
-          <div className="-sm:px-gutter flex flex-row justify-between gap-grid">
-            <h1 className="text-h2 uppercase text-red pb-4">Cart</h1>
+          <div className="-sm:px-gutter flex flex-row items-end justify-between gap-grid pb-4">
+            <h1 className="text-h2 uppercase text-red">Cart</h1>
             <Suspense fallback={<span>0</span>}>
               <Await resolve={cart}>
                 {(c) => (

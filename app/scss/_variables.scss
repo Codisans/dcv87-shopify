@@ -1,7 +1,7 @@
 :root {
   --header-h: 5rem;
   --grid-gap: 0.5rem;
-  --gutter: 0.8rem;
+  --gutter: 1rem;
   --viewport: calc(100vw - var(--scrollbar-gutter, 0px));
 
   @screen sm {

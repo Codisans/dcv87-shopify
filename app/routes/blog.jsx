@@ -6,7 +6,7 @@ import {Article} from '~/components/Article';
 import {Suspense, useEffect, useRef} from 'react';
 import {parseFields} from '~/utils/parseFields';
 
-import {ParallaxLogos} from '~/components/ParallaxLogos';
+import {Logos} from '~/components/Logos';
 import {BackgroundMedia} from '~/components/BackgroundMedia';
 
 /**
@@ -149,9 +149,7 @@ export default function Blog() {
         </div>
         <div className="col-start-10 col-end-13 sm:col-end-12">
           <Suspense>
-            <Await resolve={logos}>
-              {(data) => <ParallaxLogos data={data} />}
-            </Await>
+            <Await resolve={logos}>{(data) => <Logos data={data} />}</Await>
           </Suspense>
         </div>
       </div>

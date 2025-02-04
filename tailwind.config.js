@@ -130,14 +130,14 @@ export default {
         }),
       },
       'home-nav': {
-        base: font(50, {
-          lineHeight: 36,
+        base: font(64, {
+          lineHeight: 64,
           letterSpacing: 0,
           fontFamily: 'Impact',
           textTransform: 'uppercase',
         }),
         screens: {
-          lg: font(100, {
+          sm: font(100, {
             lineHeight: 120,
             letterSpacing: 0,
           }),
