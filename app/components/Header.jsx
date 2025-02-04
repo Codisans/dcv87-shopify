@@ -29,12 +29,12 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
       >
         <span className="sr-only">{shop.name}</span>
         <Symbol
-          className="w-[8.375rem] h-[3.5rem] md:w-[16.375rem] md:h-[5.125rem] lg:w-[21rem] lg:h-[7rem] text-red"
+          className="w-[9.25rem] h-[3.7rem] sm:w-[12rem] sm:h-[4.5rem] md:w-[16.375rem] md:h-[5.125rem] lg:w-[21rem] lg:h-[7rem] text-red"
           name="logo"
         />
       </TransitionLink>
       <CartLink
-        className="absolute top-gutter md:top-8 right-gutter pointer-events-auto"
+        className="absolute top-gutter md:mt-3 lg:mt-5 md:top-8 right-gutter pointer-events-auto"
         cart={cart}
       />
       <HeaderMenu
@@ -60,7 +60,7 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
 
   return (
     <nav
-      className="absolute top-0 left-0 px-gutter pt-gutter md:pt-8"
+      className="absolute top-0 left-0 px-gutter pt-5 sm:pt-8 md:pt-12"
       role="navigation"
     >
       <ul className="flex flex-col items-start pointer-events-auto text-nav overlay-trigger">
