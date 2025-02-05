@@ -124,10 +124,7 @@ export default function Product() {
 
   return (
     <main className="min-h-lvh">
-      <BackgroundMedia
-        loading="eager"
-        image={product?.metafield?.reference?.image}
-      />
+      <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
       <div className="min-h-lvh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container">
         <div className="relative px-20 sm:px-32">
           <Swiper
@@ -305,6 +302,12 @@ const PRODUCT_FRAGMENT = `#graphql
     }
     metafield(namespace: "custom" key: "background") {
       reference {
+        __typename
+        ... on Video {
+          sources {
+            url
+          }
+        }
         ... on MediaImage {
           image {
             url
@@ -313,7 +316,6 @@ const PRODUCT_FRAGMENT = `#graphql
             altText
           }
         }
-
       }
     }
     selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
