@@ -159,8 +159,8 @@ export default function Collection() {
         />
         {products.map((product, index) => (
           <ShopifyMedia
-            key={`${product.handle}-image`}
-            id={`${product.handle}-image`}
+            key={`${product.handle}-media`}
+            id={`${product.handle}-media`}
             className="absolute inset-0 w-full h-full touch:hidden opacity-0 transition-opacity duration-300 object-cover"
             loading="lazy"
             media={product?.metafield?.reference}
@@ -217,19 +217,19 @@ export default function Collection() {
  */
 function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle);
-  const imageRef = useRef(null);
+  const mediaRef = useRef(null);
 
   useEffect(() => {
-    if (!product || imageRef.current) return;
+    if (!product || mediaRef.current) return;
 
-    imageRef.current = document.getElementById(`${product.handle}-image`);
+    mediaRef.current = document.getElementById(`${product.handle}-media`);
   }, [product]);
 
   return (
     <div
       key={product.id}
-      onMouseEnter={() => imageRef.current.classList.add('!opacity-100')}
-      onMouseLeave={() => imageRef.current.classList.remove('!opacity-100')}
+      onMouseEnter={() => mediaRef.current?.classList.add('!opacity-100')}
+      onMouseLeave={() => mediaRef.current?.classList.remove('!opacity-100')}
       className="relative p-12"
     >
       {product.featuredImage && (
