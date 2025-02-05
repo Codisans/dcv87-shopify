@@ -183,8 +183,19 @@ const CART_PAGE_QUERY = `#graphql
           reference {
             __typename
             ... on Video {
+              mediaContentType
+              previewImage {
+                height
+                width
+                url
+                altText
+              }
               sources {
                 url
+                mimeType
+                height
+                width
+                
               }
             }
             ... on MediaImage {

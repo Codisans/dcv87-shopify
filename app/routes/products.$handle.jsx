@@ -256,6 +256,22 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
     metafield(namespace: "custom" key: "carousel_media") {
       references(first: 6) {
         nodes {
+          ... on Video {
+            mediaContentType
+            previewImage {
+              height
+              width
+              url
+              altText
+            }
+            sources {
+              url
+              mimeType
+              height
+              width
+              
+            }
+          }
           ... on MediaImage {
             image {
               url

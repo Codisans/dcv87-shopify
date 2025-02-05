@@ -206,6 +206,22 @@ const BLOG_PAGE_QUERY = `#graphql
           value
           reference {
             __typename
+            ... on Video {
+              mediaContentType
+              previewImage {
+                height
+                width
+                url
+                altText
+              }
+              sources {
+                url
+                mimeType
+                height
+                width
+                
+              }
+            }
             ... on MediaImage {
               image {
                 url

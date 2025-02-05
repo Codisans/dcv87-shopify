@@ -133,7 +133,7 @@ export default function Collection() {
 
     const tween = gsap.to(groupRef.current, {
       translateX: `-=${totalWidth}`,
-      duration: totalWidth / 240,
+      duration: totalWidth / 180,
       ease: 'none',
       repeat: -1,
       onReverseComplete: () => {
@@ -322,8 +322,19 @@ const SHOP_PAGE_QUERY = `#graphql
           reference {
               __typename
               ... on Video {
+                mediaContentType
+                previewImage {
+                  height
+                  width
+                  url
+                  altText
+                }
                 sources {
                   url
+                  mimeType
+                  height
+                  width
+                  
                 }
               }
               ... on MediaImage {
@@ -360,14 +371,24 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     }
     metafield(namespace: "custom" key: "background") {
       reference {
-        ... on Video {
-          __typename
-          sources {
-            url
+        __typename
+          ... on Video {
+            mediaContentType
+            previewImage {
+              height
+              width
+              url
+              altText
+            }
+            sources {
+              url
+              mimeType
+              height
+              width
+              
+            }
           }
-        }
         ... on MediaImage {
-          __typename
           image {
             url
             width

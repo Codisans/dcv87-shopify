@@ -29,6 +29,7 @@ export default async function handleRequest(
     ],
     fontSrc: [
       "'self'",
+      'data:',
       `https://${context.env.CDN_DOMAIN}`,
       'https://shopify.com',
     ],
