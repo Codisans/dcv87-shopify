@@ -177,10 +177,18 @@ export default function Collection() {
       handleDrag(e, e.pageX);
     };
 
-    dragInterfaceRef.current?.addEventListener('drag', handleMouseDrag);
-    dragInterfaceRef.current?.addEventListener('touchmove', handleTouchMove);
-    dragInterfaceRef.current?.addEventListener('dragend', handleDragEnd);
-    dragInterfaceRef.current?.addEventListener('touchend', handleDragEnd);
+    dragInterfaceRef.current?.addEventListener('drag', handleMouseDrag, {
+      passive: true,
+    });
+    dragInterfaceRef.current?.addEventListener('touchmove', handleTouchMove, {
+      passive: true,
+    });
+    dragInterfaceRef.current?.addEventListener('dragend', handleDragEnd, {
+      passive: true,
+    });
+    dragInterfaceRef.current?.addEventListener('touchend', handleDragEnd, {
+      passive: true,
+    });
 
     return () => {
       if (groupRef.current) {

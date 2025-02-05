@@ -56,14 +56,9 @@ export const LenisScroll = ({children}) => {
 // export const LenisScroll = ({children}) => {
 //   const lenisRef = useRef();
 
-//   const lenis = useLenis(({scroll}) => {
-//     console.log(scroll);
-//   });
-
 //   useEffect(() => {
 //     function update(time) {
 //       lenisRef.current?.lenis?.raf(time * 1000);
-//       document.documentElement.style.setProperty('--scroll-y', scroll);
 //     }
 
 //     window.lenis = lenisRef?.current?.lenis;
