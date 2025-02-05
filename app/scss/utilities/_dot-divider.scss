@@ -1,0 +1,13 @@
+.dot-divider {
+  &-a {
+    &::after {
+      @apply pointer-events-none mx-auto content-[''] rounded-full inline-block size-[0.25em] bg-red mt-[0.1em];
+    }
+  }
+
+  &-b {
+    &::before {
+      @apply pointer-events-none mx-auto content-[''] rounded-full inline-block size-[0.25em] bg-red mt-[0.1em];
+    }
+  }
+}

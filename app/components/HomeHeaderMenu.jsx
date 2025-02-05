@@ -60,12 +60,9 @@ export const HomeHeaderMenu = ({
 
     const tween = gsap.to(groupRef.current, {
       translateX: flip ? `+=${totalWidth}` : `-=${totalWidth}`,
-      duration: totalWidth / 50,
+      duration: totalWidth / 60,
       ease: 'none',
       repeat: -1,
-      startAt: {
-        translateX: flip ? totalWidth / 2 : 0,
-      },
       onReverseComplete: () => {
         tween.totalTime(tween.totalTime() + tween.duration() * 100, true);
       },
@@ -79,26 +76,56 @@ export const HomeHeaderMenu = ({
     };
   }, [tickerDimensions]);
 
-  const liClasses =
-    "flex-none w-max inline-flex after:pointer-events-none items-center after:content-[''] after:rounded-full after:inline-block after:size-[0.3em] after:bg-red after:mx-[0.4em] after:mt-[0.1em]";
+  const bannerItems = [{key: 'symbol'}].concat(
+    (menu || FALLBACK_HEADER_MENU).items,
+  );
+
+  const extraItems = Array.from(
+    {length: tickerDimensions?.extraItems || 0},
+    (_, index) =>
+      bannerItems[
+        flip
+          ? bannerItems.length - 1 - (index % bannerItems.length)
+          : index % bannerItems.length
+      ],
+  );
+
+  const renderedItems = flip
+    ? extraItems.concat(bannerItems.reverse())
+    : bannerItems.concat(extraItems);
+
+  const liClasses = `flex flex-row items-center min-w-max w-[3em] md:w-[3.5em] flex-none ${
+    flip ? 'dot-divider-b' : 'dot-divider-a'
+  }`;
 
   return (
     <div
-      className={`text-home-nav overflow-hidden w-full flex relative items-center ${
-        flip ? 'flex-row-reverse' : 'flex-row'
-      } flex-nowrap`}
+      className={`text-home-nav overflow-hidden w-full flex relative items-center`}
     >
       <nav
-        className="w-[calc(100vw-1em)] sm:w-[calc(100vw-2.5em)] flex-none text-red overflow-hidden"
+        className="w-full flex-none text-red overflow-hidden"
         role="navigation"
       >
         <ul
           ref={groupRef}
-          className={`flex w-full items-center ${
-            flip ? 'flex-row-reverse' : 'flex-row'
+          className={`flex w-full items-center flex-row ${
+            flip ? '[direction:rtl]' : ''
           }`}
         >
-          {(menu || FALLBACK_HEADER_MENU).items?.map((item, i) => {
+          {renderedItems?.map((item, i) => {
+            const isExtra = i > bannerItems.length;
+
+            if (item.key === 'symbol')
+              return (
+                <li
+                  ref={isExtra ? undefined : addItemRef}
+                  key={isExtra ? `${i}-flip` : `${i}-extra-flip`}
+                  className={liClasses}
+                >
+                  <HandItem flip={flip} />
+                </li>
+              );
+
             if (!item.url) return null;
 
             // if the url is internal, we strip the domain
@@ -110,46 +137,11 @@ export const HomeHeaderMenu = ({
                 : item.url;
             const isExternal = !url.startsWith('/');
             return (
-              <li ref={addItemRef} key={i} className={liClasses}>
-                {isExternal ? (
-                  <a className="clip-hover" href={url} target="_blank">
-                    {item.title}
-                  </a>
-                ) : (
-                  <TransitionLink
-                    className="clip-hover"
-                    end
-                    prefetch={isExternal ? undefined : 'intent'}
-                    target={isExternal ? '_blank' : '_self'}
-                    to={url}
-                  >
-                    {item.title}
-                  </TransitionLink>
-                )}
-              </li>
-            );
-          })}
-          {Array.from(
-            {length: tickerDimensions?.extraItems || 0},
-
-            (_, index) =>
-              (menu || FALLBACK_HEADER_MENU).items[
-                index % (menu || FALLBACK_HEADER_MENU).items.length
-              ],
-          )?.map((item, i) => {
-            if (!item.url) return null;
-
-            // if the url is internal, we strip the domain
-            const url =
-              item.url.includes('myshopify.com') ||
-              item.url.includes(publicStoreDomain) ||
-              item.url.includes(primaryDomainUrl)
-                ? new URL(item.url).pathname
-                : item.url;
-            const isExternal = !url.startsWith('/');
-
-            return (
-              <li key={`${i}-extra`} className={liClasses}>
+              <li
+                ref={isExtra ? undefined : addItemRef}
+                key={isExtra ? `${i}-flip` : `${i}-extra-flip`}
+                className={liClasses}
+              >
                 {isExternal ? (
                   <a className="clip-hover" href={url} target="_blank">
                     {item.title}
@@ -170,19 +162,55 @@ export const HomeHeaderMenu = ({
           })}
         </ul>
       </nav>
-      <div className="grow">
-        <Image
-          className={`size-[1.6em] object-contain z-10 ${
-            flip
-              ? 'ml-auto translate-x-1/2'
-              : 'mr-auto -translate-x-1/2 rotate-180 scale-y-[-1]'
-          }`}
-          width={120}
-          height={120}
-          src="/img/cool-hand.png"
-          alt="cool hand"
-        />
-      </div>
     </div>
   );
 };
+
+export const HandItem = ({flip = false}) => {
+  return (
+    <Image
+      className={`w-[1.5em] mx-auto object-contain z-10 ${
+        flip
+          ? 'scale-x-[-1] mr-[0.25em] md:mr-[0.34em]'
+          : 'ml-[0.25em] md:ml-[0.34em]'
+      }`}
+      width={120}
+      height={120}
+      src="/img/cool-hand.png"
+      alt="cool hand"
+    />
+  );
+};
+
+// export const HomeMenuItem = ({item, publicStoreDomain, primaryDomainUrl}) => {
+//   if (!item?.url) return null;
+//   // if the url is internal, we strip the domain
+//   const url =
+//     item.url.includes('myshopify.com') ||
+//     item.url.includes(publicStoreDomain) ||
+//     item.url.includes(primaryDomainUrl)
+//       ? new URL(item.url).pathname
+//       : item.url;
+//   const isExternal = !url.startsWith('/');
+//   const linkClasses = 'clip-hover';
+
+//   return (
+//     <span className="w-[2.5em] flex justify-center items-center">
+//       {isExternal ? (
+//         <a className={linkClasses} href={url} target="_blank">
+//           {item.title}
+//         </a>
+//       ) : (
+//         <TransitionLink
+//           className={linkClasses}
+//           end
+//           prefetch={isExternal ? undefined : 'intent'}
+//           target={isExternal ? '_blank' : '_self'}
+//           to={url}
+//         >
+//           {item.title}
+//         </TransitionLink>
+//       )}
+//     </span>
+//   );
+// };
