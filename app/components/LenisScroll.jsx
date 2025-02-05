@@ -5,14 +5,8 @@ import {useEffect, useRef} from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const lerp = (start, end, t) => {
-  return start * (1 - t) + end * t;
-};
-
 export const LenisScroll = ({children}) => {
   const lenisRef = useRef(null);
-
-  let prevPos = 0;
 
   let lenis = useLenis(({scroll}) => {
     ScrollTrigger.update();
@@ -22,17 +16,8 @@ export const LenisScroll = ({children}) => {
     if (!lenis) return;
 
     window.lenis = lenis;
-    document.documentElement.style.setProperty(
-      '--scroll-y',
-      lenis.animatedScroll,
-    );
 
     const updateLenis = (time) => {
-      document.documentElement.style.setProperty(
-        '--scroll-y',
-        lerp(prevPos, lenis.animatedScroll, 0.15),
-      );
-      prevPos = lenis.animatedScroll;
       lenis?.raf(time * 1000);
     };
 

@@ -50,7 +50,7 @@ function CartEmpty({hidden = false}) {
           Add items to cart
         </p>
         <TransitionLink
-          className="button"
+          className="button max-w-full w-[280px]"
           to="/collections"
           prefetch="viewport"
         >

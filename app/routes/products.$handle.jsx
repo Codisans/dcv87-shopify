@@ -174,6 +174,12 @@ export default function Product() {
         </div>
 
         <div className="max-w-md flex flex-col gap-2">
+          <div className="flex justify-center md:hidden">
+            <ProductColors
+              productOptions={productOptions}
+              selectedVariant={selectedVariant}
+            />
+          </div>
           <h1 className="text-h3 text-red">{title}</h1>
           <ProductPrice
             className="text-h3"
@@ -184,12 +190,6 @@ export default function Product() {
             className="mb-8 rich-text"
             dangerouslySetInnerHTML={{__html: descriptionHtml}}
           />
-          <div className="md:hidden">
-            <ProductColors
-              productOptions={productOptions}
-              selectedVariant={selectedVariant}
-            />
-          </div>
           <ProductForm
             productOptions={productOptions}
             selectedVariant={selectedVariant}

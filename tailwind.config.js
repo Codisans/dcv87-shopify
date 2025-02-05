@@ -137,8 +137,13 @@ export default {
           textTransform: 'uppercase',
         }),
         screens: {
-          sm: font(100, {
-            lineHeight: 120,
+          sm: font(80, {
+            lineHeight: 80,
+            letterSpacing: 0,
+          }),
+
+          md: font(100, {
+            lineHeight: 100,
             letterSpacing: 0,
           }),
         },

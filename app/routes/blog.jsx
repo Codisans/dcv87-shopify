@@ -118,7 +118,7 @@ export default function Blog() {
         loading="eager"
         image={fields?.background?.reference?.image}
       />
-      <div className="pt-64 pb-32 container grid-layout">
+      <div className="pt-64 pb-32 container grid-layout !max-w-[1200px]">
         <div className="-sm:hidden col-start-1 col-end-3">
           <ul className="sticky z-10 top-64 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
             <li>
@@ -133,7 +133,7 @@ export default function Blog() {
             </li>
           </ul>
         </div>
-        <div className="col-start-1 sm:col-start-3 col-end-10 blog-pagination relative z-10 ">
+        <div className="col-start-1 sm:col-start-3 col-end-11 blog-pagination relative z-10 ">
           <PaginatedResourceSection
             resourcesClassName="flex flex-col gap-y-10 paginated-resource-section"
             connection={articles}
@@ -147,7 +147,7 @@ export default function Blog() {
             )}
           </PaginatedResourceSection>
         </div>
-        <div className="col-start-10 col-end-13 sm:col-end-12">
+        <div className="col-start-11 col-end-13">
           <Suspense>
             <Await resolve={logos}>{(data) => <Logos data={data} />}</Await>
           </Suspense>

@@ -85,12 +85,9 @@ export function ProductForm({productOptions, selectedVariant}) {
           </div>
         );
       })}
-      <div className="flex justify-end pt-6 sm:pt-8">
+      <div className="pt-6 sm:pt-8 [&_form]:w-full">
         <AddToCartButton
           disabled={!selectedVariant || !selectedVariant.availableForSale}
-          onClick={() => {
-            console.log('add to cart');
-          }}
           lines={
             selectedVariant
               ? [

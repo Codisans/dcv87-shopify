@@ -10,7 +10,6 @@ import {CartForm} from '@shopify/hydrogen';
  * }}
  */
 export function AddToCartButton({
-  className = '',
   analytics,
   children,
   disabled,
@@ -18,12 +17,7 @@ export function AddToCartButton({
   onClick,
 }) {
   return (
-    <CartForm
-      className={className}
-      route="/cart"
-      inputs={{lines}}
-      action={CartForm.ACTIONS.LinesAdd}
-    >
+    <CartForm route="/cart" inputs={{lines}} action={CartForm.ACTIONS.LinesAdd}>
       {(fetcher) => (
         <>
           <input
@@ -32,7 +26,7 @@ export function AddToCartButton({
             value={JSON.stringify(analytics)}
           />
           <button
-            className="button"
+            className="w-full button"
             type="submit"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}
