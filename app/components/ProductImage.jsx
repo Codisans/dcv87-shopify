@@ -17,7 +17,7 @@ export function ProductImage({image}) {
         height={image.height}
         aspectRatio="1/1"
         data={image}
-        sizes="(min-width: 45em) 50vw, 100vw"
+        sizes="(min-width: 45em) 420px, 80vw"
       />
     </div>
   );

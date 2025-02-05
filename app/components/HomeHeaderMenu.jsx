@@ -176,8 +176,8 @@ export const HandItem = ({flip = false}) => {
       }`}
       width={120}
       height={120}
-      src="/img/cool-hand.png"
-      alt="cool hand"
+      src="/img/peace-hand.png"
+      alt="Peace hand"
     />
   );
 };
