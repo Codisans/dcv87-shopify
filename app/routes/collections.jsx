@@ -11,6 +11,7 @@ import {parseFields} from '~/utils/parseFields';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import gsap from 'gsap';
 import {BackgroundMedia} from '~/components/BackgroundMedia';
+import {ShopifyMedia} from '~/components/ShopifyMedia';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -151,24 +152,18 @@ export default function Collection() {
     <main>
       <h1 className="sr-only">Shop</h1>
       <div className="sticky top-0 inset-x-0 min-h-svh h-svh overflow-hidden clip-inset-0 mb-[-100svh]">
-        <Image
+        <ShopifyMedia
           className="w-full h-svh object-cover"
           loading="eager"
-          width={fields?.background?.reference?.image?.width}
-          height={fields?.background?.reference?.image?.height}
-          src={fields?.background?.reference?.image?.url}
-          alt={fields?.background?.reference?.image?.altText}
+          media={fields?.background?.reference}
         />
         {products.map((product, index) => (
-          <Image
+          <ShopifyMedia
             key={`${product.handle}-image`}
             id={`${product.handle}-image`}
             className="absolute inset-0 w-full h-full touch:hidden opacity-0 transition-opacity duration-300 object-cover"
             loading="lazy"
-            src={product?.metafield?.reference?.image?.url}
-            width={product?.metafield?.reference?.image?.width}
-            height={product?.metafield?.reference?.image?.height}
-            alt={product?.metafield?.reference?.image?.altText}
+            media={product?.metafield?.reference}
           />
         ))}
       </div>
@@ -277,6 +272,12 @@ const SHOP_PAGE_QUERY = `#graphql
           key
           value
           reference {
+              ... on Video {
+                __typename
+                sources {
+                  url
+                }
+              }
               ... on MediaImage {
                 image {
                   url
@@ -311,7 +312,14 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     }
     metafield(namespace: "custom" key: "background") {
       reference {
+        ... on Video {
+          __typename
+          sources {
+            url
+          }
+        }
         ... on MediaImage {
+          __typename
           image {
             url
             width

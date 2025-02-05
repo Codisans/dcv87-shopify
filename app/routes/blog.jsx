@@ -114,10 +114,7 @@ export default function Blog() {
   return (
     <main className="min-h-lvh">
       <h1 className="sr-only">Blog</h1>
-      <BackgroundMedia
-        loading="eager"
-        image={fields?.background?.reference?.image}
-      />
+      <BackgroundMedia loading="eager" media={fields?.background?.reference} />
       <div className="pt-64 pb-32 container grid-layout !max-w-[1200px]">
         <div className="-sm:hidden col-start-1 col-end-3">
           <ul className="sticky z-10 top-64 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
@@ -208,16 +205,16 @@ const BLOG_PAGE_QUERY = `#graphql
           key
           value
           reference {
-              ... on MediaImage {
-                image {
-                  url
-                  width
-                  height
-                  altText
-                }
+            __typename
+            ... on MediaImage {
+              image {
+                url
+                width
+                height
+                altText
               }
-
             }
+          }
         }
       }
     }

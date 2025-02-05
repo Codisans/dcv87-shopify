@@ -136,12 +136,11 @@ export default function Cart() {
   const {cart, pageData} = useLoaderData();
   const fields = parseFields(pageData.fields);
 
+  console.log(fields.background);
+
   return (
     <main className="min-h-svh">
-      <BackgroundMedia
-        loading="eager"
-        image={fields?.background?.reference?.image}
-      />
+      <BackgroundMedia loading="eager" media={fields?.background?.reference} />
 
       <div className="container grid-layout relative z-10 pt-48 pb-24">
         <div className="col-start-1 col-end-13 sm:col-start-2 sm:col-end-12 lg:col-start-3 lg:col-end-11">
@@ -182,16 +181,21 @@ const CART_PAGE_QUERY = `#graphql
         fields {
           key
           reference {
-              ... on MediaImage {
-                image {
-                  url
-                  width
-                  height
-                  altText
-                }
+            __typename
+            ... on Video {
+              sources {
+                url
               }
-
             }
+            ... on MediaImage {
+              image {
+                url
+                width
+                height
+                altText
+              }
+            }
+          }
         }
       }
     }

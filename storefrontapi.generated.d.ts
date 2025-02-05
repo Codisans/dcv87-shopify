@@ -340,11 +340,27 @@ export type BlogPageQuery = {
       }>;
       fields: Array<
         Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'> & {
-          reference?: StorefrontAPI.Maybe<{
-            image?: StorefrontAPI.Maybe<
-              Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
-            >;
-          }>;
+          reference?: StorefrontAPI.Maybe<
+            | {
+                __typename:
+                  | 'Collection'
+                  | 'GenericFile'
+                  | 'Metaobject'
+                  | 'Model3d'
+                  | 'Page'
+                  | 'Product'
+                  | 'ProductVariant'
+                  | 'Video';
+              }
+            | ({__typename: 'MediaImage'} & {
+                image?: StorefrontAPI.Maybe<
+                  Pick<
+                    StorefrontAPI.Image,
+                    'url' | 'width' | 'height' | 'altText'
+                  >
+                >;
+              })
+          >;
         }
       >;
     }>;
@@ -441,11 +457,29 @@ export type CartPageQuery = {
       }>;
       fields: Array<
         Pick<StorefrontAPI.MetaobjectField, 'key'> & {
-          reference?: StorefrontAPI.Maybe<{
-            image?: StorefrontAPI.Maybe<
-              Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
-            >;
-          }>;
+          reference?: StorefrontAPI.Maybe<
+            | {
+                __typename:
+                  | 'Collection'
+                  | 'GenericFile'
+                  | 'Metaobject'
+                  | 'Model3d'
+                  | 'Page'
+                  | 'Product'
+                  | 'ProductVariant';
+              }
+            | ({__typename: 'MediaImage'} & {
+                image?: StorefrontAPI.Maybe<
+                  Pick<
+                    StorefrontAPI.Image,
+                    'url' | 'width' | 'height' | 'altText'
+                  >
+                >;
+              })
+            | ({__typename: 'Video'} & {
+                sources: Array<Pick<StorefrontAPI.VideoSource, 'url'>>;
+              })
+          >;
         }
       >;
     }>;
@@ -469,11 +503,19 @@ export type ShopPageQuery = {
       }>;
       fields: Array<
         Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'> & {
-          reference?: StorefrontAPI.Maybe<{
-            image?: StorefrontAPI.Maybe<
-              Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
-            >;
-          }>;
+          reference?: StorefrontAPI.Maybe<
+            | {
+                image?: StorefrontAPI.Maybe<
+                  Pick<
+                    StorefrontAPI.Image,
+                    'url' | 'width' | 'height' | 'altText'
+                  >
+                >;
+              }
+            | ({__typename: 'Video'} & {
+                sources: Array<Pick<StorefrontAPI.VideoSource, 'url'>>;
+              })
+          >;
         }
       >;
     }>;
@@ -493,11 +535,16 @@ export type ProductItemFragment = Pick<
     Pick<StorefrontAPI.Image, 'id' | 'altText' | 'url' | 'width' | 'height'>
   >;
   metafield?: StorefrontAPI.Maybe<{
-    reference?: StorefrontAPI.Maybe<{
-      image?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
-      >;
-    }>;
+    reference?: StorefrontAPI.Maybe<
+      | ({__typename: 'MediaImage'} & {
+          image?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
+          >;
+        })
+      | ({__typename: 'Video'} & {
+          sources: Array<Pick<StorefrontAPI.VideoSource, 'url'>>;
+        })
+    >;
   }>;
   priceRange: {
     minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
@@ -535,14 +582,19 @@ export type CollectionQuery = {
               >
             >;
             metafield?: StorefrontAPI.Maybe<{
-              reference?: StorefrontAPI.Maybe<{
-                image?: StorefrontAPI.Maybe<
-                  Pick<
-                    StorefrontAPI.Image,
-                    'url' | 'width' | 'height' | 'altText'
-                  >
-                >;
-              }>;
+              reference?: StorefrontAPI.Maybe<
+                | ({__typename: 'MediaImage'} & {
+                    image?: StorefrontAPI.Maybe<
+                      Pick<
+                        StorefrontAPI.Image,
+                        'url' | 'width' | 'height' | 'altText'
+                      >
+                    >;
+                  })
+                | ({__typename: 'Video'} & {
+                    sources: Array<Pick<StorefrontAPI.VideoSource, 'url'>>;
+                  })
+              >;
             }>;
             priceRange: {
               minVariantPrice: Pick<
@@ -978,7 +1030,7 @@ interface GeneratedQueryTypes {
     return: HomePageQuery;
     variables: HomePageQueryVariables;
   };
-  '#graphql \n  query BlogPage {  \n    metaobjects(type: "blog_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
+  '#graphql \n  query BlogPage {  \n    metaobjects(type: "blog_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n            __typename\n            ... on MediaImage {\n              image {\n                url\n                width\n                height\n                altText\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n': {
     return: BlogPageQuery;
     variables: BlogPageQueryVariables;
   };
@@ -990,15 +1042,15 @@ interface GeneratedQueryTypes {
     return: BlogQuery;
     variables: BlogQueryVariables;
   };
-  '#graphql \n  query CartPage {  \n    metaobjects(type: "cart_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
+  '#graphql \n  query CartPage {  \n    metaobjects(type: "cart_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          reference {\n            __typename\n            ... on Video {\n              sources {\n                url\n              }\n            }\n            ... on MediaImage {\n              image {\n                url\n                width\n                height\n                altText\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n': {
     return: CartPageQuery;
     variables: CartPageQueryVariables;
   };
-  '#graphql \n  query ShopPage {  \n    metaobjects(type: "shop_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
+  '#graphql \n  query ShopPage {  \n    metaobjects(type: "shop_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n              ... on Video {\n                __typename\n                sources {\n                  url\n                }\n              }\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
     return: ShopPageQuery;
     variables: ShopPageQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    metafield(namespace: "custom" key: "background") {\n      reference {\n        ... on MediaImage {\n          image {\n            url\n            width\n            height\n            altText\n          }\n        }\n\n      }\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    metafield(namespace: "custom" key: "background") {\n      reference {\n        ... on Video {\n          __typename\n          sources {\n            url\n          }\n        }\n        ... on MediaImage {\n          __typename\n          image {\n            url\n            width\n            height\n            altText\n          }\n        }\n\n      }\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
     return: CollectionQuery;
     variables: CollectionQueryVariables;
   };
