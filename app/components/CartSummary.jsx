@@ -8,10 +8,11 @@ export function CartSummary({cart}) {
   return (
     <div
       aria-labelledby="Cart subtotal"
-      className="w-full flex-col -sm:px-gutter gap-4 flex sm:flex-row sm:items-center justify-between text-h3 py-6 sm:py-8"
+      className="w-full flex-col -sm:items-stretch -sm:px-gutter gap-6 flex sm:flex-row sm:items-center justify-between text-h3 py-6 sm:py-8"
     >
-      <dl className="flex flex-row flex-nowrap gap-2">
+      <dl className="flex flex-row flex-nowrap justify-between gap-2">
         <dt>Subtotal:</dt>
+
         <dd>
           {cart.cost?.subtotalAmount?.amount ? (
             <Money data={cart.cost?.subtotalAmount} />
@@ -22,7 +23,10 @@ export function CartSummary({cart}) {
       </dl>
       {/* <CartDiscounts discountCodes={cart.discountCodes} />
       <CartGiftCard giftCardCodes={cart.appliedGiftCards} /> */}
-      <CartCheckoutActions className="ml-auto" checkoutUrl={cart.checkoutUrl} />
+      <CartCheckoutActions
+        className="-sm:-mx-gutter -sm:py-6 -sm:border-t -sm:border-white sm:ml-auto"
+        checkoutUrl={cart.checkoutUrl}
+      />
     </div>
   );
 }
@@ -34,7 +38,7 @@ function CartCheckoutActions({checkoutUrl, ...props}) {
 
   return (
     <div {...props}>
-      <a className="button" href={checkoutUrl} target="_self">
+      <a className="w-full button" href={checkoutUrl} target="_self">
         Continue to Checkout
       </a>
     </div>

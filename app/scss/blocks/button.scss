@@ -7,7 +7,7 @@
 
 .button {
   @apply inline-flex justify-center h-min overflow-hidden text-button cursor-pointer text-center select-none;
-  @apply relative px-8 py-3;
+  @apply relative px-8 py-4;
   color: transparent;
   background-image: linear-gradient(
     to top,

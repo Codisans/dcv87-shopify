@@ -45,7 +45,7 @@ export function CartMain({cart: originalCart}) {
 function CartEmpty({hidden = false}) {
   return (
     <div hidden={hidden}>
-      <div className="flex flex-col items-center gap-8 w-full border-t-2 border-white">
+      <div className="flex flex-col items-center gap-8 w-full border-t border-white">
         <p className="pt-32 lg:pt-40 pb-16 lg:pb-20 text-h3 max-w-md text-center">
           Add items to cart
         </p>
