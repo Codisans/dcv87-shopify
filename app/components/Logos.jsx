@@ -9,7 +9,7 @@ export const Logos = ({data}) => {
   if (!data) return null;
 
   return (
-    <ul className="flex flex-col h-min">
+    <ul className="flex flex-col gap-grid h-min">
       {data.metaobjects.nodes?.map((logo, i) => {
         const logoFields = parseFields(logo.fields);
         if (!logoFields?.image?.reference?.image?.url) return null;
