@@ -27,10 +27,13 @@ export const Logos = ({data}) => {
               }`}
               src={logoFields.image.reference.image.url}
               alt={logoFields.image.reference.image.altText}
-              aspectRatio="1/1"
-              width={240}
-              height={240}
+              width={175}
+              height={
+                logoFields.image.reference.image.height *
+                (175 / logoFields.image.reference.image.width)
+              }
             />
+
             {hasLink && (
               <a
                 className="absolute inset-0"

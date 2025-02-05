@@ -375,7 +375,9 @@ export type LogosQuery = {
       fields: Array<
         Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'> & {
           reference?: StorefrontAPI.Maybe<{
-            image?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Image, 'url'>>;
+            image?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
+            >;
           }>;
         }
       >;
@@ -1077,7 +1079,7 @@ interface GeneratedQueryTypes {
     return: BlogPageQuery;
     variables: BlogPageQueryVariables;
   };
-  '#graphql \n  query Logos {  \n    metaobjects(type: "logo" first: 20) {\n      nodes {\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
+  '#graphql \n  query Logos {  \n    metaobjects(type: "logo" first: 20) {\n      nodes {\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
     return: LogosQuery;
     variables: LogosQueryVariables;
   };

@@ -232,8 +232,12 @@ const LOGOS_QUERY = `#graphql
               ... on MediaImage {
                 image {
                   url
+                  width
+                  height
+                  altText
                 }
               }
+
             }
         }
       }
