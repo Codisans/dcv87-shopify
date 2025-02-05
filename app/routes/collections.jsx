@@ -80,6 +80,7 @@ export default function Collection() {
   const pageData = metaobjects?.nodes[0];
   const fields = parseFields(pageData?.fields);
 
+  const dragInterfaceRef = useRef(null);
   const groupRef = useRef(null);
   const itemsArrayRef = useRef([]);
   const [tickerDimensions, setTickerDimensions] = useState(null);
@@ -104,6 +105,8 @@ export default function Collection() {
       extraItems,
     };
   };
+
+  let prevX = null;
 
   useEffect(() => {
     if (!groupRef.current || !itemsArrayRef.current.length) {
@@ -130,7 +133,7 @@ export default function Collection() {
 
     const tween = gsap.to(groupRef.current, {
       translateX: `-=${totalWidth}`,
-      duration: totalWidth / 120,
+      duration: totalWidth / 240,
       ease: 'none',
       repeat: -1,
       onReverseComplete: () => {
@@ -138,18 +141,67 @@ export default function Collection() {
       },
     });
 
+    const handleDrag = (e, x) => {
+      if (x == 0) return;
+
+      const velocity = Math.abs(x - prevX);
+
+      if (!prevX || velocity == 0) {
+        prevX = x;
+        return;
+      }
+
+      const direction = x - prevX < 0 ? 1 : -1;
+
+      if (velocity) {
+        gsap.to(tween, {
+          timeScale: velocity * direction,
+        });
+      }
+
+      gsap.to(tween, {
+        timeScale: direction,
+      });
+      prevX = x;
+    };
+
+    const handleDragEnd = () => {
+      prevX = null;
+    };
+
+    const handleTouchMove = (e) => {
+      handleDrag(e, e.touches[0]?.clientX);
+    };
+
+    const handleMouseDrag = (e) => {
+      handleDrag(e, e.pageX);
+    };
+
+    dragInterfaceRef.current?.addEventListener('drag', handleMouseDrag);
+    dragInterfaceRef.current?.addEventListener('touchmove', handleTouchMove);
+    dragInterfaceRef.current?.addEventListener('dragend', handleDragEnd);
+    dragInterfaceRef.current?.addEventListener('touchend', handleDragEnd);
+
     return () => {
       if (groupRef.current) {
         gsap.set(groupRef.current, {clearProps: 'all'});
       }
+
       tween?.kill();
+      dragInterfaceRef.current?.removeEventListener('drag', handleMouseDrag);
+      dragInterfaceRef.current?.removeEventListener(
+        'touchmove',
+        handleTouchMove,
+      );
+      dragInterfaceRef.current?.removeEventListener('dragend', handleDragEnd);
+      dragInterfaceRef.current?.removeEventListener('touchend', handleDragEnd);
     };
   }, [tickerDimensions]);
 
   const products = collection.products.nodes;
 
   return (
-    <main>
+    <main ref={dragInterfaceRef} className="select-none">
       <h1 className="sr-only">Shop</h1>
       <div className="sticky top-0 inset-x-0 min-h-svh h-svh overflow-hidden clip-inset-0 mb-[-100svh]">
         <ShopifyMedia
@@ -168,15 +220,14 @@ export default function Collection() {
         ))}
       </div>
 
-      <div className="relative h-svh z-10 flex flex-col justify-center pt-12 lg:py-20">
+      <div
+        ref={dragInterfaceRef}
+        className="relative h-svh z-10 flex flex-col justify-center pt-12 lg:py-20"
+      >
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
             {products?.map((product, i) => (
-              <li
-                ref={addItemRef}
-                key={i}
-                className="flex-none pr-8 sm:pr-10 lg:pr-12"
-              >
+              <li ref={addItemRef} key={i} className="flex-none">
                 <ProductItem
                   product={product}
                   loading={i < 8 ? 'eager' : undefined}
@@ -187,10 +238,7 @@ export default function Collection() {
               {length: tickerDimensions?.extraItems || 0},
               (_, index) => products[index % products.length],
             )?.map((product, i) => (
-              <li
-                key={`${i}-extra`}
-                className="flex-none pr-8 sm:pr-10 lg:pr-12"
-              >
+              <li key={`${i}-extra`} className="flex-none">
                 <ProductItem product={product} loading={'lazy'} />
               </li>
             ))}
@@ -234,7 +282,7 @@ function ProductItem({product, loading}) {
     >
       {product.featuredImage && (
         <Image
-          className="w-80 h-80 sm:h-96 sm:w-96 lg:w-120 lg:h-120 object-contain"
+          className="w-80 h-80 sm:h-96 sm:w-96 lg:w-120 lg:h-120 object-contain pointer-events-none"
           width={product.featuredImage.width}
           height={product.featuredImage.height}
           alt={product.featuredImage.altText || product.title}
