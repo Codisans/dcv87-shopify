@@ -141,27 +141,33 @@ export default function Collection() {
       },
     });
 
-    const handleDrag = (e, x) => {
-      if (x == 0) return;
+    const updateTween = (delta) => {
+      const velocity = Math.abs(delta);
 
-      const velocity = Math.abs(x - prevX);
-
-      if (!prevX || velocity == 0) {
-        prevX = x;
+      if (velocity === 0) {
         return;
       }
 
-      const direction = x - prevX < 0 ? 1 : -1;
+      const direction = delta < 0 ? 1 : -1;
 
-      if (velocity) {
+      if (velocity > 0) {
         gsap.to(tween, {
-          timeScale: velocity * direction,
+          timeScale: velocity * direction * 1.4,
         });
       }
 
       gsap.to(tween, {
         timeScale: direction,
       });
+    };
+
+    const handleDrag = (e, x) => {
+      if (x == 0) return;
+      if (!prevX) {
+        prevX = x;
+        return;
+      }
+      updateTween(x - prevX);
       prevX = x;
     };
 
