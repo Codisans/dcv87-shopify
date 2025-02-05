@@ -320,8 +320,8 @@ const SHOP_PAGE_QUERY = `#graphql
           key
           value
           reference {
+              __typename
               ... on Video {
-                __typename
                 sources {
                   url
                 }

@@ -505,13 +505,23 @@ export type ShopPageQuery = {
         Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'> & {
           reference?: StorefrontAPI.Maybe<
             | {
+                __typename:
+                  | 'Collection'
+                  | 'GenericFile'
+                  | 'Metaobject'
+                  | 'Model3d'
+                  | 'Page'
+                  | 'Product'
+                  | 'ProductVariant';
+              }
+            | ({__typename: 'MediaImage'} & {
                 image?: StorefrontAPI.Maybe<
                   Pick<
                     StorefrontAPI.Image,
                     'url' | 'width' | 'height' | 'altText'
                   >
                 >;
-              }
+              })
             | ({__typename: 'Video'} & {
                 sources: Array<Pick<StorefrontAPI.VideoSource, 'url'>>;
               })
@@ -1079,7 +1089,7 @@ interface GeneratedQueryTypes {
     return: CartPageQuery;
     variables: CartPageQueryVariables;
   };
-  '#graphql \n  query ShopPage {  \n    metaobjects(type: "shop_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n              ... on Video {\n                __typename\n                sources {\n                  url\n                }\n              }\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
+  '#graphql \n  query ShopPage {  \n    metaobjects(type: "shop_page" first: 1) {\n      nodes {\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n              __typename\n              ... on Video {\n                sources {\n                  url\n                }\n              }\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
     return: ShopPageQuery;
     variables: ShopPageQueryVariables;
   };
