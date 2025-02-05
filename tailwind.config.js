@@ -141,8 +141,7 @@ export default {
             lineHeight: 80,
             letterSpacing: 0,
           }),
-
-          md: font(100, {
+          lg: font(100, {
             lineHeight: 100,
             letterSpacing: 0,
           }),

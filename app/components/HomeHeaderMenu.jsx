@@ -76,9 +76,7 @@ export const HomeHeaderMenu = ({
     };
   }, [tickerDimensions]);
 
-  const bannerItems = [{key: 'symbol'}].concat(
-    (menu || FALLBACK_HEADER_MENU).items,
-  );
+  const bannerItems = (menu || FALLBACK_HEADER_MENU).items;
 
   const extraItems = Array.from(
     {length: tickerDimensions?.extraItems || 0},
@@ -100,12 +98,28 @@ export const HomeHeaderMenu = ({
 
   return (
     <div
-      className={`text-home-nav overflow-hidden w-full flex relative items-center`}
+      className={`text-home-nav overflow-hidden w-full flex relative items-center ${
+        flip ? 'flex-row-reverse' : 'flex-row'
+      }`}
     >
-      <nav
-        className="w-full flex-none text-red overflow-hidden"
-        role="navigation"
+      <div
+        className={`pb-[0.15em] w-[1.5em] lg:w-[1.85em] flex-none ${
+          flip ? '-sm:mr-[-0.5em]' : '-sm:ml-[-0.5em]'
+        }`}
       >
+        <Image
+          className={`w-[1.5em] relative z-20 object-contain z-10 ${
+            flip
+              ? 'scale-x-[-1] translate-x-[-0.8em] sm:translate-x-[-0.8em] mr-auto'
+              : 'translate-x-[0.8em] sm:translate-x-[0.8em] ml-auto'
+          }`}
+          width={120}
+          height={120}
+          src="/img/peace-hand.png"
+          alt="Peace hand"
+        />
+      </div>
+      <nav className="grow text-red overflow-hidden py-4" role="navigation">
         <ul
           ref={groupRef}
           className={`flex w-full items-center flex-row ${
@@ -114,18 +128,6 @@ export const HomeHeaderMenu = ({
         >
           {renderedItems?.map((item, i) => {
             const isExtra = i > bannerItems.length;
-
-            if (item.key === 'symbol')
-              return (
-                <li
-                  ref={isExtra ? undefined : addItemRef}
-                  key={isExtra ? `${i}-flip` : `${i}-extra-flip`}
-                  className={liClasses}
-                >
-                  <HandItem flip={flip} />
-                </li>
-              );
-
             if (!item.url) return null;
 
             // if the url is internal, we strip the domain
