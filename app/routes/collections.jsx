@@ -292,7 +292,7 @@ function ProductItem({product, loading}) {
       key={product.id}
       onMouseEnter={() => mediaRef.current?.classList.add('!opacity-100')}
       onMouseLeave={() => mediaRef.current?.classList.remove('!opacity-100')}
-      className="relative p-12"
+      className="relative"
     >
       {product.featuredImage && (
         <Image
