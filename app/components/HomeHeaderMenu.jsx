@@ -181,36 +181,3 @@ export const HandItem = ({flip = false}) => {
     />
   );
 };
-
-// export const HomeMenuItem = ({item, publicStoreDomain, primaryDomainUrl}) => {
-//   if (!item?.url) return null;
-//   // if the url is internal, we strip the domain
-//   const url =
-//     item.url.includes('myshopify.com') ||
-//     item.url.includes(publicStoreDomain) ||
-//     item.url.includes(primaryDomainUrl)
-//       ? new URL(item.url).pathname
-//       : item.url;
-//   const isExternal = !url.startsWith('/');
-//   const linkClasses = 'clip-hover';
-
-//   return (
-//     <span className="w-[2.5em] flex justify-center items-center">
-//       {isExternal ? (
-//         <a className={linkClasses} href={url} target="_blank">
-//           {item.title}
-//         </a>
-//       ) : (
-//         <TransitionLink
-//           className={linkClasses}
-//           end
-//           prefetch={isExternal ? undefined : 'intent'}
-//           target={isExternal ? '_blank' : '_self'}
-//           to={url}
-//         >
-//           {item.title}
-//         </TransitionLink>
-//       )}
-//     </span>
-//   );
-// };
