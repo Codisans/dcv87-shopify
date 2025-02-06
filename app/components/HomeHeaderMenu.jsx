@@ -76,7 +76,9 @@ export const HomeHeaderMenu = ({
     };
   }, [tickerDimensions]);
 
-  const bannerItems = (menu || FALLBACK_HEADER_MENU).items;
+  const bannerItems = flip
+    ? (menu || FALLBACK_HEADER_MENU).items.reverse()
+    : (menu || FALLBACK_HEADER_MENU).items;
 
   const extraItems = Array.from(
     {length: tickerDimensions?.extraItems || 0},
@@ -89,7 +91,7 @@ export const HomeHeaderMenu = ({
   );
 
   const renderedItems = flip
-    ? extraItems.concat(bannerItems.reverse())
+    ? extraItems.concat(bannerItems)
     : bannerItems.concat(extraItems);
 
   const liClasses = `flex flex-row items-center min-w-max w-[3em] md:w-[3.5em] flex-none ${
@@ -99,19 +101,19 @@ export const HomeHeaderMenu = ({
   return (
     <div
       className={`text-home-nav overflow-hidden w-full flex relative items-center ${
-        flip ? 'flex-row-reverse' : 'flex-row'
+        flip ? 'flex-row' : 'flex-row-reverse'
       }`}
     >
       <div
         className={`pb-[0.15em] w-[1.5em] lg:w-[1.85em] flex-none ${
-          flip ? '-sm:mr-[-0.5em]' : '-sm:ml-[-0.5em]'
+          flip ? '-sm:ml-[-0.5em]' : '-sm:mr-[-0.5em]'
         }`}
       >
         <Image
           className={`w-[1.5em] relative z-20 object-contain z-10 ${
             flip
-              ? 'scale-x-[-1] translate-x-[-0.8em] sm:translate-x-[-0.8em] mr-auto'
-              : 'translate-x-[0.8em] sm:translate-x-[0.8em] ml-auto'
+              ? 'translate-x-[0.8em] sm:translate-x-[0.8em] ml-auto'
+              : 'scale-x-[-1] translate-x-[-0.8em] sm:translate-x-[-0.8em] mr-auto'
           }`}
           width={120}
           height={120}
