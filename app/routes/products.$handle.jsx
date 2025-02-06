@@ -132,7 +132,7 @@ export default function Product() {
   return (
     <main ref={mainRef} className="min-h-lvh">
       <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
-      <div className="absolute inset-0 top-0 min-h-lvh overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 top-0 h-svh overflow-hidden pointer-events-none">
         <div className="absolute z-20 left-0 inset-y-0 w-screen py-12 md:py-24 flex flex-col justify-center items-center">
           <div className="relative pointer-events-auto">
             <Swiper
