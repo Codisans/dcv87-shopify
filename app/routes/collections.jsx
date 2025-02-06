@@ -12,6 +12,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import gsap from 'gsap';
 import {BackgroundMedia} from '~/components/BackgroundMedia';
 import {ShopifyMedia} from '~/components/ShopifyMedia';
+import {ProductImage} from '~/components/ProductImage';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -170,15 +171,12 @@ export default function Collection() {
       updateTween(x - prevX);
       prevX = x;
     };
-
     const handleDragEnd = () => {
       prevX = null;
     };
-
     const handleTouchMove = (e) => {
       handleDrag(e, e.touches[0]?.clientX);
     };
-
     const handleMouseDrag = (e) => {
       handleDrag(e, e.pageX);
     };
@@ -236,7 +234,7 @@ export default function Collection() {
 
       <div
         ref={dragInterfaceRef}
-        className="relative h-svh z-10 flex flex-col justify-center pt-12 lg:py-20"
+        className="relative h-svh z-10 flex flex-col justify-center py-12 lg:py-20"
       >
         <div className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
@@ -295,15 +293,12 @@ function ProductItem({product, loading}) {
       className="relative"
     >
       {product.featuredImage && (
-        <Image
+        <ProductImage
           className="w-80 h-80 sm:h-96 sm:w-96 lg:w-120 lg:h-120 object-contain pointer-events-none"
-          width={product.featuredImage.width}
-          height={product.featuredImage.height}
-          alt={product.featuredImage.altText || product.title}
-          aspectRatio="1/1"
-          data={product.featuredImage}
+          image={product.featuredImage}
+          sizes="(min-width: 45em) 400px, 80vw"
           loading={loading}
-          sizes="(min-width: 45em) 400px, 100vw"
+          aspectRatio="1/1"
         />
       )}
       <Link

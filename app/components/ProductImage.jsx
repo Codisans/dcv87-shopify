@@ -9,9 +9,12 @@ export function ProductImage({image}) {
   if (!image) return;
 
   return (
-    <div key={image.id} className="w-full aspect-square relative">
+    <div
+      key={image.id}
+      className="w-[20rem] md:w-[24rem] aspect-square relative"
+    >
       <Image
-        className="object-contain w-full h-full asbolute inset-0"
+        className="object-contain w-full h-full absolute inset-0"
         alt={image.altText || 'Product Image'}
         width={image.width}
         height={image.height}

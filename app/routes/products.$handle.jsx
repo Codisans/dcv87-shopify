@@ -125,52 +125,55 @@ export default function Product() {
   return (
     <main className="min-h-lvh">
       <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
-      <div className="min-h-lvh pt-48 pb-24 flex flex-col justify-center items-center gap-y-12 relative z-10 container">
-        <div className="relative px-20 sm:px-32">
-          <Swiper
-            ref={swiperRef}
-            className="w-full max-w-[56vw] sm:max-w-[min(30vw,32rem)]"
-            modules={[Navigation]}
-            speed={0}
-            spaceBetween={2}
-            slidesPerView={1}
-            loop={true}
-            navigation={{
-              nextEl: nextRef.current,
-              prevEl: prevRef.current,
-            }}
-          >
-            {carouselMedia.map((media, i) => (
-              <SwiperSlide key={i}>
-                <ProductImage image={media} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
-          <button
-            ref={prevRef}
-            className={`absolute top-1/2 left-0 -translate-y-1/2 ${
-              carouselMedia.length > 1 ? '' : 'hidden'
-            }`}
-          >
-            <Symbol
-              className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 -scale-x-100"
-              name="hand-pointer"
-            />
-          </button>
-          <button
-            ref={nextRef}
-            className={`absolute top-1/2 right-0 -translate-y-1/2 ${
-              carouselMedia.length > 1 ? '' : 'hidden'
-            }`}
-          >
-            <Symbol
-              className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
-              name="hand-pointer"
-            />
-          </button>
+      <div className="absolute inset-0 top-0 min-h-lvh overflow-hidden pointer-events-none">
+        <div className="absolute z-20 left-0 inset-y-0 w-screen py-12 md:py-24 flex flex-col justify-center items-center">
+          <div className="relative max-w-md pointer-events-auto">
+            <Swiper
+              ref={swiperRef}
+              className="w-full"
+              modules={[Navigation]}
+              speed={0}
+              spaceBetween={2}
+              slidesPerView={1}
+              loop={true}
+              navigation={{
+                nextEl: nextRef.current,
+                prevEl: prevRef.current,
+              }}
+            >
+              {carouselMedia.map((media, i) => (
+                <SwiperSlide className="flex justify-center sm:px-8" key={i}>
+                  <ProductImage image={media} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <button
+              ref={prevRef}
+              className={`absolute top-1/2 right-full -translate-y-1/2 ${
+                carouselMedia.length > 1 ? '' : 'hidden'
+              }`}
+            >
+              <Symbol
+                className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 -scale-x-100"
+                name="hand-pointer"
+              />
+            </button>
+            <button
+              ref={nextRef}
+              className={`absolute top-1/2 left-full -translate-y-1/2 ${
+                carouselMedia.length > 1 ? '' : 'hidden'
+              }`}
+            >
+              <Symbol
+                className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
+                name="hand-pointer"
+              />
+            </button>
+          </div>
         </div>
+      </div>
 
+      <section className="relative z-10 min-h-svh flex flex-col items-center container pt-[calc(50svh+10rem)] sm:pt-[calc(50svh+13rem)] pb-32">
         <div className="max-w-md flex flex-col gap-2">
           <div className="flex justify-center md:hidden">
             <ProductColors
@@ -193,7 +196,8 @@ export default function Product() {
             selectedVariant={selectedVariant}
           />
         </div>
-      </div>
+      </section>
+
       <div className="-md:hidden fixed left-gutter top-48 lg:top-auto lg:bottom-20 z-10">
         <ProductColors
           productOptions={productOptions}
