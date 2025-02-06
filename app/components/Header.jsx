@@ -18,6 +18,9 @@ import {TransitionLink} from './TransitionLink';
  */
 export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
+  const {pathname} = useLocation();
+  const showCart = !pathname.includes('/newsletter');
+  const showMenu = !pathname.includes('/newsletter');
 
   return (
     <header className="fixed inset-0 w-full z-[60] pointer-events-none overlay-backdrop">
@@ -33,15 +36,21 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
           name="logo"
         />
       </TransitionLink>
-      <CartLink
-        className="absolute top-gutter md:mt-3 lg:mt-5 md:top-8 right-gutter pointer-events-auto"
-        cart={cart}
-      />
-      <HeaderMenu
-        menu={menu}
-        primaryDomainUrl={header.shop.primaryDomain.url}
-        publicStoreDomain={publicStoreDomain}
-      />
+
+      {showCart && (
+        <CartLink
+          className="absolute top-gutter md:mt-3 lg:mt-5 md:top-8 right-gutter pointer-events-auto"
+          cart={cart}
+        />
+      )}
+
+      {showMenu && (
+        <HeaderMenu
+          menu={menu}
+          primaryDomainUrl={header.shop.primaryDomain.url}
+          publicStoreDomain={publicStoreDomain}
+        />
+      )}
     </header>
   );
 }
