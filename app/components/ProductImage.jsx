@@ -11,7 +11,7 @@ export function ProductImage({image}) {
   return (
     <div
       key={image.id}
-      className="w-[20rem] md:w-[24rem] aspect-square relative"
+      className="w-[16rem] sm:w-[20rem] lg:w-[24rem] aspect-square relative"
     >
       <Image
         className="object-contain w-full h-full absolute inset-0"

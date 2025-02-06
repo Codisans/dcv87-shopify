@@ -134,13 +134,13 @@ export default function Product() {
       <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
       <div className="absolute inset-0 top-0 min-h-lvh overflow-hidden pointer-events-none">
         <div className="absolute z-20 left-0 inset-y-0 w-screen py-12 md:py-24 flex flex-col justify-center items-center">
-          <div className="relative max-w-md pointer-events-auto">
+          <div className="relative pointer-events-auto">
             <Swiper
               ref={swiperRef}
-              className="w-full"
+              className="w-[16rem] sm:w-[20rem] lg:w-[24rem]"
               modules={[Navigation]}
               speed={0}
-              spaceBetween={2}
+              spaceBetween={0}
               slidesPerView={1}
               loop={true}
               navigation={{
@@ -149,7 +149,7 @@ export default function Product() {
               }}
             >
               {carouselMedia.map((media, i) => (
-                <SwiperSlide className="flex justify-center sm:px-8" key={i}>
+                <SwiperSlide className="flex justify-center" key={i}>
                   <ProductImage image={media} />
                 </SwiperSlide>
               ))}
@@ -177,12 +177,18 @@ export default function Product() {
               />
             </button>
           </div>
+          <div className="pointer-events-auto -md:hidden md:absolute left-gutter top-48 md:top-24 md:bottom-24 md:flex md:justify-center lg:block lg:fixed lg:top-auto lg:bottom-20 z-10 fade-in">
+            <ProductColors
+              productOptions={productOptions}
+              selectedVariant={selectedVariant}
+            />
+          </div>
         </div>
       </div>
 
       <section className="relative z-10 min-h-svh flex flex-col items-center container pt-[calc(50svh+10rem)] sm:pt-[calc(50svh+13rem)] pb-32 fade-in">
         <div className="max-w-md flex flex-col gap-2">
-          <div className="flex justify-center md:hidden">
+          <div className="flex justify-center pb-8 md:hidden">
             <ProductColors
               productOptions={productOptions}
               selectedVariant={selectedVariant}
@@ -204,13 +210,6 @@ export default function Product() {
           />
         </div>
       </section>
-
-      <div className="-md:hidden fixed left-gutter top-48 lg:top-auto lg:bottom-20 z-10 fade-in">
-        <ProductColors
-          productOptions={productOptions}
-          selectedVariant={selectedVariant}
-        />
-      </div>
       <Analytics.ProductView
         data={{
           products: [

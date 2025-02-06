@@ -17,56 +17,51 @@ export function ProductColors({productOptions, selectedVariant}) {
   if (!colorOption || colorOption?.optionValues.length === 1) return null;
 
   return (
-    <div className="product-form">
-      <div className="product-options">
-        <h5 className="sr-only">{colorOption.name}</h5>
-        <div className="flex flex-row md:flex-col lg:flex-row flex-nowrap">
-          {colorOption.optionValues.map((value) => {
-            const {
-              name,
-              handle,
-              variant,
-              variantUriQuery,
-              selected,
-              available,
-              exists,
-              isDifferentProduct,
-              swatch,
-            } = value;
+    <div className="flex flex-row md:flex-col md:justify-center lg:flex-row flex-nowrap">
+      <h5 className="sr-only">{colorOption.name}</h5>
+      {colorOption.optionValues.map((value) => {
+        const {
+          name,
+          handle,
+          variant,
+          variantUriQuery,
+          selected,
+          available,
+          exists,
+          isDifferentProduct,
+          swatch,
+        } = value;
 
-            return (
-              <div key={name} className={`relative pb-4`}>
-                {variant.image && (
-                  <Image
-                    className="w-24 h-24 object-contain"
-                    aspect="1/1"
-                    data={variant.image}
-                  />
-                )}
-                <button
-                  type="button"
-                  className={`absolute inset-0 z-10 border-b-4 md:border-l-4 md:border-b-0 lg:border-l-0 lg:border-b-4 ${
-                    exists && !selected ? '  border-white' : 'border-red'
-                  }`}
-                  key={colorOption.name + name}
-                  disabled={!exists}
-                  onClick={() => {
-                    if (!selected) {
-                      navigate(`?${variantUriQuery}`, {
-                        replace: true,
-                        preventScrollReset: true,
-                      });
-                    }
-                  }}
-                >
-                  <span className="sr-only">{name}</span>
-                </button>
-              </div>
-            );
-          })}
-        </div>
-        <br />
-      </div>
+        return (
+          <div key={name} className={`relative pb-4`}>
+            {variant.image && (
+              <Image
+                className="w-24 h-24 object-contain"
+                aspect="1/1"
+                data={variant.image}
+              />
+            )}
+            <button
+              type="button"
+              className={`absolute inset-0 z-10 border-b-4 md:border-l-4 md:border-b-0 lg:border-l-0 lg:border-b-4 ${
+                exists && !selected ? '  border-white' : 'border-red'
+              }`}
+              key={colorOption.name + name}
+              disabled={!exists}
+              onClick={() => {
+                if (!selected) {
+                  navigate(`?${variantUriQuery}`, {
+                    replace: true,
+                    preventScrollReset: true,
+                  });
+                }
+              }}
+            >
+              <span className="sr-only">{name}</span>
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 }
