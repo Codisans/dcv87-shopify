@@ -94,10 +94,17 @@ export default function Product() {
   const swiperRef = useRef(null);
   const nextRef = useRef(null);
   const prevRef = useRef(null);
+  const mainRef = useRef(null);
 
   useEffect(() => {
     swiperRef.current?.swiper?.slideTo(0, 0, false);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!mainRef.current) return;
+
+    mainRef.current.classList.add('render');
+  }, [mainRef]);
 
   // Optimistically selects a variant with given available variant information
 
@@ -123,7 +130,7 @@ export default function Product() {
   const carouselMedia = [selectedVariant.image, ...variantMedia];
 
   return (
-    <main className="min-h-lvh">
+    <main ref={mainRef} className="min-h-lvh">
       <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
       <div className="absolute inset-0 top-0 min-h-lvh overflow-hidden pointer-events-none">
         <div className="absolute z-20 left-0 inset-y-0 w-screen py-12 md:py-24 flex flex-col justify-center items-center">
@@ -149,7 +156,7 @@ export default function Product() {
             </Swiper>
             <button
               ref={prevRef}
-              className={`absolute top-1/2 right-full -translate-y-1/2 ${
+              className={`absolute top-1/2 right-full -translate-y-1/2 fade-in ${
                 carouselMedia.length > 1 ? '' : 'hidden'
               }`}
             >
@@ -160,7 +167,7 @@ export default function Product() {
             </button>
             <button
               ref={nextRef}
-              className={`absolute top-1/2 left-full -translate-y-1/2 ${
+              className={`absolute top-1/2 left-full -translate-y-1/2 fade-in ${
                 carouselMedia.length > 1 ? '' : 'hidden'
               }`}
             >
@@ -173,7 +180,7 @@ export default function Product() {
         </div>
       </div>
 
-      <section className="relative z-10 min-h-svh flex flex-col items-center container pt-[calc(50svh+10rem)] sm:pt-[calc(50svh+13rem)] pb-32">
+      <section className="relative z-10 min-h-svh flex flex-col items-center container pt-[calc(50svh+10rem)] sm:pt-[calc(50svh+13rem)] pb-32 fade-in">
         <div className="max-w-md flex flex-col gap-2">
           <div className="flex justify-center md:hidden">
             <ProductColors
@@ -198,7 +205,7 @@ export default function Product() {
         </div>
       </section>
 
-      <div className="-md:hidden fixed left-gutter top-48 lg:top-auto lg:bottom-20 z-10">
+      <div className="-md:hidden fixed left-gutter top-48 lg:top-auto lg:bottom-20 z-10 fade-in">
         <ProductColors
           productOptions={productOptions}
           selectedVariant={selectedVariant}
