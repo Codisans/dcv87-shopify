@@ -301,14 +301,14 @@ function ProductItem({product, loading}) {
           aspectRatio="1/1"
         />
       )}
-      <PrefetchPageLinks
+      <Link
         className="absolute inset-0"
         key={product.id}
-        prefetch="intent"
+        prefetch="viewport"
         to={variantUrl}
       >
         <h4 className="sr-only">{product.title}</h4>
-      </PrefetchPageLinks>
+      </Link>
     </div>
   );
 }
