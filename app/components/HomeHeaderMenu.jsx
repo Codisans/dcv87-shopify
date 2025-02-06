@@ -60,7 +60,8 @@ export const HomeHeaderMenu = ({
 
     const tween = gsap.to(groupRef.current, {
       translateX: flip ? `+=${totalWidth}` : `-=${totalWidth}`,
-      duration: totalWidth / 60,
+      duration:
+        totalWidth / Math.max(0.03 * window.innerWidth, totalWidth * 0.08),
       ease: 'none',
       repeat: -1,
       onReverseComplete: () => {
