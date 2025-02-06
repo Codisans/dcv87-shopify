@@ -1,6 +1,6 @@
 import {useLocation} from '@remix-run/react';
 import {Footer} from '~/components/Footer';
-import {Header, HeaderMenu} from '~/components/Header';
+import {Header} from '~/components/Header';
 import {HomeFooter} from './HomeFooter';
 import {HomeHeader} from './HomeHeader';
 import {TransitionProvider, useTransitionContext} from './TransitionContext';
@@ -21,12 +21,6 @@ export function PageLayout({
   const {containerRef, setTransitionContainer} = useTransitionContext();
   const transitionContainerRef = useRef(null);
   const isHome = pathname == '/';
-
-  // useEffect(() => {
-  //   if (containerRef.current || !transitionContainerRef.current) return;
-  //   containerRef.current = transitionContainerRef.current;
-  //   console.log('containerRef', containerRef.current);
-  // }, [transitionContainerRef]);
 
   useEffect(() => {
     if (!transitionContainerRef.current) return;

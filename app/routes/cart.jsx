@@ -136,8 +136,6 @@ export default function Cart() {
   const {cart, pageData} = useLoaderData();
   const fields = parseFields(pageData.fields);
 
-  console.log(fields.background);
-
   return (
     <main className="min-h-svh">
       <BackgroundMedia loading="eager" media={fields?.background?.reference} />

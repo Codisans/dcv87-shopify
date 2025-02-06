@@ -71,10 +71,6 @@ export default function Blog() {
   const pageData = metaobjects.nodes[0];
   const fields = parseFields(pageData.fields);
 
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
-
   return (
     <PageTransition>
       <h1 className="fixed z-header top-28 left-1/2 -translate-x-1/2 text-h3 uppercase text-red">
