@@ -116,8 +116,8 @@ export default function Blog() {
       <h1 className="sr-only">Blog</h1>
       <BackgroundMedia loading="eager" media={fields?.background?.reference} />
       <div className="pt-64 pb-32 container grid-layout !max-w-[1200px]">
-        <div className="-sm:hidden col-start-1 col-end-3 pt-14">
-          <ul className="sticky z-10 top-64 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
+        <div className="-sm:hidden col-start-1 col-end-3">
+          <ul className="sticky z-10 top-78 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
             <li>
               <Link className="clip-hover clip-hover--white" to="/blog">
                 Latest

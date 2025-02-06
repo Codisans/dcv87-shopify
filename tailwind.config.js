@@ -207,6 +207,7 @@ export default {
         25: rem(100),
         30: rem(120),
         37.5: rem(150),
+        78: rem(312),
         104: rem(416),
         120: rem(480),
         gutter: 'var(--gutter)',
