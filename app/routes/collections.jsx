@@ -1,5 +1,5 @@
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {useLoaderData, Link} from '@remix-run/react';
+import {useLoaderData, Link, PrefetchPageLinks} from '@remix-run/react';
 import {
   getPaginationVariables,
   Image,
@@ -301,14 +301,14 @@ function ProductItem({product, loading}) {
           aspectRatio="1/1"
         />
       )}
-      <Link
+      <PrefetchPageLinks
         className="absolute inset-0"
         key={product.id}
         prefetch="intent"
         to={variantUrl}
       >
         <h4 className="sr-only">{product.title}</h4>
-      </Link>
+      </PrefetchPageLinks>
     </div>
   );
 }
