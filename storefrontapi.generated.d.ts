@@ -718,6 +718,34 @@ export type CollectionQuery = {
   >;
 };
 
+export type NewsletterPageQueryVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type NewsletterPageQuery = {
+  metaobjects: {
+    nodes: Array<{
+      seo?: StorefrontAPI.Maybe<{
+        title?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+        description?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+      }>;
+      fields: Array<
+        Pick<StorefrontAPI.MetaobjectField, 'key' | 'value'> & {
+          reference?: StorefrontAPI.Maybe<{
+            image?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url' | 'width' | 'height' | 'altText'>
+            >;
+          }>;
+        }
+      >;
+    }>;
+  };
+};
+
 export type PolicyFragment = Pick<
   StorefrontAPI.ShopPolicy,
   'body' | 'handle' | 'id' | 'title' | 'url'
@@ -1302,6 +1330,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    metafield(namespace: "custom" key: "background") {\n      reference {\n        __typename\n          ... on Video {\n            mediaContentType\n            previewImage {\n              height\n              width\n              url\n              altText\n            }\n            sources {\n              url\n              mimeType\n              height\n              width\n              \n            }\n          }\n        ... on MediaImage {\n          image {\n            url\n            width\n            height\n            altText\n          }\n        }\n\n      }\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
     return: CollectionQuery;
     variables: CollectionQueryVariables;
+  };
+  '#graphql \n  query NewsletterPage {  \n    metaobjects(type: "newsletter_page" first: 1) {\n      nodes {\n\n        seo {\n          title {\n            value\n          }\n          description {\n            value\n          }\n        }\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n            }\n        }\n      }\n    }\n  }\n': {
+    return: NewsletterPageQuery;
+    variables: NewsletterPageQueryVariables;
   };
   '#graphql\n  fragment Policy on ShopPolicy {\n    body\n    handle\n    id\n    title\n    url\n  }\n  query Policy(\n    $country: CountryCode\n    $language: LanguageCode\n    $privacyPolicy: Boolean!\n    $refundPolicy: Boolean!\n    $shippingPolicy: Boolean!\n    $termsOfService: Boolean!\n  ) @inContext(language: $language, country: $country) {\n    shop {\n      privacyPolicy @include(if: $privacyPolicy) {\n        ...Policy\n      }\n      shippingPolicy @include(if: $shippingPolicy) {\n        ...Policy\n      }\n      termsOfService @include(if: $termsOfService) {\n        ...Policy\n      }\n      refundPolicy @include(if: $refundPolicy) {\n        ...Policy\n      }\n    }\n  }\n': {
     return: PolicyQuery;

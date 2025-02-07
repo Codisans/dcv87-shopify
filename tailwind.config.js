@@ -38,11 +38,13 @@ export default {
         DEFAULT: '#000',
         true: '#000000',
       },
+      orange: '#ee420c',
       grey: {
         DEFAULT: '#646464',
         dark: '#8A8A8A',
         light: '#F4F4F4',
       },
+
       white: '#ffffff',
       theme: {
         DEFAULT: 'var(--theme-color)',
