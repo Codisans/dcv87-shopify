@@ -3,6 +3,11 @@
   html.lenis body {
     height: auto;
     overscroll-behavior: none;
+    // scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .lenis.lenis-smooth {

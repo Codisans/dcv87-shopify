@@ -12,6 +12,7 @@ import {Symbol} from './Symbol';
 import {CartLink} from './CartLink';
 import {BackButton} from './BackButton';
 import {TransitionLink} from './TransitionLink';
+import {Logo} from './Logo';
 
 /**
  * @param {HeaderProps}
@@ -21,6 +22,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {pathname} = useLocation();
   const showCart = !pathname.includes('/newsletter');
   const showMenu = !pathname.includes('/newsletter');
+  const animatedLogo = pathname.includes('/blog');
 
   return (
     <header className="fixed inset-0 w-full z-[60] pointer-events-none overlay-backdrop">
@@ -31,10 +33,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
         end
       >
         <span className="sr-only">{shop.name}</span>
-        <Symbol
-          className="w-[9.25rem] h-[3.7rem] sm:w-[12rem] sm:h-[4.5rem] md:w-[16.375rem] md:h-[5.125rem] lg:w-[21rem] lg:h-[7rem] text-red"
-          name="logo"
-        />
+        <Logo animated={animatedLogo} />
       </TransitionLink>
 
       {showCart && (
