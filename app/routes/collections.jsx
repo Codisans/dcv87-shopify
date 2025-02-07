@@ -82,8 +82,10 @@ export default function Collection() {
   const fields = parseFields(pageData?.fields);
 
   const dragInterfaceRef = useRef(null);
+  const carouselRef = useRef(null);
   const groupRef = useRef(null);
   const itemsArrayRef = useRef([]);
+  const tweenRef = useRef(null);
   const [tickerDimensions, setTickerDimensions] = useState(null);
 
   const addItemRef = useCallback((node) => {
@@ -108,6 +110,7 @@ export default function Collection() {
   };
 
   let prevX = null;
+  let currentDirection = 1;
 
   useEffect(() => {
     if (!groupRef.current || !itemsArrayRef.current.length) {
@@ -132,15 +135,26 @@ export default function Collection() {
 
     const {totalWidth} = tickerDimensions;
 
-    const tween = gsap.to(groupRef.current, {
+    if (tweenRef.current) {
+      tweenRef.current.kill();
+    }
+
+    tweenRef.current = gsap.to(groupRef.current, {
       translateX: `-=${totalWidth}`,
       duration: totalWidth / 180,
       ease: 'none',
       repeat: -1,
       onReverseComplete: () => {
-        tween.totalTime(tween.totalTime() + tween.duration() * 100, true);
+        tweenRef.current.totalTime(
+          tweenRef.current.totalTime() + tweenRef.current.duration() * 100,
+          true,
+        );
       },
     });
+
+    const hasMouse = window.matchMedia(
+      '(pointer: fine) and (hover: hover)',
+    ).matches;
 
     const updateTween = (delta) => {
       const velocity = Math.abs(delta);
@@ -149,19 +163,15 @@ export default function Collection() {
         return;
       }
 
-      const direction = delta < 0 ? 1 : -1;
+      const direction = delta === 0 ? currentDirection : delta < 0 ? 1 : -1;
+      currentDirection = direction;
 
       if (velocity > 0) {
-        gsap.to(tween, {
+        gsap.to(tweenRef.current, {
           timeScale: velocity * direction * 1.4,
         });
       }
-
-      gsap.to(tween, {
-        timeScale: direction,
-      });
     };
-
     const handleDrag = (e, x) => {
       if (x == 0) return;
       if (!prevX) {
@@ -171,49 +181,88 @@ export default function Collection() {
       updateTween(x - prevX);
       prevX = x;
     };
-    const handleDragEnd = () => {
-      prevX = null;
+    const handleMouseEnter = () => {
+      gsap.to(tweenRef.current, {
+        timeScale: 0,
+      });
     };
-    const handleTouchMove = (e) => {
-      handleDrag(e, e.touches[0]?.clientX);
+    const handleMouseLeave = () => {
+      gsap.to(tweenRef.current, {
+        timeScale: currentDirection,
+      });
     };
     const handleMouseDrag = (e) => {
       handleDrag(e, e.pageX);
     };
+    const handleDragEnd = () => {
+      prevX = null;
+      gsap.to(tweenRef.current, {
+        timeScale: currentDirection,
+      });
+    };
+    const handleTouchEnd = () => {
+      prevX = null;
+      gsap.to(tweenRef.current, {
+        timeScale: currentDirection,
+      });
+    };
 
-    dragInterfaceRef.current?.addEventListener('drag', handleMouseDrag, {
-      passive: true,
-    });
-    dragInterfaceRef.current?.addEventListener('touchmove', handleTouchMove, {
-      passive: true,
-    });
-    dragInterfaceRef.current?.addEventListener('dragend', handleDragEnd, {
-      passive: true,
-    });
-    dragInterfaceRef.current?.addEventListener('touchend', handleDragEnd, {
-      passive: true,
-    });
+    const handleTouchMove = (e) => {
+      handleDrag(e, e.touches[0]?.clientX);
+    };
+
+    if (hasMouse) {
+      dragInterfaceRef.current?.addEventListener('drag', handleMouseDrag, {
+        passive: false,
+      });
+      dragInterfaceRef.current?.addEventListener('dragend', handleDragEnd, {
+        passive: false,
+      });
+      carouselRef.current?.addEventListener('mouseenter', handleMouseEnter, {
+        passive: false,
+      });
+      carouselRef.current?.addEventListener('mouseleave', handleMouseLeave, {
+        passive: false,
+      });
+    } else {
+      dragInterfaceRef.current?.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
+      dragInterfaceRef.current?.addEventListener('touchend', handleTouchEnd, {
+        passive: false,
+      });
+    }
 
     return () => {
       if (groupRef.current) {
         gsap.set(groupRef.current, {clearProps: 'all'});
       }
 
-      tween?.kill();
+      tweenRef.current?.kill();
+
+      carouselRef.current?.removeEventListener('mouseenter', handleMouseEnter);
+      carouselRef.current?.removeEventListener('mouseleave', handleMouseLeave);
       dragInterfaceRef.current?.removeEventListener('drag', handleMouseDrag);
+      dragInterfaceRef.current?.removeEventListener('dragend', handleDragEnd);
       dragInterfaceRef.current?.removeEventListener(
         'touchmove',
         handleTouchMove,
       );
-      dragInterfaceRef.current?.removeEventListener('dragend', handleDragEnd);
       dragInterfaceRef.current?.removeEventListener('touchend', handleDragEnd);
     };
   }, [tickerDimensions]);
 
   const products = collection.products.nodes;
 
+  const carouselItems = products.concat(
+    Array.from(
+      {length: tickerDimensions?.extraItems || 0},
+      (_, index) => products[index % products.length],
+    ),
+  );
+
   return (
-    <main ref={dragInterfaceRef} className="select-none">
+    <main className="select-none">
       <h1 className="sr-only">Shop</h1>
       <div className="sticky top-0 inset-x-0 min-h-svh h-svh overflow-hidden clip-inset-0 mb-[-100svh]">
         <ShopifyMedia
@@ -236,22 +285,18 @@ export default function Collection() {
         ref={dragInterfaceRef}
         className="relative h-svh z-10 flex flex-col justify-center py-12 lg:py-20"
       >
-        <div className="w-full overflow-hidden">
+        <div ref={carouselRef} className="w-full overflow-hidden">
           <ul ref={groupRef} className="flex w-full items-center">
-            {products?.map((product, i) => (
-              <li ref={addItemRef} key={i} className="flex-none">
+            {carouselItems?.map((product, i) => (
+              <li
+                ref={i < products.length ? addItemRef : undefined}
+                key={i}
+                className="flex-none"
+              >
                 <ProductItem
                   product={product}
                   loading={i < 8 ? 'eager' : undefined}
                 />
-              </li>
-            ))}
-            {Array.from(
-              {length: tickerDimensions?.extraItems || 0},
-              (_, index) => products[index % products.length],
-            )?.map((product, i) => (
-              <li key={`${i}-extra`} className="flex-none">
-                <ProductItem product={product} loading={'lazy'} />
               </li>
             ))}
           </ul>
@@ -275,7 +320,7 @@ export default function Collection() {
  *   loading?: 'eager' | 'lazy';
  * }}
  */
-function ProductItem({product, loading}) {
+function ProductItem({product, loading, onClick}) {
   const variantUrl = useVariantUrl(product.handle);
   const mediaRef = useRef(null);
 
