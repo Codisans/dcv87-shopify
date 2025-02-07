@@ -38,6 +38,8 @@ export function ProductColors({productOptions, selectedVariant}) {
               <Image
                 className="w-24 h-24 object-contain"
                 aspect="1/1"
+                width={96}
+                height={96}
                 data={variant.image}
               />
             )}

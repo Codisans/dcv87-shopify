@@ -142,7 +142,8 @@ export default function Product() {
               speed={0}
               spaceBetween={0}
               slidesPerView={1}
-              loop={true}
+              loop={carouselMedia.length > 1}
+              enabled={carouselMedia.length > 1}
               navigation={{
                 nextEl: nextRef.current,
                 prevEl: prevRef.current,
