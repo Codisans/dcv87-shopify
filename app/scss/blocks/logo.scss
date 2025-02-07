@@ -36,7 +36,7 @@
             --depth: #{($i * 0.5)}px;
           }
         }
-        @for $i from 1 through 8 {
+        @for $i from 1 through 4 {
           &:nth-child(#{$i}) {
             @apply text-white;
           }
