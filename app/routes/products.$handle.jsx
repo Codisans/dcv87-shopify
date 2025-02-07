@@ -194,7 +194,7 @@ export default function Product() {
               selectedVariant={selectedVariant}
             />
           </div>
-          <h1 className="text-h3 text-red">{title}</h1>
+          <h1 className="text-h3 text-red uppercase">{title}</h1>
           <ProductPrice
             className="text-h3"
             price={selectedVariant?.price}
