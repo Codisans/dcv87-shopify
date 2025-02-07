@@ -3,6 +3,8 @@ import {TransitionLink} from './TransitionLink';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import gsap from 'gsap';
 import {Symbol} from './Symbol';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Autoplay, FreeMode} from 'swiper/modules';
 
 export const HomeHeaderMenu = ({
   flip = false,
@@ -10,94 +12,7 @@ export const HomeHeaderMenu = ({
   primaryDomainUrl,
   publicStoreDomain,
 }) => {
-  const groupRef = useRef(null);
-  const itemsArrayRef = useRef([]);
-  const [tickerDimensions, setTickerDimensions] = useState(null);
-
-  const addItemRef = useCallback((node) => {
-    if (node && !itemsArrayRef.current.includes(node)) {
-      itemsArrayRef.current.push(node);
-    }
-  }, []);
-
-  const getTickerDimensions = () => {
-    const visibleWidth = groupRef.current?.clientWidth;
-    const itemWidth = itemsArrayRef.current[0]?.clientWidth;
-    const totalWidth = itemWidth * itemsArrayRef.current.length;
-    const extraWidth = visibleWidth + Math.max(visibleWidth - totalWidth, 0);
-    const extraItems = Math.ceil(extraWidth / itemWidth);
-    return {
-      visibleWidth,
-      itemWidth,
-      totalWidth,
-      extraWidth,
-      extraItems,
-    };
-  };
-
-  useEffect(() => {
-    if (!groupRef.current || !itemsArrayRef.current.length) {
-      return;
-    }
-
-    setTickerDimensions(getTickerDimensions());
-    const resizeObserver = new ResizeObserver(() => {
-      setTickerDimensions(getTickerDimensions());
-    });
-    resizeObserver.observe(groupRef.current);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!tickerDimensions) {
-      return;
-    }
-
-    const {totalWidth} = tickerDimensions;
-
-    const tween = gsap.to(groupRef.current, {
-      translateX: flip ? `+=${totalWidth}` : `-=${totalWidth}`,
-      duration:
-        totalWidth / Math.max(0.03 * window.innerWidth, totalWidth * 0.08),
-      ease: 'none',
-      repeat: -1,
-      onReverseComplete: () => {
-        tween.totalTime(tween.totalTime() + tween.duration() * 100, true);
-      },
-    });
-
-    return () => {
-      if (groupRef.current) {
-        gsap.set(groupRef.current, {clearProps: 'all'});
-      }
-      tween?.kill();
-    };
-  }, [tickerDimensions]);
-
-  const bannerItems = flip
-    ? (menu || FALLBACK_HEADER_MENU).items.reverse()
-    : (menu || FALLBACK_HEADER_MENU).items;
-
-  const extraItems = Array.from(
-    {length: tickerDimensions?.extraItems || 0},
-    (_, index) =>
-      bannerItems[
-        flip
-          ? bannerItems.length - 1 - (index % bannerItems.length)
-          : index % bannerItems.length
-      ],
-  );
-
-  const renderedItems = flip
-    ? extraItems.concat(bannerItems)
-    : bannerItems.concat(extraItems);
-
-  const liClasses = `flex flex-row items-center min-w-max w-[3em] md:w-[3.5em] flex-none ${
-    flip ? 'dot-divider-b' : 'dot-divider-a'
-  }`;
+  const bannerItems = (menu || FALLBACK_HEADER_MENU).items;
 
   return (
     <div
@@ -122,15 +37,28 @@ export const HomeHeaderMenu = ({
           alt="Peace hand"
         />
       </div>
-      <nav className="grow text-red overflow-hidden py-4" role="navigation">
-        <ul
-          ref={groupRef}
-          className={`flex w-full items-center flex-row ${
-            flip ? '[direction:rtl]' : ''
-          }`}
+      <nav
+        className="grow text-red overflow-hidden py-4 marquee-swiper"
+        role="navigation"
+      >
+        <Swiper
+          modules={[Autoplay, FreeMode]}
+          freeMode={{
+            enabled: true,
+            momentum: false,
+          }}
+          autoplay={{
+            reverseDirection: flip,
+            enabled: true,
+            delay: 0,
+            disableOnInteraction: false,
+          }}
+          speed={2000}
+          loop
+          slidesPerView="auto"
+          spaceBetween={0}
         >
-          {renderedItems?.map((item, i) => {
-            const isExtra = i > bannerItems.length;
+          {bannerItems.concat(bannerItems).map((item, i) => {
             if (!item.url) return null;
 
             // if the url is internal, we strip the domain
@@ -142,30 +70,33 @@ export const HomeHeaderMenu = ({
                 : item.url;
             const isExternal = !url.startsWith('/');
             return (
-              <li
-                ref={isExtra ? undefined : addItemRef}
-                key={isExtra ? `${i}-flip` : `${i}-extra-flip`}
-                className={liClasses}
+              <SwiperSlide
+                className={`flex-none flex items-center flex-row w-[3em] md:w-[3.5em] ${
+                  flip ? 'dot-divider-b' : 'dot-divider-a'
+                }`}
+                key={i}
               >
-                {isExternal ? (
-                  <a className="clip-hover" href={url} target="_blank">
-                    {item.title}
-                  </a>
-                ) : (
-                  <TransitionLink
-                    className="clip-hover"
-                    end
-                    prefetch={isExternal ? undefined : 'intent'}
-                    target={isExternal ? '_blank' : '_self'}
-                    to={url}
-                  >
-                    {item.title}
-                  </TransitionLink>
-                )}
-              </li>
+                <li>
+                  {isExternal ? (
+                    <a className="clip-hover" href={url} target="_blank">
+                      {item.title}
+                    </a>
+                  ) : (
+                    <TransitionLink
+                      className="clip-hover"
+                      end
+                      prefetch={isExternal ? undefined : 'intent'}
+                      target={isExternal ? '_blank' : '_self'}
+                      to={url}
+                    >
+                      {item.title}
+                    </TransitionLink>
+                  )}
+                </li>
+              </SwiperSlide>
             );
           })}
-        </ul>
+        </Swiper>
       </nav>
     </div>
   );
