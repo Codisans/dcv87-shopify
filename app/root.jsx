@@ -17,6 +17,7 @@ import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import {LenisScroll} from './components/LenisScroll';
 import {TransitionProvider} from './components/TransitionContext';
+import {useEffect} from 'react';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -140,6 +141,19 @@ export function Layout({children}) {
   const nonce = useNonce();
   /** @type {RootLoader} */
   const data = useRouteLoaderData('root');
+
+  //Add sitelock to prevent access to the site
+  const {pathname} = useLocation();
+  useEffect(() => {
+    if (pathname !== '/newsletter') {
+      if (window.location.search === '?key=swid') {
+        window.localStorage.setItem('key', 'swid');
+      } else if (window.localStorage.getItem('key') !== 'swid') {
+        console.log('redirecting');
+        window.location.replace('/newsletter');
+      }
+    }
+  }, [pathname]);
 
   return (
     <html lang="en" className="bg-black text-white">
