@@ -26,7 +26,7 @@ export const HomeHeaderMenu = ({
         alt="Peace hand"
       />
       <nav
-        className={`w-full text-red flex items-center h-home-header marquee-swiper select-none ${
+        className={`w-full text-red flex items-center h-home-header pt-2 marquee-swiper select-none ${
           flip ? 'pl-[0.6em]' : 'pr-[0.6em]'
         }`}
         role="navigation"

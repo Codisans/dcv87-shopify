@@ -51,7 +51,7 @@ export default function Homepage() {
     <main className="h-[calc(100svh-(2*var(--home-header-height)))] w-full text-nav">
       <h1 className="sr-only">DCV'87</h1>
       <Image
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover object-top"
         width={fields?.background?.reference?.image?.width}
         height={fields?.background?.reference?.image?.height}
         src={fields?.background?.reference?.image?.url}
