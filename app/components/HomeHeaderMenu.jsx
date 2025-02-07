@@ -17,7 +17,7 @@ export const HomeHeaderMenu = ({
   return (
     <div className="text-home-nav overflow-hidden w-full relative">
       <Image
-        className={`size-[1.1em] md:size-[1.3em] absolute top-2 sm:top-1 z-20 object-contain ${
+        className={`size-[1.2em] md:size-[1.3em] absolute top-2 sm:top-1 z-20 object-contain ${
           flip ? 'left-[0.25em]' : 'scale-x-[-1] right-[0.25em]'
         }`}
         width={120}
