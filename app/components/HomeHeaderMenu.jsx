@@ -15,30 +15,20 @@ export const HomeHeaderMenu = ({
   const bannerItems = (menu || FALLBACK_HEADER_MENU).items;
 
   return (
-    <div
-      className={`text-home-nav overflow-hidden w-full flex relative items-center ${
-        flip ? 'flex-row' : 'flex-row-reverse'
-      }`}
-    >
-      <div
-        className={`pb-[0.15em] w-[1.5em] lg:w-[1.85em] flex-none ${
-          flip ? '-sm:ml-[-0.5em]' : '-sm:mr-[-0.5em]'
+    <div className="text-home-nav overflow-hidden w-full relative">
+      <Image
+        className={`size-[1.1em] md:size-[1.3em] absolute top-2 sm:top-1 z-20 object-contain ${
+          flip ? 'left-[0.25em]' : 'scale-x-[-1] right-[0.25em]'
         }`}
-      >
-        <Image
-          className={`w-[1.5em] relative z-20 object-contain z-10 ${
-            flip
-              ? 'translate-x-[0.8em] sm:translate-x-[0.8em] ml-auto'
-              : 'scale-x-[-1] translate-x-[-0.8em] sm:translate-x-[-0.8em] mr-auto'
-          }`}
-          width={120}
-          height={120}
-          src="/img/peace-hand.png"
-          alt="Peace hand"
-        />
-      </div>
+        width={120}
+        height={120}
+        src="/img/peace-hand.png"
+        alt="Peace hand"
+      />
       <nav
-        className="grow text-red overflow-hidden py-4 marquee-swiper"
+        className={`w-full text-red flex items-center h-home-header marquee-swiper select-none ${
+          flip ? 'pl-[0.6em]' : 'pr-[0.6em]'
+        }`}
         role="navigation"
       >
         <Swiper
@@ -53,7 +43,15 @@ export const HomeHeaderMenu = ({
             delay: 0,
             disableOnInteraction: false,
           }}
-          speed={2000}
+          speed={1500}
+          breakpoints={{
+            640: {
+              speed: 1800,
+            },
+            1024: {
+              speed: 2000,
+            },
+          }}
           loop
           slidesPerView="auto"
           spaceBetween={0}
@@ -71,7 +69,7 @@ export const HomeHeaderMenu = ({
             const isExternal = !url.startsWith('/');
             return (
               <SwiperSlide
-                className={`flex-none flex items-center flex-row w-[3em] md:w-[3.5em] ${
+                className={`swiper-no-swiping flex-none flex items-center flex-row w-[3em] md:w-[3.5em] ${
                   flip ? 'dot-divider-b' : 'dot-divider-a'
                 }`}
                 key={i}
@@ -99,21 +97,5 @@ export const HomeHeaderMenu = ({
         </Swiper>
       </nav>
     </div>
-  );
-};
-
-export const HandItem = ({flip = false}) => {
-  return (
-    <Image
-      className={`w-[1.5em] mx-auto object-contain z-10 ${
-        flip
-          ? 'scale-x-[-1] mr-[0.25em] md:mr-[0.34em]'
-          : 'ml-[0.25em] md:ml-[0.34em]'
-      }`}
-      width={120}
-      height={120}
-      src="/img/peace-hand.png"
-      alt="Peace hand"
-    />
   );
 };

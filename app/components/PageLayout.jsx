@@ -28,7 +28,7 @@ export function PageLayout({
   }, [transitionContainerRef]);
 
   return (
-    <div className={isHome ? 'flex flex-col justify-center min-h-svh' : ''}>
+    <>
       {header && !isHome && (
         <Header
           header={header}
@@ -37,7 +37,10 @@ export function PageLayout({
           publicStoreDomain={publicStoreDomain}
         />
       )}
-      <div className="opacity-0" ref={transitionContainerRef}>
+      <div
+        className={`opacity-0 ${isHome ? 'flex flex-col h-svh max-h-svh' : ''}`}
+        ref={transitionContainerRef}
+      >
         {isHome && header && (
           <HomeHeader
             header={header}
@@ -63,7 +66,7 @@ export function PageLayout({
           publicStoreDomain={publicStoreDomain}
         />
       )}
-    </div>
+    </>
   );
 }
 

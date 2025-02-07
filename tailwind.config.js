@@ -212,6 +212,8 @@ export default {
         120: rem(480),
         gutter: 'var(--gutter)',
         header: 'var(--header-height)',
+        'home-header': 'var(--home-header-height)',
+        'product-image': 'var(--product-image-width)',
         gap: 'var(--grid-gap)',
         scrollbar: 'var(--scrollbar-gutter, 0px)',
         viewport: 'var(--viewport)',

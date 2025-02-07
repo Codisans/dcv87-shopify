@@ -4,21 +4,29 @@
   --gutter: 1rem;
   --viewport: calc(100vw - var(--scrollbar-gutter, 0px));
   --product-image-width: 16rem;
+  --home-header-height: 6rem;
 
   @screen sm {
     --gutter: 1.25rem;
     --grid-gap: 0.8rem;
     --product-image-width: 20rem;
+    --home-header-height: 7rem;
   }
 
   @screen md {
     --grid-gap: 1rem;
     --gutter: 1.5rem;
     --product-image-width: 24rem;
+    --home-header-height: 8rem;
   }
 
   @screen lg {
     --grid-gap: 1.75rem;
     --gutter: 2.5rem;
+    --home-header-height: 8.5rem;
+  }
+
+  @screen xl {
+    --home-header-height: 9rem;
   }
 }

@@ -48,10 +48,10 @@ export default function Homepage() {
   const fields = parseFields(pageData.fields);
 
   return (
-    <main className="page-transition">
+    <main className="h-[calc(100svh-(2*var(--home-header-height)))] w-full text-nav">
       <h1 className="sr-only">DCV'87</h1>
       <Image
-        className="w-full object-cover max-h-[calc(100svh-24rem)]"
+        className="w-full h-full object-cover"
         width={fields?.background?.reference?.image?.width}
         height={fields?.background?.reference?.image?.height}
         src={fields?.background?.reference?.image?.url}
