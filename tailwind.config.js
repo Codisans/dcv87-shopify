@@ -25,6 +25,7 @@ export default {
       addVariant('error', ['.error &', '&.error']); // form error styling
       addVariant('open', ['.open &', '&.open']);
       addVariant('scrolled', ['html.scrolled &']);
+      addVariant('in-view', ['.in-view &', '&.in-view']);
     }),
   ],
 

@@ -42,6 +42,7 @@ export const HomeHeaderMenu = ({
             enabled: true,
             delay: 0,
             disableOnInteraction: false,
+            waitForTransition: false,
           }}
           speed={1500}
           breakpoints={{

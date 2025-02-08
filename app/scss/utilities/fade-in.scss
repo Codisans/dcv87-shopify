@@ -1,6 +1,6 @@
 .fade-in {
   opacity: 0;
-  transition: opacity 0.3s ease-in-out 0.2s;
+  transition: opacity 0.3s theme('transitionTimingFunction.slide');
 
   .render & {
     opacity: 1;

@@ -1,5 +1,10 @@
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {useLoaderData, Link, PrefetchPageLinks} from '@remix-run/react';
+import {
+  useLoaderData,
+  Link,
+  PrefetchPageLinks,
+  useNavigate,
+} from '@remix-run/react';
 import {
   getPaginationVariables,
   Image,
@@ -285,7 +290,7 @@ export default function Collection() {
         ref={dragInterfaceRef}
         className="relative h-svh z-10 flex flex-col justify-center py-12 lg:py-20"
       >
-        <div ref={carouselRef} className="w-full overflow-hidden">
+        <div ref={carouselRef} className="w-full overflow-hidden in-view">
           <ul ref={groupRef} className="flex w-full items-center">
             {carouselItems?.map((product, i) => (
               <li
@@ -295,6 +300,8 @@ export default function Collection() {
               >
                 <ProductItem
                   product={product}
+                  tweenRef={tweenRef}
+                  carouselRef={carouselRef}
                   loading={i < 8 ? 'eager' : undefined}
                 />
               </li>
@@ -320,9 +327,10 @@ export default function Collection() {
  *   loading?: 'eager' | 'lazy';
  * }}
  */
-function ProductItem({product, loading, onClick}) {
+function ProductItem({product, loading, carouselRef, tweenRef}) {
   const variantUrl = useVariantUrl(product.handle);
   const mediaRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!product || mediaRef.current) return;
@@ -330,16 +338,35 @@ function ProductItem({product, loading, onClick}) {
     mediaRef.current = document.getElementById(`${product.handle}-media`);
   }, [product]);
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    const rect = e.target.getBoundingClientRect();
+    const centerOffset =
+      window.innerWidth / 2 - rect.left - e.target.offsetWidth / 2;
+    tweenRef.current.pause();
+
+    window.requestAnimationFrame(() => {
+      e.target.parentElement.classList.add('in-view');
+      carouselRef.current?.classList.remove('in-view');
+      gsap
+        .to(carouselRef.current, {
+          x: centerOffset,
+          duration: 0.3,
+          ease: 'power2.inOut',
+        })
+        .then(() => navigate(variantUrl));
+    });
+  };
+
   return (
     <div
       key={product.id}
       onMouseEnter={() => mediaRef.current?.classList.add('!opacity-100')}
       onMouseLeave={() => mediaRef.current?.classList.remove('!opacity-100')}
-      className="relative"
+      className="relative in-view:opacity-100 opacity-0 transition-opacity duration-300 ease-slide"
     >
       {product.featuredImage && (
         <ProductImage
-          className="w-80 h-80 sm:h-96 sm:w-96 lg:w-120 lg:h-120 object-contain pointer-events-none"
           image={product.featuredImage}
           sizes="(min-width: 45em) 400px, 80vw"
           loading={loading}
@@ -349,6 +376,7 @@ function ProductItem({product, loading, onClick}) {
       <Link
         className="absolute inset-0"
         key={product.id}
+        onClick={handleClick}
         prefetch="viewport"
         to={variantUrl}
       >
