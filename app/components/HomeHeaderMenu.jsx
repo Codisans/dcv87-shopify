@@ -4,7 +4,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import gsap from 'gsap';
 import {Symbol} from './Symbol';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Autoplay, FreeMode} from 'swiper/modules';
+import {Autoplay} from 'swiper/modules';
 
 export const HomeHeaderMenu = ({
   flip = false,
@@ -32,17 +32,12 @@ export const HomeHeaderMenu = ({
         role="navigation"
       >
         <Swiper
-          modules={[Autoplay, FreeMode]}
-          freeMode={{
-            enabled: true,
-            momentum: false,
-          }}
+          modules={[Autoplay]}
           autoplay={{
             reverseDirection: flip,
             enabled: true,
             delay: 0,
             disableOnInteraction: false,
-            waitForTransition: false,
           }}
           speed={1500}
           breakpoints={{
