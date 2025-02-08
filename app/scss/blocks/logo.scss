@@ -38,7 +38,7 @@
         }
         @for $i from 1 through 4 {
           &:nth-child(#{$i}) {
-            @apply text-white;
+            @apply text-green;
           }
         }
       }

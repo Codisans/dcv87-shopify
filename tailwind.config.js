@@ -34,7 +34,7 @@ export default {
       current: 'currentColor',
       transparent: 'transparent',
       red: '#B51518',
-      green: '#1DB954',
+      green: '#09f020',
       black: {
         DEFAULT: '#000',
         true: '#000000',
