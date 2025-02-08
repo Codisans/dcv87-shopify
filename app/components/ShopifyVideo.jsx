@@ -10,6 +10,7 @@ export const ShopifyVideo = ({video, className = 'w-full', ...props}) => {
       {...props}
       autoPlay
       muted
+      loop
       playsInline
       controls={false}
     />
