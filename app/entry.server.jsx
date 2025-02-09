@@ -38,6 +38,12 @@ export default async function handleRequest(
       `https://${context.env.CDN_DOMAIN}`,
       'https://shopify.com',
     ],
+    connectSrc: [
+      "'self'",
+      `https://${context.env.CDN_DOMAIN}`,
+      'https://shopify.com',
+      'https://ipapi.co',
+    ],
   });
 
   const body = await renderToReadableStream(

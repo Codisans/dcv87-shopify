@@ -63,7 +63,7 @@ export function PageLayout({
       </div>
       {footer && !isHome && (
         <>
-          <WeatherWidget ip={'186.11.123.63'} />
+          <WeatherWidget ip={ip} />
           <Footer
             footer={footer}
             header={header}
