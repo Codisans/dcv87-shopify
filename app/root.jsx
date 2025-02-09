@@ -113,10 +113,10 @@ async function loadCriticalData({context}) {
  */
 function loadDeferredData({context, request}) {
   const {storefront, customerAccount, cart} = context;
+  const ip = getClientIPAddress(request.headers);
 
   // defer the footer query (below the fold)
   const footer = storefront
-
     .query(FOOTER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
@@ -128,10 +128,12 @@ function loadDeferredData({context, request}) {
       console.error(error);
       return null;
     });
+
   return {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
+    ip: ip,
   };
 }
 
