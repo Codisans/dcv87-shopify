@@ -114,12 +114,6 @@ async function loadCriticalData({context}) {
 function loadDeferredData({context, request}) {
   const {storefront, customerAccount, cart} = context;
 
-  //weather
-  const ip = getClientIPAddress(request.headers);
-  // const location = fetch(`https://ipapi.co/${ip}/json/`)
-  //   .then((res) => res.json())
-  //   .catch((err) => console.log(err));
-
   // defer the footer query (below the fold)
   const footer = storefront
 
@@ -137,8 +131,6 @@ function loadDeferredData({context, request}) {
   return {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
-    // location: location,
-    ip: ip,
     footer,
   };
 }
