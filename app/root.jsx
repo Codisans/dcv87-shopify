@@ -18,7 +18,7 @@ import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import {LenisScroll} from './components/LenisScroll';
 import {TransitionProvider} from './components/TransitionContext';
 import {useEffect} from 'react';
-
+import {getClientIPAddress} from '~/lib/getClientIPAddress';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
@@ -111,11 +111,18 @@ async function loadCriticalData({context}) {
  * Make sure to not throw any errors here, as it will cause the page to 500.
  * @param {LoaderFunctionArgs}
  */
-function loadDeferredData({context}) {
+function loadDeferredData({context, request}) {
   const {storefront, customerAccount, cart} = context;
+
+  //weather
+  const ip = getClientIPAddress(request.headers);
+  // const location = fetch(`https://ipapi.co/${ip}/json/`)
+  //   .then((res) => res.json())
+  //   .catch((err) => console.log(err));
 
   // defer the footer query (below the fold)
   const footer = storefront
+
     .query(FOOTER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
@@ -130,6 +137,8 @@ function loadDeferredData({context}) {
   return {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
+    // location: location,
+    ip: ip,
     footer,
   };
 }
