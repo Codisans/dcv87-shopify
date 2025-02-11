@@ -3,6 +3,7 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, IMAGE_FRAGMENT, Money} from '@shopify/hydrogen';
 import {parseFields} from '~/utils/parseFields';
+import {MailchimpForm} from '~/components/MailchimpForm';
 
 /**
  * @type {MetaFunction}
@@ -51,12 +52,7 @@ export default function Newsletter() {
         <h1 className="text-h3 text-red pb-10 lg:pb-16 uppercase">
           {fields?.heading?.value || 'Join our newsletter'}
         </h1>
-        <input
-          className="w-full uppercase px-8 py-4 border-2 bg-black border-red focus:outline-none focus:ring-orange focus:ring-2"
-          type="email"
-          placeholder="Email"
-        />
-        <button className="mt-8 w-full button">Subscribe</button>
+        <MailchimpForm />
       </div>
     </main>
   );

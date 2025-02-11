@@ -43,7 +43,9 @@ export default async function handleRequest(
       `https://${context.env.CDN_DOMAIN}`,
       'https://shopify.com',
       'https://ipapi.co',
+      'https://com.us10.list-manage.com',
     ],
+    defaultSrc: ["'self'", 'https://com.us10.list-manage.com'],
   });
 
   const body = await renderToReadableStream(
