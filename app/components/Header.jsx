@@ -26,7 +26,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   return (
     <header className="fixed inset-0 w-full z-[60] pointer-events-none overlay-backdrop">
       <TransitionLink
-        className="absolute top-gutter md:top-8 left-1/2 -translate-x-1/2 pointer-events-auto"
+        className="absolute z-[70] top-gutter md:top-8 left-1/2 -translate-x-1/2 pointer-events-auto"
         prefetch="intent"
         to="/"
         end

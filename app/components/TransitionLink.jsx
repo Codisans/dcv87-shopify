@@ -7,7 +7,8 @@ export const TransitionLink = ({children, ...props}) => {
 
   const onClickCallback = (e) => {
     e.preventDefault();
-    transitionTo(e.target.href);
+    const target = e.target.closest('a');
+    transitionTo(target);
   };
 
   return (
