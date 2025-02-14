@@ -22,7 +22,6 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {pathname} = useLocation();
   const showCart = !pathname.includes('/newsletter');
   const showMenu = !pathname.includes('/newsletter');
-  const animatedLogo = true;
 
   return (
     <header className="fixed inset-0 w-full z-[60] pointer-events-none overlay-backdrop">
@@ -33,7 +32,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
         end
       >
         <span className="sr-only">{shop.name}</span>
-        <Logo animated={animatedLogo} />
+        <Logo />
       </TransitionLink>
 
       {showCart && (

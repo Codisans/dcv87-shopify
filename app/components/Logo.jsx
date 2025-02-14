@@ -1,17 +1,18 @@
 import {Symbol} from './Symbol';
 
-export const Logo = ({animated = false}) => {
+export const Logo = () => {
   return (
-    <div className={`logo ${animated ? 'animated' : ''}`}>
-      {animated ? (
-        <div>
-          {Array.from({length: 16}).map((_, index) => (
-            <Symbol key={index} name="logo" />
-          ))}
-        </div>
-      ) : (
-        <Symbol name="logo" />
-      )}
-    </div>
+    <span className="logo">
+      <span className="logo--dcv">
+        {Array.from({length: 16}).map((_, index) => (
+          <Symbol className="absolute inset-0" key={index} name="logo" />
+        ))}
+      </span>
+      <span className="logo--tagline">
+        {Array.from({length: 16}).map((_, index) => (
+          <span key={index}>By Lucien Clarke</span>
+        ))}
+      </span>
+    </span>
   );
 };
