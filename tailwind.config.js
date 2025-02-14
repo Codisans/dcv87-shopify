@@ -151,12 +151,16 @@ export default {
         },
       },
       nav: {
-        base: font(36, {
-          lineHeight: 36,
+        base: font(32, {
+          lineHeight: 32,
           letterSpacing: 0,
           fontFamily: 'Impact',
         }),
         screens: {
+          sm: font(36, {
+            lineHeight: 36,
+            letterSpacing: 0,
+          }),
           lg: font(50, {
             lineHeight: 50,
             letterSpacing: 0,
