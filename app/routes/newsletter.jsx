@@ -46,6 +46,7 @@ function loadDeferredData({context}) {
 export default function Newsletter() {
   const {pageData} = useLoaderData();
   const fields = parseFields(pageData.fields);
+  console.log(fields);
 
   return (
     <main>
@@ -61,7 +62,7 @@ export default function Newsletter() {
           <h1 className="text-h3 text-red pb-10 lg:pb-16 uppercase">
             {fields?.heading?.value || 'Join our newsletter'}
           </h1>
-          <MailchimpForm />
+          <MailchimpForm successMessage={fields?.success_message?.value} />
         </div>
       </div>
     </main>
