@@ -45,7 +45,7 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context, request}) {
-  const handle = 'live';
+  const handle = 'latest';
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
     pageBy: 24,
