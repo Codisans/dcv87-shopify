@@ -277,7 +277,7 @@ export default function Collection() {
           <ShopifyMedia
             key={`${product.handle}-media`}
             id={`${product.handle}-media`}
-            className="absolute inset-0 w-full h-full touch:hidden opacity-0 transition-opacity duration-300 object-cover"
+            className="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-300 object-cover"
             loading="lazy"
             media={product?.metafield?.reference}
           />
