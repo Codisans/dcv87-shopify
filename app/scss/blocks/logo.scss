@@ -8,6 +8,7 @@
 }
 
 .logo {
+  @apply pointer-events-none;
   z-index: 999999;
 
   &--dcv,
