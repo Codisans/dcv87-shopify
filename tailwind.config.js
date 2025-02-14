@@ -180,15 +180,17 @@ export default {
         },
       },
       small: {
-        base: font(16, {
-          lineHeight: 16,
+        base: font(12, {
+          lineHeight: 12,
           letterSpacing: 0,
           fontFamily: 'courier',
         }),
         screens: {
+          sm: font(16, {
+            lineHeight: 16,
+          }),
           lg: font(20, {
             lineHeight: 20,
-            letterSpacing: 0,
           }),
         },
       },
