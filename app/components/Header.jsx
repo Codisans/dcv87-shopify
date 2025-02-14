@@ -63,7 +63,9 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
  */
 export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   const {pathname} = useLocation();
-  const showBackButton = !['/collections', '/blog'].includes(pathname);
+  const pathArr = pathname.split('/');
+  const showBackButton =
+    pathArr.includes('products') || pathArr.includes('cart');
 
   return (
     <nav
@@ -75,7 +77,7 @@ export function HeaderMenu({menu, primaryDomainUrl, publicStoreDomain}) {
           <BackButton />
         ) : (
           (menu || FALLBACK_HEADER_MENU).items.map((item) => {
-            if (!item.url || item?.url.endsWith('/cart')) return null;
+            if (!item.url) return null;
 
             // if the url is internal, we strip the domain
             const url =
