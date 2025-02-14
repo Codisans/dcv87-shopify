@@ -340,6 +340,7 @@ function ProductItem({product, loading, carouselRef, tweenRef}) {
 
   const handleClick = (e) => {
     e.preventDefault();
+    mediaRef.current?.classList.add('!opacity-100');
     const rect = e.target.getBoundingClientRect();
     const centerOffset =
       window.innerWidth / 2 - rect.left - e.target.offsetWidth / 2;
@@ -361,8 +362,6 @@ function ProductItem({product, loading, carouselRef, tweenRef}) {
   return (
     <div
       key={product.id}
-      onMouseEnter={() => mediaRef.current?.classList.add('!opacity-100')}
-      onMouseLeave={() => mediaRef.current?.classList.remove('!opacity-100')}
       className="relative in-view:opacity-100 opacity-0 transition-opacity duration-300 ease-slide"
     >
       {product.featuredImage && (
@@ -509,6 +508,36 @@ const COLLECTION_QUERY = `#graphql
       handle
       title
       description
+      metafield(namespace: "custom" key: "background") {
+        reference {
+          __typename
+            ... on Video {
+              mediaContentType
+              previewImage {
+                height
+                width
+                url
+                altText
+              }
+              sources {
+                url
+                mimeType
+                height
+                width
+                
+              }
+            }
+          ... on MediaImage {
+            image {
+              url
+              width
+              height
+              altText
+            }
+          }
+
+        }
+      }
       products(
         first: $first,
         last: $last,

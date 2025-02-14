@@ -649,6 +649,45 @@ export type CollectionQuery = {
       StorefrontAPI.Collection,
       'id' | 'handle' | 'title' | 'description'
     > & {
+      metafield?: StorefrontAPI.Maybe<{
+        reference?: StorefrontAPI.Maybe<
+          | {
+              __typename:
+                | 'Collection'
+                | 'GenericFile'
+                | 'Metaobject'
+                | 'Model3d'
+                | 'Page'
+                | 'Product'
+                | 'ProductVariant';
+            }
+          | ({__typename: 'MediaImage'} & {
+              image?: StorefrontAPI.Maybe<
+                Pick<
+                  StorefrontAPI.Image,
+                  'url' | 'width' | 'height' | 'altText'
+                >
+              >;
+            })
+          | ({__typename: 'Video'} & Pick<
+              StorefrontAPI.Video,
+              'mediaContentType'
+            > & {
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<
+                    StorefrontAPI.Image,
+                    'height' | 'width' | 'url' | 'altText'
+                  >
+                >;
+                sources: Array<
+                  Pick<
+                    StorefrontAPI.VideoSource,
+                    'url' | 'mimeType' | 'height' | 'width'
+                  >
+                >;
+              })
+        >;
+      }>;
       products: {
         nodes: Array<
           Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'> & {
@@ -1327,7 +1366,7 @@ interface GeneratedQueryTypes {
     return: ShopPageQuery;
     variables: ShopPageQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    metafield(namespace: "custom" key: "background") {\n      reference {\n        __typename\n          ... on Video {\n            mediaContentType\n            previewImage {\n              height\n              width\n              url\n              altText\n            }\n            sources {\n              url\n              mimeType\n              height\n              width\n              \n            }\n          }\n        ... on MediaImage {\n          image {\n            url\n            width\n            height\n            altText\n          }\n        }\n\n      }\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    metafield(namespace: "custom" key: "background") {\n      reference {\n        __typename\n          ... on Video {\n            mediaContentType\n            previewImage {\n              height\n              width\n              url\n              altText\n            }\n            sources {\n              url\n              mimeType\n              height\n              width\n              \n            }\n          }\n        ... on MediaImage {\n          image {\n            url\n            width\n            height\n            altText\n          }\n        }\n\n      }\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      metafield(namespace: "custom" key: "background") {\n        reference {\n          __typename\n            ... on Video {\n              mediaContentType\n              previewImage {\n                height\n                width\n                url\n                altText\n              }\n              sources {\n                url\n                mimeType\n                height\n                width\n                \n              }\n            }\n          ... on MediaImage {\n            image {\n              url\n              width\n              height\n              altText\n            }\n          }\n\n        }\n      }\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
     return: CollectionQuery;
     variables: CollectionQueryVariables;
   };
