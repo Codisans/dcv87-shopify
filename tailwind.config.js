@@ -180,8 +180,8 @@ export default {
         },
       },
       small: {
-        base: font(12, {
-          lineHeight: 12,
+        base: font(14, {
+          lineHeight: 14,
           letterSpacing: 0,
           fontFamily: 'courier',
         }),
