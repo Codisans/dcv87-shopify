@@ -26,6 +26,7 @@ export default async function handleRequest(
       "'self'",
       'https://cdn.shopify.com',
       `https://${context.env.CDN_DOMAIN}`,
+      'cdn.weatherapi.com',
     ],
     fontSrc: [
       "'self'",
@@ -42,8 +43,8 @@ export default async function handleRequest(
       "'self'",
       `https://${context.env.CDN_DOMAIN}`,
       'https://shopify.com',
-      'https://ipapi.co',
-      'https://com.us10.list-manage.com',
+      'http://ipwho.is',
+      'http://api.weatherapi.com',
     ],
     defaultSrc: ["'self'", 'https://com.us10.list-manage.com'],
   });
