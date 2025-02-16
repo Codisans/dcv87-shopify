@@ -8,7 +8,7 @@ export const WeatherWidget = ({ip}) => {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const response = await fetch(`http://ipwho.is/${ip}`);
+        const response = await fetch(`https://ipwho.is/${ip}`);
         const jsonData = await response?.json();
         const city = jsonData.city;
         setLocation(city);
@@ -25,7 +25,7 @@ export const WeatherWidget = ({ip}) => {
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          `http://api.weatherapi.com/v1/current.json?key=43d52268fed04e378c6152940251602&q=${location}&aqi=no`,
+          `https://api.weatherapi.com/v1/current.json?key=43d52268fed04e378c6152940251602&q=${location}&aqi=no`,
         );
         const jsonData = await response?.json();
         setWeatherData(jsonData);
