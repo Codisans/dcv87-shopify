@@ -40,7 +40,9 @@ export function PageLayout({
         />
       )}
       <div
-        className={`opacity-0 ${isHome ? 'flex flex-col h-svh max-h-svh' : ''}`}
+        className={`opacity-0 ${
+          isHome ? 'flex flex-col justify-center h-svh max-h-svh' : ''
+        }`}
         ref={transitionContainerRef}
       >
         {isHome && header && (

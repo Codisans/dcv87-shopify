@@ -48,10 +48,10 @@ export default function Homepage() {
   const fields = parseFields(pageData.fields);
 
   return (
-    <main className="h-[calc(100svh-(2*var(--home-header-height)))] w-full text-nav">
+    <main className="max-h-[calc(100svh-(2*var(--home-header-height)))] w-full text-nav">
       <h1 className="sr-only">DCV'87</h1>
       <Image
-        className="w-full h-full object-cover object-top"
+        className="w-full max-h-full object-contain"
         width={fields?.background?.reference?.image?.width}
         height={fields?.background?.reference?.image?.height}
         src={fields?.background?.reference?.image?.url}
