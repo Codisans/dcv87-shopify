@@ -19,6 +19,7 @@ import {LenisScroll} from './components/LenisScroll';
 import {TransitionProvider} from './components/TransitionContext';
 import {useEffect} from 'react';
 import {getClientIPAddress} from '~/lib/getClientIPAddress';
+import {Favicon} from './components/Favicon';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
