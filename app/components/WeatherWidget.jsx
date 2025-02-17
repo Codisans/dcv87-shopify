@@ -41,7 +41,7 @@ export const WeatherWidget = ({ip}) => {
   if (!weatherData) return;
 
   return (
-    <div className="fixed left-gutter bottom-10 sm:bottom-10 lg:bottom-12 z-header text-small font-courier select-none">
+    <div className="fixed left-gutter bottom-10 sm:bottom-10 lg:bottom-12 z-header text-small font-courier select-none text-green">
       <div className="flex flex-col gap-1 relative z-header overlay-trigger">
         <DigitalClock />
         <span>
