@@ -17,7 +17,6 @@ import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import {LenisScroll} from './components/LenisScroll';
 import {TransitionProvider} from './components/TransitionContext';
 import {useEffect} from 'react';
-import {getClientIPAddress} from '~/lib/getClientIPAddress';
 import {Favicon} from './components/Favicon';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -112,7 +111,6 @@ async function loadCriticalData({context}) {
  */
 function loadDeferredData({context, request}) {
   const {storefront, customerAccount, cart} = context;
-  const ip = getClientIPAddress(request.headers);
 
   // defer the footer query (below the fold)
   const footer = storefront
@@ -132,7 +130,6 @@ function loadDeferredData({context, request}) {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
-    ip: ip,
   };
 }
 
@@ -164,6 +161,7 @@ export function Layout({children}) {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <Favicon />
       </head>
       <body>
         {data ? (

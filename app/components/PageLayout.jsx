@@ -3,7 +3,7 @@ import {Footer} from '~/components/Footer';
 import {Header} from '~/components/Header';
 import {HomeFooter} from './HomeFooter';
 import {HomeHeader} from './HomeHeader';
-import {TransitionProvider, useTransitionContext} from './TransitionContext';
+import {useTransitionContext} from './TransitionContext';
 import {useEffect, useRef} from 'react';
 import {WeatherWidget} from './WeatherWidget';
 
@@ -17,7 +17,6 @@ export function PageLayout({
   header,
   isLoggedIn,
   publicStoreDomain,
-  ip,
 }) {
   const {pathname} = useLocation();
   const {containerRef, setTransitionContainer} = useTransitionContext();
@@ -65,7 +64,7 @@ export function PageLayout({
       </div>
       {footer && !isHome && (
         <>
-          <WeatherWidget ip={ip} />
+          <WeatherWidget />
           <Footer
             footer={footer}
             header={header}

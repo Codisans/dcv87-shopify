@@ -45,6 +45,7 @@ export default async function handleRequest(
       'https://shopify.com',
       'http://ipwho.is',
       'http://api.weatherapi.com',
+      'https://ipapi.co',
     ],
     frameSrc: ["'self'", 'https://www.youtube.com/'],
     defaultSrc: ["'self'", 'https://com.us10.list-manage.com'],

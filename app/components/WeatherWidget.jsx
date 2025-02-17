@@ -2,17 +2,22 @@ import {Await} from '@remix-run/react';
 import {Suspense, useEffect, useRef, useState} from 'react';
 import {DigitalClock} from './DigitalClock';
 
-export const WeatherWidget = ({ip}) => {
+let isHydrating = true;
+
+export const WeatherWidget = () => {
+  const [isHydrated, setIsHydrated] = useState(!isHydrating);
   const [location, setLocation] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [time, setTime] = useState('00:00:00');
 
   useEffect(() => {
+    isHydrating = false;
+    setIsHydrated(true);
+
     const fetchLocation = async () => {
       try {
-        const response = await fetch(`https://ipwho.is/${ip}`);
+        const response = await fetch('https://ipapi.co/json');
         const jsonData = await response?.json();
-
         setLocation(jsonData);
       } catch (error) {
         console.log(error);
@@ -38,14 +43,14 @@ export const WeatherWidget = ({ip}) => {
     fetchWeather();
   }, [location]);
 
-  if (!weatherData) return;
+  if (!weatherData || !isHydrated) return;
 
   return (
     <div className="fixed left-gutter bottom-10 sm:bottom-10 lg:bottom-12 z-header text-small font-courier select-none text-green">
       <div className="flex flex-col gap-1 relative z-header overlay-trigger">
         <DigitalClock />
         <span>
-          {location.city}, {location.country}
+          {location.city}, {location.country_name}
         </span>
         <div className="flex flex-nowrap gap-1 items-center">
           <span>{weatherData?.current?.temp_c} &deg;C</span>
