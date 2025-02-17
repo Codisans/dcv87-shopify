@@ -10,7 +10,7 @@ export const WeatherWidget = ({ip}) => {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const response = await fetch(`https://ipwho.is/181.43.60.146`);
+        const response = await fetch(`https://ipwho.is/${ip}`);
         const jsonData = await response?.json();
 
         setLocation(jsonData);

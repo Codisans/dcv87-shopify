@@ -178,7 +178,7 @@ export default function Product() {
               />
             </button>
           </div>
-          <div className="pointer-events-auto -md:hidden md:absolute left-gutter top-48 md:top-24 md:bottom-24 md:flex md:justify-center lg:block lg:fixed lg:top-auto lg:bottom-20 z-10 fade-in">
+          <div className="pointer-events-auto -md:hidden md:absolute left-gutter top-48 md:top-24 md:bottom-24 md:flex md:justify-center lg:block lg:fixed lg:top-auto lg:bottom-40 z-10 fade-in">
             <ProductColors
               productOptions={productOptions}
               selectedVariant={selectedVariant}
