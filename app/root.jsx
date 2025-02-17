@@ -11,7 +11,6 @@ import {
   isRouteErrorResponse,
   useLocation,
 } from '@remix-run/react';
-import favicon from '~/assets/favicon.svg';
 import mainStyles from '~/scss/main.scss?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
@@ -50,7 +49,6 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
   ];
 }
 
