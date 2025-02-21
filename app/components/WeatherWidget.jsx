@@ -1,10 +1,11 @@
-import {Await} from '@remix-run/react';
+import {Await, useLocation} from '@remix-run/react';
 import {Suspense, useEffect, useRef, useState} from 'react';
 import {DigitalClock} from './DigitalClock';
 
 let isHydrating = true;
 
 export const WeatherWidget = () => {
+  const {pathname} = useLocation();
   const [isHydrated, setIsHydrated] = useState(!isHydrating);
   const [location, setLocation] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
@@ -46,7 +47,13 @@ export const WeatherWidget = () => {
   if (!weatherData || !isHydrated) return;
 
   return (
-    <div className="fixed left-gutter bottom-10 sm:bottom-10 lg:bottom-12 z-header text-small font-courier select-none text-green">
+    <div
+      className={`fixed left-gutter bottom-10 sm:bottom-12 lg:bottom-14 z-header text-small font-courier select-none text-green transition-opacity duration-300 ease-in-out ${
+        pathname.includes('products')
+          ? 'opacity-0 pointer-events-none'
+          : 'opacity-100'
+      }`}
+    >
       <div className="flex flex-col gap-1 relative z-header overlay-trigger">
         <DigitalClock />
         <span>
