@@ -116,8 +116,8 @@ export default function Blog() {
       <h1 className="sr-only">Blog</h1>
       <BackgroundMedia loading="eager" media={fields?.background?.reference} />
       <div className="pt-64 pb-32 container grid-layout !max-w-[1200px]">
-        <div className="-sm:hidden col-start-1 col-end-3">
-          <ul className="sticky z-10 top-78 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
+        {/* <div className="-sm:hidden col-start-1 col-end-3">
+          <ul className="relative z-10 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
             <li>
               <Link className="clip-hover clip-hover--white" to="/blog">
                 Latest
@@ -129,7 +129,7 @@ export default function Blog() {
               </Link>
             </li>
           </ul>
-        </div>
+        </div> */}
         <div className="col-start-1 sm:col-start-3 col-end-11 blog-pagination relative z-10 ">
           <PaginatedResourceSection
             resourcesClassName="flex flex-col gap-y-10 paginated-resource-section"
@@ -280,7 +280,9 @@ const BLOG_QUERY = `#graphql
         first: $first,
         last: $last,
         before: $startCursor,
-        after: $endCursor
+        after: $endCursor,
+        sortKey: PUBLISHED_AT,
+        reverse: true,
       ) {
         nodes {
           ...ArticleItem
