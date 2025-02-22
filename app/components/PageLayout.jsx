@@ -62,23 +62,6 @@ export function PageLayout({
           />
         )}
       </div>
-      {!isHome && (
-        <div className="fixed bottom-gutter right-gutter w-12 h-12 md:w-24 md:h-24 z-header">
-          <video
-            className="w-full h-full object-contain"
-            autoPlay
-            loop
-            muted
-            playsInline
-          >
-            <source
-              src="/vidoe/logo-hevc-safari.mp4"
-              type='video/mp4; codecs="hvc1"'
-            />
-            <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
-          </video>
-        </div>
-      )}
       {footer && !isHome && (
         <>
           <WeatherWidget />
