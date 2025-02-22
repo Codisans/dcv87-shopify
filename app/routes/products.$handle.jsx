@@ -14,10 +14,11 @@ import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {Symbol} from '~/components/Symbol';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Navigation} from 'swiper/modules';
 import {ProductColors} from '~/components/ProductColors';
 import {BackgroundMedia} from '~/components/BackgroundMedia';
+import {ShopifyImage} from '~/components/ShopifyImage';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -95,6 +96,7 @@ export default function Product() {
   const nextRef = useRef(null);
   const prevRef = useRef(null);
   const mainRef = useRef(null);
+  const [zoomedImage, setZoomedImage] = useState(null);
 
   useEffect(() => {
     swiperRef.current?.swiper?.slideTo(0, 0, false);
@@ -132,6 +134,17 @@ export default function Product() {
   return (
     <main ref={mainRef} className="min-h-lvh">
       <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
+      {zoomedImage && (
+        <div
+          onClick={() => setZoomedImage(null)}
+          className="fixed z-[9999] bg-black/40 backdrop-blur-sm inset-0 flex items-center justify-center overflow-hidden cursor-zoom-out"
+        >
+          <ShopifyImage
+            className="w-[80%] h-[80%] object-contain max-w-[1200px] max-h-[1200px]"
+            image={zoomedImage}
+          />
+        </div>
+      )}
       <div className="absolute inset-0 top-0 h-svh overflow-hidden pointer-events-none">
         <div className="absolute z-20 left-0 inset-y-0 w-screen py-12 md:py-24 flex flex-col justify-center items-center">
           <div className="relative pointer-events-auto">
@@ -150,7 +163,11 @@ export default function Product() {
               }}
             >
               {carouselMedia.map((media, i) => (
-                <SwiperSlide className="flex justify-center" key={i}>
+                <SwiperSlide
+                  className="flex justify-center cursor-zoom-in"
+                  onClick={() => setZoomedImage(media)}
+                  key={i}
+                >
                   <ProductImage image={media} />
                 </SwiperSlide>
               ))}
