@@ -5,13 +5,13 @@ import {Image} from '@shopify/hydrogen';
  *   image: ProductVariantFragment['image'];
  * }}
  */
-export function ProductImage({image}) {
+export function ProductImage({image, ...props}) {
   if (!image) return;
 
   return (
     <div
       key={image.id}
-      className="w-[16rem] sm:w-[20rem] lg:w-[24rem] aspect-square relative"
+      className="w-[16rem] sm:w-[20rem] lg:w-[24rem] aspect-square relative pointer-events-auto"
     >
       <Image
         className="object-contain w-full h-full absolute inset-0"
@@ -21,6 +21,7 @@ export function ProductImage({image}) {
         aspectRatio="1/1"
         data={image}
         sizes="(min-width: 45em) 420px, 80vw"
+        {...props}
       />
     </div>
   );
