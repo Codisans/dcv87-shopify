@@ -141,7 +141,7 @@ export default function Product() {
           zoomedImageRef.current.src = '';
           zoomContainerRef.current.style.display = 'none';
         }}
-        className={`fixed z-[9999] bg-black/40 backdrop-blur-sm inset-0 flex items-center justify-center overflow-hidden cursor-zoom-out`}
+        className={`fixed z-[9999] bg-black/40 backdrop-blur-sm inset-0 hidden items-center justify-center overflow-hidden cursor-zoom-out`}
       >
         <img
           className="w-[80%] h-[80%] object-contain max-w-[1200px] max-h-[1200px]"
