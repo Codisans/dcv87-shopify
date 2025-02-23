@@ -169,6 +169,7 @@ export default function Collection() {
       ease: 'none',
       repeat: -1,
       onReverseComplete: () => {
+        console.log('onReverseComplete');
         tweenRef.current.totalTime(
           tweenRef.current.totalTime() + tweenRef.current.duration() * 100,
           true,
@@ -338,9 +339,7 @@ export default function Collection() {
         />
       </div>
       <div
-        className={`fixed bottom-gutter right-gutter w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 z-header ${
-          supportsHEVCA ? '' : ''
-        }`}
+        className={`fixed bottom-gutter right-gutter w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 z-header [clip-path:circle(36%)]`}
       >
         <video
           className="w-full h-full object-contain"
@@ -350,12 +349,12 @@ export default function Collection() {
           playsInline
         >
           {supportsHEVCA ? (
-          <source
-            src="/vidoe/logo-hevc-safari.mp4"
-            type='video/mp4; codecs="hvc1"'
-          />
+            <source
+              src="/vidoe/logo-hevc-safari.mp4"
+              type='video/mp4; codecs="hvc1"'
+            />
           ) : (
-          <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
+            <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
           )}
         </video>
       </div>
