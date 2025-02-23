@@ -18,6 +18,7 @@ import gsap from 'gsap';
 import {BackgroundMedia} from '~/components/BackgroundMedia';
 import {ShopifyMedia} from '~/components/ShopifyMedia';
 import {ProductImage} from '~/components/ProductImage';
+import {supportsHEVCAlpha} from '~/utils/supportsHEVCAlpha';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -89,6 +90,7 @@ export default function Collection() {
   const itemsArrayRef = useRef([]);
   const tweenRef = useRef(null);
   const [tickerDimensions, setTickerDimensions] = useState(null);
+  const [supportsHEVCA, setSupportsHEVCA] = useState(false);
 
   const addItemRef = useCallback((node) => {
     if (node && !itemsArrayRef.current.includes(node)) {
@@ -115,6 +117,10 @@ export default function Collection() {
   let currentDirection = 1;
 
   useEffect(() => {
+    setSupportsHEVCA(supportsHEVCAlpha());
+  }, []);
+
+  useEffect(() => {
     if (!groupRef.current || !itemsArrayRef.current.length) {
       return;
     }
@@ -128,9 +134,25 @@ export default function Collection() {
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [groupRef.current, itemsArrayRef.current]);
 
   useEffect(() => {
+    if (groupRef.current) {
+      gsap.set(groupRef.current, {clearProps: 'all'});
+    }
+
+    tweenRef.current?.kill();
+
+    // carouselRef.current?.removeEventListener('mouseenter', handleMouseEnter);
+    // carouselRef.current?.removeEventListener('mouseleave', handleMouseLeave);
+    // dragInterfaceRef.current?.removeEventListener('drag', handleMouseDrag);
+    // dragInterfaceRef.current?.removeEventListener('dragend', handleDragEnd);
+    // dragInterfaceRef.current?.removeEventListener(
+    //   'touchmove',
+    //   handleTouchMove,
+    // );
+    // dragInterfaceRef.current?.removeEventListener('touchend', handleDragEnd);
+
     if (!tickerDimensions) {
       return;
     }
@@ -315,7 +337,11 @@ export default function Collection() {
           }}
         />
       </div>
-      <div className="fixed bottom-gutter right-gutter w-20 h-20 md:w-28 md:h-28 z-header">
+      <div
+        className={`fixed bottom-gutter right-gutter w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 z-header ${
+          supportsHEVCA ? '' : ''
+        }`}
+      >
         <video
           className="w-full h-full object-contain"
           autoPlay
@@ -323,11 +349,14 @@ export default function Collection() {
           muted
           playsInline
         >
+          {supportsHEVCA ? (
           <source
             src="/vidoe/logo-hevc-safari.mp4"
             type='video/mp4; codecs="hvc1"'
           />
+          ) : (
           <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
+          )}
         </video>
       </div>
     </main>
