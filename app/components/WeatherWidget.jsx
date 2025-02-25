@@ -6,6 +6,7 @@ let isHydrating = true;
 
 export const WeatherWidget = () => {
   const {pathname} = useLocation();
+  const [isVisible, setIsVisible] = useState(false);
   const [isHydrated, setIsHydrated] = useState(!isHydrating);
   const [location, setLocation] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
@@ -44,14 +45,16 @@ export const WeatherWidget = () => {
     fetchWeather();
   }, [location]);
 
+  useEffect(() => {
+    setIsVisible(!pathname.includes('products'));
+  }, [pathname]);
+
   if (!weatherData || !isHydrated) return;
 
   return (
     <div
-      className={`fixed left-gutter bottom-10 sm:bottom-12 lg:bottom-14 z-header text-small font-courier select-none text-green transition-opacity duration-300 ease-in-out ${
-        pathname.includes('products')
-          ? 'opacity-0 pointer-events-none'
-          : 'opacity-100'
+      className={`z-header text-small font-courier select-none text-green transition-opacity duration-300 ease-in-out ${
+        isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >
       <div className="flex flex-col gap-1 relative z-header overlay-trigger">

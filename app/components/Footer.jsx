@@ -1,26 +1,30 @@
 import {Suspense} from 'react';
 import {Await, NavLink} from '@remix-run/react';
+import {WeatherWidget} from './WeatherWidget';
 
 /**
  * @param {FooterProps}
  */
 export function Footer({footer: footerPromise, header, publicStoreDomain}) {
   return (
-    <Suspense>
-      <Await resolve={footerPromise}>
-        {(footer) => (
-          <footer className="fixed left-gutter bottom-6 z-header">
-            {footer?.menu && header.shop.primaryDomain?.url && (
-              <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
-                publicStoreDomain={publicStoreDomain}
-              />
-            )}
-          </footer>
-        )}
-      </Await>
-    </Suspense>
+    <footer className="fixed left-gutter bottom-6 z-header flex flex-col gap-4 md:gap-8">
+      <WeatherWidget />
+      <Suspense>
+        <Await resolve={footerPromise}>
+          {(footer) => (
+            <>
+              {footer?.menu && header.shop.primaryDomain?.url && (
+                <FooterMenu
+                  menu={footer.menu}
+                  primaryDomainUrl={header.shop.primaryDomain.url}
+                  publicStoreDomain={publicStoreDomain}
+                />
+              )}
+            </>
+          )}
+        </Await>
+      </Suspense>
+    </footer>
   );
 }
 
@@ -34,7 +38,7 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
 function FooterMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   return (
     <nav
-      className="flex gap-4 opacity-60 transition-opacity duration-300 ease-in-out hover:opacity-100 text-small font-courier overlay-trigger"
+      className="flex gap-4 flex-wrap max-w-md opacity-60 transition-opacity duration-300 ease-in-out hover:opacity-100 text-small font-courier overlay-trigger"
       role="navigation"
     >
       {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {

@@ -5,7 +5,6 @@ import {HomeFooter} from './HomeFooter';
 import {HomeHeader} from './HomeHeader';
 import {useTransitionContext} from './TransitionContext';
 import {useEffect, useRef} from 'react';
-import {WeatherWidget} from './WeatherWidget';
 import {GlobeLink} from './GlobeLink';
 
 /**
@@ -66,14 +65,11 @@ export function PageLayout({
       </div>
       <GlobeLink globeLinkMenu={globeLinkMenu} />
       {footer && !isHome && (
-        <>
-          <WeatherWidget />
-          <Footer
-            footer={footer}
-            header={header}
-            publicStoreDomain={publicStoreDomain}
-          />
-        </>
+        <Footer
+          footer={footer}
+          header={header}
+          publicStoreDomain={publicStoreDomain}
+        />
       )}
     </>
   );
