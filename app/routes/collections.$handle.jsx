@@ -289,7 +289,7 @@ export default function Collection() {
 
   return (
     <main className="select-none">
-      <h1 className="sr-only">Shop</h1>
+      <h1 className="sr-only">{collection.title}</h1>
       <div className="sticky top-0 inset-x-0 min-h-svh h-svh overflow-hidden clip-inset-0 mb-[-100svh]">
         <ShopifyMedia
           className="w-full h-svh object-cover"
@@ -316,7 +316,7 @@ export default function Collection() {
             {carouselItems?.map((product, i) => (
               <li
                 ref={i < products.length ? addItemRef : undefined}
-                key={i}
+                key={`${collection.title}-${product.id}-${i}`}
                 className="flex-none"
               >
                 <ProductItem
@@ -348,14 +348,7 @@ export default function Collection() {
           muted
           playsInline
         >
-          {supportsHEVCA ? (
-            <source
-              src="/vidoe/logo-hevc-safari.mp4"
-              type='video/mp4; codecs="hvc1"'
-            />
-          ) : (
-            <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
-          )}
+          <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
         </video>
       </div>
     </main>
