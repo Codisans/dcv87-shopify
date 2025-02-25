@@ -19,6 +19,7 @@ import {BackgroundMedia} from '~/components/BackgroundMedia';
 import {ShopifyMedia} from '~/components/ShopifyMedia';
 import {ProductImage} from '~/components/ProductImage';
 import {supportsHEVCAlpha} from '~/utils/supportsHEVCAlpha';
+import {TransitionLink} from '~/components/TransitionLink';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -350,6 +351,16 @@ export default function Collection() {
         >
           <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
         </video>
+        <TransitionLink
+          to={
+            pathname === '/collections/latest'
+              ? '/collections/archive'
+              : '/collections/latest'
+          }
+          className="absolute inset-0 z-10"
+        >
+          <span className="sr-only">Link</span>
+        </TransitionLink>
       </div>
     </main>
   );
