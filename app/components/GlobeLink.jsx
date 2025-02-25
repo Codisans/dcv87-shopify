@@ -15,8 +15,9 @@ export const GlobeLink = ({globeLinkMenu}) => {
       <Suspense>
         <Await resolve={globeLinkMenu}>
           {(menu) => {
+            if (menu?.menu?.items.length == 0) return;
+
             const globeLink = menu?.menu?.items[0];
-            if (!globeLink) return null;
 
             const globeLinkUrl =
               globeLink.url.includes('myshopify.com') ||
