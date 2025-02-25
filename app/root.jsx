@@ -13,7 +13,7 @@ import {
 } from '@remix-run/react';
 import mainStyles from '~/scss/main.scss?url';
 import {PageLayout} from '~/components/PageLayout';
-import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import {FOOTER_QUERY, HEADER_QUERY, GLOBE_LINK_QUERY} from '~/lib/fragments';
 import {LenisScroll} from './components/LenisScroll';
 import {TransitionProvider} from './components/TransitionContext';
 import {useEffect} from 'react';
@@ -112,6 +112,19 @@ async function loadCriticalData({context}) {
 function loadDeferredData({context, request}) {
   const {storefront, customerAccount, cart} = context;
 
+  const globeLinkMenu = storefront
+    .query(GLOBE_LINK_QUERY, {
+      cache: storefront.CacheLong(),
+      variables: {
+        menuHandle: 'globe-link', // Adjust to your footer menu handle
+      },
+    })
+    .catch((error) => {
+      // Log query errors, but don't throw them so the page can still render
+      console.error(error);
+      return null;
+    });
+
   // defer the footer query (below the fold)
   const footer = storefront
     .query(FOOTER_QUERY, {
@@ -130,6 +143,7 @@ function loadDeferredData({context, request}) {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
+    globeLinkMenu,
   };
 }
 

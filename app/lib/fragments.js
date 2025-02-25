@@ -231,3 +231,16 @@ export const FOOTER_QUERY = `#graphql
   }
   ${MENU_FRAGMENT}
 `;
+
+export const GLOBE_LINK_QUERY = `#graphql
+  query GlobeLink(
+    $country: CountryCode
+    $menuHandle: String!
+    $language: LanguageCode
+  ) @inContext(language: $language, country: $country) {
+    menu(handle: $menuHandle) {
+      ...Menu
+    }
+  }
+  ${MENU_FRAGMENT}
+`;

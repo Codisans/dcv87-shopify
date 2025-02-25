@@ -6,6 +6,7 @@ import {HomeHeader} from './HomeHeader';
 import {useTransitionContext} from './TransitionContext';
 import {useEffect, useRef} from 'react';
 import {WeatherWidget} from './WeatherWidget';
+import {GlobeLink} from './GlobeLink';
 
 /**
  * @param {PageLayoutProps}
@@ -17,6 +18,7 @@ export function PageLayout({
   header,
   isLoggedIn,
   publicStoreDomain,
+  globeLinkMenu,
 }) {
   const {pathname} = useLocation();
   const {containerRef, setTransitionContainer} = useTransitionContext();
@@ -62,6 +64,7 @@ export function PageLayout({
           />
         )}
       </div>
+      <GlobeLink globeLinkMenu={globeLinkMenu} />
       {footer && !isHome && (
         <>
           <WeatherWidget />

@@ -341,30 +341,6 @@ export default function Collection() {
           }}
         />
       </div>
-      <div
-        className={`fixed bottom-gutter right-gutter w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 z-header [clip-path:circle(36%)]`}
-      >
-        {/* <video
-          className="w-full h-full object-contain"
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src="/video/logo-vp9-chrome.webm" type="video/webm" />
-        </video> */}
-        <img className="w-full h-full object-contain" src="/img/globe.gif" />
-        <TransitionLink
-          to={
-            pathname === '/collections/latest'
-              ? '/collections/archive'
-              : '/collections/latest'
-          }
-          className="absolute inset-0 z-10"
-        >
-          <span className="sr-only">Link</span>
-        </TransitionLink>
-      </div>
     </main>
   );
 }
