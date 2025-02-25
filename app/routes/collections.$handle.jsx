@@ -4,6 +4,7 @@ import {
   Link,
   PrefetchPageLinks,
   useNavigate,
+  useLocation,
 } from '@remix-run/react';
 import {
   getPaginationVariables,
@@ -83,6 +84,7 @@ function loadDeferredData({context}) {
 export default function Collection() {
   /** @type {LoaderReturnData} */
   const {collection} = useLoaderData();
+  const {pathname} = useLocation();
   // const fields = parseFields(collection?.fields);
 
   const dragInterfaceRef = useRef(null);
