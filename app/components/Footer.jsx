@@ -7,7 +7,7 @@ import {WeatherWidget} from './WeatherWidget';
  */
 export function Footer({footer: footerPromise, header, publicStoreDomain}) {
   return (
-    <footer className="fixed left-gutter bottom-6 z-header flex flex-col gap-4 md:gap-8">
+    <footer className="fixed inset-x-gutter bottom-4 z-header flex flex-col items-start gap-2 md:gap-6 pointer-events-none">
       <WeatherWidget />
       <Suspense>
         <Await resolve={footerPromise}>
@@ -38,7 +38,7 @@ export function Footer({footer: footerPromise, header, publicStoreDomain}) {
 function FooterMenu({menu, primaryDomainUrl, publicStoreDomain}) {
   return (
     <nav
-      className="flex gap-4 flex-wrap max-w-md opacity-60 transition-opacity duration-300 ease-in-out hover:opacity-100 text-small font-courier overlay-trigger"
+      className="flex gap-4 flex-wrap text-grey-light py-2 pointer-events-auto transition-colors duration-300 ease-in-out hover:text-white text-small font-courier overlay-trigger"
       role="navigation"
     >
       {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
