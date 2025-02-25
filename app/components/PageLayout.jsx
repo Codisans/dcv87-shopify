@@ -63,7 +63,9 @@ export function PageLayout({
           />
         )}
       </div>
-      <GlobeLink globeLinkMenu={globeLinkMenu} />
+      {!isHome && pathname.includes('collections') && (
+        <GlobeLink globeLinkMenu={globeLinkMenu} />
+      )}
       {footer && !isHome && (
         <Footer
           footer={footer}
