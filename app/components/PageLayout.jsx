@@ -63,7 +63,7 @@ export function PageLayout({
           />
         )}
       </div>
-      {!isHome && pathname.includes('collections') && (
+      {(pathname.includes('collections') || pathname.includes('blog')) && (
         <GlobeLink globeLinkMenu={globeLinkMenu} />
       )}
       {footer && !isHome && (

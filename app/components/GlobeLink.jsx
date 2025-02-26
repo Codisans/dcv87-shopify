@@ -5,7 +5,7 @@ import {Await} from '@remix-run/react';
 export const GlobeLink = ({globeLinkMenu}) => {
   return (
     <div
-      className={`fixed bottom-gutter right-gutter w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 z-header [clip-path:circle(36%)]`}
+      className={`fixed bottom-gutter rounded-full overflow-hidden right-gutter w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 z-header [clip-path:circle(36%)]`}
     >
       <img
         className="w-full h-full object-contain"
@@ -30,7 +30,7 @@ export const GlobeLink = ({globeLinkMenu}) => {
             return (
               <TransitionLink
                 to={globeLinkUrl}
-                className="absolute inset-0 z-10"
+                className="absolute inset-0 z-header"
               >
                 <span className="sr-only">{globeLink.title}</span>
               </TransitionLink>
