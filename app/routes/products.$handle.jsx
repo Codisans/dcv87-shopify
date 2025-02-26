@@ -144,7 +144,7 @@ export default function Product() {
         className={`fixed z-[9999] bg-black/40 backdrop-blur-sm inset-0 hidden items-center justify-center overflow-hidden cursor-zoom-out`}
       >
         <img
-          className="w-[80%] h-[80%] object-contain max-w-[1200px] max-h-[1200px]"
+          className="w-[95%] h-[80%] object-contain max-w-[calc(100vw-var(--gutter))] max-h-[1600px]"
           ref={zoomedImageRef}
           alt="Zoomed Image"
         />
@@ -173,8 +173,9 @@ export default function Product() {
                   key={i}
                 >
                   <ProductImage
-                    onClick={() => {
-                      zoomedImageRef.current.src = media.url;
+                    onClick={(e) => {
+                      const imgUrl = e.target.closest('img').src;
+                      zoomedImageRef.current.src = imgUrl;
                       zoomContainerRef.current.style.display = 'flex';
                     }}
                     image={media}
