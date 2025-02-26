@@ -17,7 +17,7 @@ import {FOOTER_QUERY, HEADER_QUERY, GLOBE_LINK_QUERY} from '~/lib/fragments';
 import {LenisScroll} from './components/LenisScroll';
 import {TransitionProvider} from './components/TransitionContext';
 import {useEffect} from 'react';
-import {Favicon} from './components/Favicon';
+import {FaviconLinks, FaviconMeta} from './components/Favicon';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
@@ -48,6 +48,7 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
+    ...FaviconLinks(),
   ];
 }
 
@@ -175,7 +176,6 @@ export function Layout({children}) {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <Favicon />
       </head>
       <body>
         {data ? (
