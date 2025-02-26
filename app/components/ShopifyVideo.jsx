@@ -9,7 +9,7 @@ export const ShopifyVideo = ({video, className = 'w-full', ...props}) => {
   useEffect(() => {
     if (!videoRef.current) return;
 
-    videoRef.current.setAttribute('muted', 'true');
+    videoRef.current.setAttribute('muted', '');
   }, [videoRef]);
 
   return (
