@@ -306,8 +306,7 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
               url
               mimeType
               height
-              width
-              
+              width 
             }
           }
           ... on MediaImage {
@@ -359,10 +358,20 @@ const PRODUCT_FRAGMENT = `#graphql
       reference {
         __typename
         ... on Video {
-          sources {
-            url
+            mediaContentType
+            previewImage {
+              height
+              width
+              url
+              altText
+            }
+            sources {
+              url
+              mimeType
+              height
+              width 
+            }
           }
-        }
         ... on MediaImage {
           image {
             url
