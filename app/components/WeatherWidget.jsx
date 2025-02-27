@@ -18,10 +18,7 @@ export const WeatherWidget = () => {
 
     const fetchLocation = async () => {
       try {
-        // const response = await fetch('https://ipapi.co/json');
-        const response = await fetch(
-          'https://api.ipapi.com/api/check?access_key=7953251aa75962c3a6480d2ec2d34912',
-        );
+        const response = await fetch('https://ipapi.co/json');
         const jsonData = await response?.json();
         setLocation(jsonData);
       } catch (error) {
@@ -34,10 +31,12 @@ export const WeatherWidget = () => {
   useEffect(() => {
     if (!location) return;
 
+    console.log(location);
+
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=43d52268fed04e378c6152940251602&q=${location.location.capital}&aqi=no`,
+          `https://api.weatherapi.com/v1/current.json?key=43d52268fed04e378c6152940251602&q=${location.country_capital}&aqi=no`,
         );
         const jsonData = await response?.json();
         setWeatherData(jsonData);
