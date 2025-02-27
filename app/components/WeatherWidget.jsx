@@ -33,12 +33,11 @@ export const WeatherWidget = () => {
 
   useEffect(() => {
     if (!location) return;
-    console.log(location);
 
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=43d52268fed04e378c6152940251602&q=${location.city}&aqi=no`,
+          `https://api.weatherapi.com/v1/current.json?key=43d52268fed04e378c6152940251602&q=${location.location.capital}&aqi=no`,
         );
         const jsonData = await response?.json();
         setWeatherData(jsonData);
@@ -64,7 +63,7 @@ export const WeatherWidget = () => {
       <div className="flex flex-col gap-1 relative z-header overlay-trigger">
         <DigitalClock />
         <span>
-          {location.city}, {location.country_name}
+          {location.location.capital}, {location.country_name}
         </span>
         <div className="flex flex-nowrap gap-1 items-center">
           <span>{weatherData?.current?.temp_c} &deg;C</span>
