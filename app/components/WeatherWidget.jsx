@@ -18,7 +18,9 @@ export const WeatherWidget = () => {
 
     const fetchLocation = async () => {
       try {
-        const response = await fetch('https://ipapi.co/json');
+        const response = await fetch('https://ipapi.co/json', {
+          mode: 'no-cors',
+        });
         const jsonData = await response?.json();
         setLocation(jsonData);
       } catch (error) {
