@@ -31,8 +31,6 @@ export const WeatherWidget = () => {
   useEffect(() => {
     if (!location) return;
 
-    console.log(location);
-
     const fetchWeather = async () => {
       try {
         const response = await fetch(
@@ -51,7 +49,7 @@ export const WeatherWidget = () => {
     setIsVisible(!pathname.includes('products'));
   }, [pathname]);
 
-  if (!weatherData || !isHydrated) return;
+  if (!weatherData || !isHydrated || !location) return;
 
   return (
     <div
@@ -62,7 +60,7 @@ export const WeatherWidget = () => {
       <div className="flex flex-col gap-1 relative z-header overlay-trigger">
         <DigitalClock />
         <span>
-          {location.location.country_capital}, {location.country_name}
+          {location?.location?.country_capital}, {location?.country_name}
         </span>
         <div className="flex flex-nowrap gap-1 items-center">
           <span>{weatherData?.current?.temp_c} &deg;C</span>
