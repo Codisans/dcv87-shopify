@@ -49,13 +49,6 @@ function CartEmpty({hidden = false}) {
         <p className="pt-32 lg:pt-40 pb-16 lg:pb-20 text-h3 max-w-md text-center">
           Add items to cart
         </p>
-        <TransitionLink
-          className="button max-w-full w-[280px]"
-          to="/collections"
-          prefetch="viewport"
-        >
-          Go to shop
-        </TransitionLink>
       </div>
     </div>
   );
