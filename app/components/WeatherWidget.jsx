@@ -2,8 +2,6 @@ import {Await, useLocation} from '@remix-run/react';
 import {Suspense, useEffect, useRef, useState} from 'react';
 import {DigitalClock} from './DigitalClock';
 
-let isHydrating = true;
-
 export const WeatherWidget = () => {
   const {pathname} = useLocation();
   const [isVisible, setIsVisible] = useState(false);
@@ -13,9 +11,7 @@ export const WeatherWidget = () => {
   const [time, setTime] = useState('00:00:00');
 
   useEffect(() => {
-    isHydrating = false;
-    setIsHydrated(true);
-
+    if (location) return;
     const fetchLocation = async () => {
       try {
         const response = await fetch('https://ipapi.co/json', {
@@ -31,7 +27,7 @@ export const WeatherWidget = () => {
   }, []);
 
   useEffect(() => {
-    if (!location) return;
+    if (!location || weatherData) return;
 
     const fetchWeather = async () => {
       try {
