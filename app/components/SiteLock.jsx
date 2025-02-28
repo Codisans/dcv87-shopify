@@ -11,7 +11,6 @@ export const SiteLock = ({env}) => {
       if (window.location.search === '?key=swid') {
         window.localStorage.setItem('key', 'swid');
       } else if (window.localStorage.getItem('key') !== 'swid') {
-        console.log('redirecting');
         window.location.replace('/newsletter');
       }
     }
