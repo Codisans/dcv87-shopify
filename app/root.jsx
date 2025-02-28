@@ -18,6 +18,7 @@ import {LenisScroll} from './components/LenisScroll';
 import {TransitionProvider} from './components/TransitionContext';
 import {useEffect} from 'react';
 import {FaviconLinks, FaviconMeta} from './components/Favicon';
+import {SiteLock} from './components/SiteLock';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
@@ -101,7 +102,7 @@ async function loadCriticalData({context}) {
     // Add other queries here, so that they are loaded in parallel
   ]);
 
-  return {header};
+  return {header, env: context.env};
 }
 
 /**
@@ -156,19 +157,6 @@ export function Layout({children}) {
   /** @type {RootLoader} */
   const data = useRouteLoaderData('root');
 
-  //Add sitelock to prevent access to the site
-  const {pathname} = useLocation();
-  useEffect(() => {
-    if (pathname !== '/newsletter') {
-      if (window.location.search === '?key=swid') {
-        window.localStorage.setItem('key', 'swid');
-      } else if (window.localStorage.getItem('key') !== 'swid') {
-        console.log('redirecting');
-        window.location.replace('/newsletter');
-      }
-    }
-  }, [pathname]);
-
   return (
     <html lang="en" className="bg-black text-white">
       <head>
@@ -184,6 +172,7 @@ export function Layout({children}) {
             shop={data.shop}
             consent={data.consent}
           >
+            <SiteLock env={data.env} />
             <LenisScroll>
               <TransitionProvider>
                 <PageLayout {...data}>{children}</PageLayout>
