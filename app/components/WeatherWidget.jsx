@@ -5,7 +5,6 @@ import {DigitalClock} from './DigitalClock';
 export const WeatherWidget = () => {
   const {pathname} = useLocation();
   const [isVisible, setIsVisible] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(!isHydrating);
   const [location, setLocation] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [time, setTime] = useState('00:00:00');
