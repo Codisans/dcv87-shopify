@@ -8,7 +8,7 @@ import {WeatherWidget} from './WeatherWidget';
 export function Footer({footer: footerPromise, header, publicStoreDomain}) {
   return (
     <footer className="fixed inset-x-gutter -sm:right-28 bottom-4 z-header flex flex-col items-start gap-2 md:gap-6 pointer-events-none">
-      {/* <WeatherWidget /> */}
+      <WeatherWidget />
       <Suspense>
         <Await resolve={footerPromise}>
           {(footer) => (
