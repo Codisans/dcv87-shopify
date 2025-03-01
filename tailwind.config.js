@@ -254,6 +254,9 @@ export default {
         mouse: {raw: '(hover: hover) and (pointer: fine)'},
         '3xl': '1900px',
       },
+      boxShadow: {
+        glow: '0 0 10px #09f020, 0 0 20px #09f020, 0 0 30px #09f020, 0 0 40px #09f020',
+      },
       transitionTimingFunction: {
         DEFAULT: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
         slide: 'cubic-bezier(0.95, 0.2, 0.25, 1)',
