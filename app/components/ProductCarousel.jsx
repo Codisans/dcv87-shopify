@@ -6,9 +6,9 @@ import {useVariantUrl} from '~/lib/variants';
 import {parseFields} from '~/utils/parseFields';
 import {ProductImage} from '~/components/ProductImage';
 import {useGSAP} from '@gsap/react';
-gsap.registerPlugin(useGSAP);
 
 export const ProductCarousel = ({products}) => {
+  gsap.registerPlugin(useGSAP);
   const navigate = useNavigate();
 
   const [renderedItems, setRenderedItems] = useState([]);
