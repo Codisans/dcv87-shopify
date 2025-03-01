@@ -43,25 +43,14 @@ export const ProductCarousel = ({products}) => {
     if (!groupRef.current || !placeholderRef.current) {
       return;
     }
-    const tickerDimensions = getTickerDimensions();
-    setTickerDimensions(tickerDimensions);
-    setRenderedItems([
-      ...products,
-      products.slice(0, tickerDimensions.extraItems),
-    ]);
-  }, [groupRef, placeholderRef]);
 
-  useEffect(() => {
-    if (!groupRef.current || !placeholderRef.current) {
-      return;
-    }
-
+    resizeObserverRef.current?.disconnect();
     resizeObserverRef.current = new ResizeObserver(() => {
       const tickerDimensions = getTickerDimensions();
       setTickerDimensions(tickerDimensions);
       setRenderedItems([
         ...products,
-        products.slice(0, tickerDimensions.extraItems),
+        ...products.slice(0, tickerDimensions.extraItems),
       ]);
     });
     resizeObserverRef.current.observe(carouselRef.current);
@@ -232,8 +221,14 @@ export const ProductCarousel = ({products}) => {
       ref={dragInterfaceRef}
       className="relative h-svh z-10 flex flex-col justify-center py-12 lg:py-20"
     >
-      <div ref={carouselRef} className="w-full overflow-hidden in-view">
-        <ul ref={groupRef} className="flex w-full items-center">
+      <div
+        ref={carouselRef}
+        className="w-full overflow-hidden in-view h-[16rem] sm:h-[20rem] lg:h-[24rem]"
+      >
+        <ul
+          ref={groupRef}
+          className="flex flex-row flex-nowrap w-max min-w-full items-center"
+        >
           <li
             ref={placeholderRef}
             className="w-[16rem] sm:w-[20rem] lg:w-[24rem] absolute pointer-events-none invisible"
