@@ -1,5 +1,7 @@
 import {Link, useNavigate} from '@remix-run/react';
 import {AddToCartButton} from './AddToCartButton';
+import {TransitionLink} from './TransitionLink';
+import {useState} from 'react';
 
 /**
  * @param {{
@@ -9,6 +11,8 @@ import {AddToCartButton} from './AddToCartButton';
  */
 export function ProductForm({productOptions, selectedVariant}) {
   const navigate = useNavigate();
+  const [showCartButton, setShowCartButton] = useState(false);
+
   return (
     <div className="product-form">
       {productOptions.map((option) => {
@@ -88,6 +92,7 @@ export function ProductForm({productOptions, selectedVariant}) {
       <div className="pt-6 sm:pt-8 [&_form]:w-full">
         <AddToCartButton
           disabled={!selectedVariant || !selectedVariant.availableForSale}
+          onClick={() => setShowCartButton(true)}
           lines={
             selectedVariant
               ? [
@@ -102,6 +107,15 @@ export function ProductForm({productOptions, selectedVariant}) {
         >
           {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
         </AddToCartButton>
+
+        <TransitionLink
+          className={`mt-6 md:mt-8 button w-full ${
+            showCartButton ? 'visible' : 'invisible'
+          }`}
+          to="/cart"
+        >
+          View Cart
+        </TransitionLink>
       </div>
     </div>
   );
