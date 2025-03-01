@@ -6,10 +6,9 @@ import {useVariantUrl} from '~/lib/variants';
 import {parseFields} from '~/utils/parseFields';
 import {ProductImage} from '~/components/ProductImage';
 import {useGSAP} from '@gsap/react';
+gsap.registerPlugin(useGSAP);
 
-export const ProductCarousel = ({collection, products}) => {
-  gsap.registerPlugin(useGSAP);
-  const {pathname} = useLocation();
+export const ProductCarousel = ({products}) => {
   const navigate = useNavigate();
 
   const [renderedItems, setRenderedItems] = useState([]);
@@ -44,8 +43,12 @@ export const ProductCarousel = ({collection, products}) => {
     if (!groupRef.current || !placeholderRef.current) {
       return;
     }
-
-    setTickerDimensions(getTickerDimensions());
+    const tickerDimensions = getTickerDimensions();
+    setTickerDimensions(tickerDimensions);
+    setRenderedItems([
+      ...products,
+      products.slice(0, tickerDimensions.extraItems),
+    ]);
   }, [groupRef, placeholderRef]);
 
   useEffect(() => {
@@ -54,7 +57,12 @@ export const ProductCarousel = ({collection, products}) => {
     }
 
     resizeObserverRef.current = new ResizeObserver(() => {
-      setTickerDimensions(getTickerDimensions());
+      const tickerDimensions = getTickerDimensions();
+      setTickerDimensions(tickerDimensions);
+      setRenderedItems([
+        ...products,
+        products.slice(0, tickerDimensions.extraItems),
+      ]);
     });
     resizeObserverRef.current.observe(carouselRef.current);
 
@@ -222,19 +230,16 @@ export const ProductCarousel = ({collection, products}) => {
   return (
     <div
       ref={dragInterfaceRef}
-      className="relative h-svh z-10 flex flex-col justify-center py-12 lg:py-20 in-view:opacity-100 opacity-0 transition-opacity duration-300 ease-slide"
+      className="relative h-svh z-10 flex flex-col justify-center py-12 lg:py-20"
     >
       <div ref={carouselRef} className="w-full overflow-hidden in-view">
         <ul ref={groupRef} className="flex w-full items-center">
-          <div
+          <li
             ref={placeholderRef}
             className="w-[16rem] sm:w-[20rem] lg:w-[24rem] absolute pointer-events-none invisible"
-          ></div>
+          ></li>
           {renderedItems?.map((product, i) => (
-            <li
-              key={`${collection.title}-${product.id}-${i}`}
-              className="flex-none"
-            >
+            <li key={`${product.id}-${i}`} className="flex-none">
               <ProductItem
                 product={product}
                 navigateToProduct={navigateToProduct}

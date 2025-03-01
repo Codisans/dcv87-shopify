@@ -82,18 +82,17 @@ function loadDeferredData({context}) {
 
 export default function Collection() {
   /** @type {LoaderReturnData} */
-  const [displayCarousel, setDisplayCarousel] = useState(false);
-
   const {collection} = useLoaderData();
-  const products = collection.products.nodes;
   const background = collection?.metafield?.reference;
+  const products = collection.products.nodes;
+  const [displayCarousel, setDisplayCarousel] = useState(false);
   const {pathname} = useLocation();
 
   useEffect(() => {
     setDisplayCarousel(false);
     setTimeout(() => {
       setDisplayCarousel(true);
-    }, 300);
+    }, 500);
   }, [pathname]);
 
   return (
@@ -116,8 +115,8 @@ export default function Collection() {
         ))}
       </div>
 
-      {displayCarousel && (
-        <ProductCarousel collection={collection} products={products} />
+      {displayCarousel && products?.length && (
+        <ProductCarousel products={products} />
       )}
 
       <Analytics.CollectionView
