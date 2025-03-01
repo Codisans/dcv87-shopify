@@ -17,7 +17,6 @@ export const WeatherWidget = () => {
           mode: 'no-cors',
         });
         const jsonData = await response?.json();
-        console.log(response);
         setLocation(jsonData);
       } catch (error) {
         console.log(error);
