@@ -7,9 +7,8 @@ import {parseFields} from '~/utils/parseFields';
 import {ProductImage} from '~/components/ProductImage';
 import {useGSAP} from '@gsap/react';
 
-gsap.registerPlugin(useGSAP);
-
 export const ProductCarousel = ({collection, products}) => {
+  gsap.registerPlugin(useGSAP);
   const {pathname} = useLocation();
   const navigate = useNavigate();
 
