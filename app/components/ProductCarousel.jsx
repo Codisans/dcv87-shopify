@@ -50,7 +50,7 @@ export const ProductCarousel = ({products}) => {
       setTickerDimensions(tickerDimensions);
       setRenderedItems([
         ...products,
-        ...products.slice(0, tickerDimensions.extraItems),
+        ...products.slice(0, tickerDimensions.extraItems + 1),
       ]);
     });
     resizeObserverRef.current.observe(carouselRef.current);

@@ -115,9 +115,7 @@ export default function Collection() {
         ))}
       </div>
 
-      {displayCarousel && products?.length && (
-        <ProductCarousel products={products} />
-      )}
+      {displayCarousel && <ProductCarousel products={products} />}
 
       <Analytics.CollectionView
         data={{
