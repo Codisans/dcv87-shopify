@@ -92,7 +92,7 @@ export default function Collection() {
     setDisplayCarousel(false);
     setTimeout(() => {
       setDisplayCarousel(true);
-    }, 500);
+    }, 300);
   }, [pathname]);
 
   return (

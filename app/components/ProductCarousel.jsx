@@ -23,10 +23,10 @@ export const ProductCarousel = ({products}) => {
   const resizeObserverRef = useRef(null);
   const [tickerDimensions, setTickerDimensions] = useState(null);
 
-  const getTickerDimensions = () => {
+  const getTickerDimensions = (productArray) => {
     const visibleWidth = carouselRef.current?.clientWidth;
     const itemWidth = placeholderRef.current?.clientWidth;
-    const totalWidth = itemWidth * products.length;
+    const totalWidth = itemWidth * productArray.length;
     const extraWidth = visibleWidth + Math.max(visibleWidth - totalWidth, 0);
     const extraItems = Math.ceil(extraWidth / itemWidth);
 
@@ -46,7 +46,7 @@ export const ProductCarousel = ({products}) => {
 
     resizeObserverRef.current?.disconnect();
     resizeObserverRef.current = new ResizeObserver(() => {
-      const tickerDimensions = getTickerDimensions();
+      const tickerDimensions = getTickerDimensions(products);
       setTickerDimensions(tickerDimensions);
       setRenderedItems([
         ...products,
