@@ -17,6 +17,7 @@ export const WeatherWidget = () => {
           mode: 'no-cors',
         });
         const jsonData = await response?.json();
+        console.log(response);
         setLocation(jsonData);
       } catch (error) {
         console.log(error);
@@ -46,7 +47,7 @@ export const WeatherWidget = () => {
     setIsVisible(!pathname.includes('products'));
   }, [pathname]);
 
-  if (!weatherData || !isHydrated || !location) return;
+  if (!weatherData || !location) return;
 
   return (
     <div
