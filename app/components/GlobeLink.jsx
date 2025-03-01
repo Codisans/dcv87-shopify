@@ -4,7 +4,7 @@ import {Await} from '@remix-run/react';
 
 export const GlobeLink = ({globeLinkMenu}) => {
   return (
-    <div className="fixed bottom-gutter rounded-full right-gutter z-header shadow-glow m-[1.15rem]">
+    <div className="fixed bottom-gutter rounded-full right-gutter z-header shadow-glow hover:shadow-glow-lg transition-[box-shadow] duration-300 ease-in-out m-[1.15rem]">
       <div className="rounded-full overflow-hidden w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 [clip-path:circle(36%)] m-[-1.15rem]">
         <img
           className="w-full h-full object-contain"

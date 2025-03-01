@@ -255,7 +255,9 @@ export default {
         '3xl': '1900px',
       },
       boxShadow: {
-        glow: '0 0 10px #09f020, 0 0 20px #09f020, 0 0 30px #09f020, 0 0 40px #09f020',
+        glow: '0 0 10px #09f020, 0 0 20px #09f020, 0 0 30px #09f020',
+        'glow-lg':
+          '0 0 10px #09f020, 0 0 20px #09f020, 0 0 30px #09f020, 0 0 40px #09f020',
       },
       transitionTimingFunction: {
         DEFAULT: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
