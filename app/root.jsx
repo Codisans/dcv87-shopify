@@ -19,6 +19,7 @@ import {TransitionProvider} from './components/TransitionContext';
 import {useEffect} from 'react';
 import {FaviconLinks, FaviconMeta} from './components/Favicon';
 import {SiteLock} from './components/SiteLock';
+import {getClientIPAddress} from 'remix-utils/get-client-ip-address';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
@@ -81,6 +82,7 @@ export async function loader(args) {
       country: args.context.storefront.i18n.country,
       language: args.context.storefront.i18n.language,
     },
+    ip: getClientIPAddress(args.request),
   });
 }
 

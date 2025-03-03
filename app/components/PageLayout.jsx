@@ -18,6 +18,7 @@ export function PageLayout({
   isLoggedIn,
   publicStoreDomain,
   globeLinkMenu,
+  ip,
 }) {
   const {pathname} = useLocation();
   const {containerRef, setTransitionContainer} = useTransitionContext();
@@ -68,6 +69,7 @@ export function PageLayout({
       )}
       {footer && !isHome && (
         <Footer
+          ip={ip}
           footer={footer}
           header={header}
           publicStoreDomain={publicStoreDomain}
