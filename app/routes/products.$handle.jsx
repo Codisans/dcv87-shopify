@@ -144,7 +144,7 @@ export default function Product() {
         className={`fixed z-[9999] bg-black/40 backdrop-blur-sm inset-0 hidden items-center justify-center overflow-hidden cursor-zoom-out`}
       >
         <img
-          className="w-[95%] h-[80%] object-contain max-w-[calc(100vw-var(--gutter))] max-h-[1600px]"
+          className="w-full h-[80%] object-contain max-w-[1200px] max-h-[1200px]"
           ref={zoomedImageRef}
           alt="Zoomed Image"
         />
