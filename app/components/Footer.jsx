@@ -6,10 +6,10 @@ import {ClientOnly} from 'remix-utils/client-only';
 /**
  * @param {FooterProps}
  */
-export function Footer({footer: footerPromise, header, publicStoreDomain, ip}) {
+export function Footer({footer: footerPromise, header, publicStoreDomain}) {
   return (
     <footer className="fixed inset-x-gutter -sm:right-28 bottom-4 z-header flex flex-col items-start gap-2 md:gap-6 pointer-events-none">
-      <ClientOnly>{() => <WeatherWidget ip={ip} />}</ClientOnly>
+      <ClientOnly>{() => <WeatherWidget />}</ClientOnly>
       <Suspense>
         <Await resolve={footerPromise}>
           {(footer) => (
