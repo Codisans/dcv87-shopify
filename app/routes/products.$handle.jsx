@@ -92,6 +92,7 @@ export default function Product() {
   /** @type {LoaderReturnData} */
   const {product} = useLoaderData();
   const searchParams = useSearchParams();
+  const [zoomedImgData, setZoomedImgData] = useState(null);
   const swiperRef = useRef(null);
   const nextRef = useRef(null);
   const prevRef = useRef(null);
@@ -135,19 +136,22 @@ export default function Product() {
   return (
     <main ref={mainRef} className="min-h-lvh">
       <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
+
       <div
         ref={zoomContainerRef}
         onClick={(e) => {
-          zoomedImageRef.current.src = '';
+          setZoomedImgData(null);
           zoomContainerRef.current.style.display = 'none';
         }}
         className={`fixed z-[9999] bg-black/40 backdrop-blur-sm inset-0 hidden items-center justify-center overflow-hidden cursor-zoom-out`}
       >
-        <img
-          className="w-full h-[80%] object-contain max-w-[1200px] max-h-[1200px]"
-          ref={zoomedImageRef}
-          alt="Zoomed Image"
-        />
+        {zoomedImgData && (
+          <Image
+            className="w-full h-[80%] object-contain max-w-[1200px] max-h-[1200px]"
+            data={zoomedImgData}
+            aspectRatio="1/1"
+          />
+        )}
       </div>
 
       <div className="absolute inset-0 top-0 h-svh overflow-hidden pointer-events-none">
@@ -174,8 +178,7 @@ export default function Product() {
                 >
                   <ProductImage
                     onClick={(e) => {
-                      const imgUrl = e.target.closest('img').src;
-                      zoomedImageRef.current.src = imgUrl;
+                      setZoomedImgData(media);
                       zoomContainerRef.current.style.display = 'flex';
                     }}
                     image={media}
