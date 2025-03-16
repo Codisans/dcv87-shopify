@@ -4,6 +4,7 @@ import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
 import {CartLines} from './CartLines';
 import {TransitionLink} from './TransitionLink';
+import {AddNote} from './AddNote';
 
 /**
  * The main cart component that displays the cart items and summary.
@@ -23,7 +24,7 @@ export function CartMain({cart: originalCart}) {
   const cartHasItems = cart?.totalQuantity > 0;
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col pb-12">
       <CartEmpty hidden={linesCount} />
       <div aria-labelledby="cart-lines">
         <ul className="w-full">
@@ -31,6 +32,9 @@ export function CartMain({cart: originalCart}) {
             <CartLineItem key={line.id} line={line} />
           ))}
         </ul>
+      </div>
+      <div className="py-4 border-b border-white">
+        <AddNote cart={cart} />
       </div>
       {cartHasItems && <CartSummary cart={cart} />}
     </div>

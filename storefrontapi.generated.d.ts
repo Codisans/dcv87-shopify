@@ -427,6 +427,19 @@ export type LogosQuery = {
   };
 };
 
+export type BlogDatesQueryVariables = StorefrontAPI.Exact<{
+  blogHandle: StorefrontAPI.Scalars['String']['input'];
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+  first?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
+  last?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
+}>;
+
+export type BlogDatesQuery = {
+  blog?: StorefrontAPI.Maybe<{
+    articles: {nodes: Array<Pick<StorefrontAPI.Article, 'publishedAt'>>};
+  }>;
+};
+
 export type BlogQueryVariables = StorefrontAPI.Exact<{
   blogHandle: StorefrontAPI.Scalars['String']['input'];
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
@@ -1380,6 +1393,10 @@ interface GeneratedQueryTypes {
   '#graphql \n  query Logos {  \n    metaobjects(type: "logo" first: 20) {\n      nodes {\n        fields {\n          key\n          value\n          reference {\n              ... on MediaImage {\n                image {\n                  url\n                  width\n                  height\n                  altText\n                }\n              }\n\n            }\n        }\n      }\n    }\n  }\n': {
     return: LogosQuery;
     variables: LogosQueryVariables;
+  };
+  '#graphql\n  query BlogDates(\n    $blogHandle: String!\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n  ) @inContext(language: $language) {\n    blog(handle: $blogHandle) {\n      articles(\n        first: $first,\n        last: $last,\n        sortKey: PUBLISHED_AT,\n        reverse: true,\n      ) {\n        nodes {\n          publishedAt\n        }\n      }\n    }\n  }\n': {
+    return: BlogDatesQuery;
+    variables: BlogDatesQueryVariables;
   };
   '#graphql\n  query Blog(\n    $blogHandle: String!\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(language: $language) {\n    blog(handle: $blogHandle) {\n      title\n      seo {\n        title\n        description\n      }\n      articles(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor,\n        sortKey: PUBLISHED_AT,\n        reverse: true,\n      ) {\n        nodes {\n          ...ArticleItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n  fragment ArticleItem on Article {\n    author: authorV2 {\n      name\n    }\n    contentHtml\n    handle\n    id\n    image {\n      id\n      altText\n      url\n      width\n      height\n    }\n    publishedAt\n    title\n    contentHtml\n    blog {\n      handle\n    }\n  }\n': {
     return: BlogQuery;

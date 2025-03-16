@@ -32,6 +32,10 @@ export async function action({request, context}) {
   let result;
 
   switch (action) {
+    case CartForm.ACTIONS.NoteUpdate:
+      const note = String(formData.get('note') || '');
+      result = await cart.updateNote(note);
+      break;
     case CartForm.ACTIONS.LinesAdd:
       result = await cart.addLines(inputs.lines);
       break;
