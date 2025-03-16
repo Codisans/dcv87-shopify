@@ -46,7 +46,6 @@ function loadDeferredData({context}) {
 export default function Newsletter() {
   const {pageData} = useLoaderData();
   const fields = parseFields(pageData.fields);
-  console.log(fields);
 
   return (
     <main>
