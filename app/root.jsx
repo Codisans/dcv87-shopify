@@ -93,7 +93,7 @@ export async function loader(args) {
 async function loadCriticalData({context}) {
   const {storefront} = context;
 
-  const [header] = await Promise.all([
+  const [header, {metaobjects}] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
@@ -101,9 +101,10 @@ async function loadCriticalData({context}) {
       },
     }),
     // Add other queries here, so that they are loaded in parallel
+    storefront.query(HOME_PAGE_QUERY),
   ]);
 
-  return {header, env: context.env};
+  return {header, env: context.env, homePage: metaobjects.nodes[0]};
 }
 
 /**
@@ -173,7 +174,7 @@ export function Layout({children}) {
             shop={data.shop}
             consent={data.consent}
           >
-            <SiteLock env={data.env} />
+            <SiteLock homePage={data.homePage} env={data.env} />
             <LenisScroll>
               <TransitionProvider>
                 <PageLayout {...data}>{children}</PageLayout>
@@ -224,3 +225,16 @@ export function ErrorBoundary() {
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
 /** @typedef {import('@remix-run/react').ShouldRevalidateFunction} ShouldRevalidateFunction */
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
+
+const HOME_PAGE_QUERY = `#graphql 
+  query HomePage {  
+    metaobjects(type: "home_page" first: 1) {
+      nodes {
+        fields {
+          key
+          value
+        }
+      }
+    }
+  }
+`;

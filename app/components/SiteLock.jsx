@@ -1,16 +1,20 @@
 import {useLocation} from '@remix-run/react';
 import {useEffect} from 'react';
+import {parseFields} from '~/utils/parseFields';
 
-export const SiteLock = ({env}) => {
+export const SiteLock = ({homePage, env}) => {
   const {pathname} = useLocation();
+  const fields = parseFields(homePage.fields);
+  const lockWebsite = fields.lock_website.value !== 'false';
+  const accessKey = fields.access_key.value;
 
   useEffect(() => {
-    if (env.ENVIRONMENT !== 'production') return;
+    if (!lockWebsite) return;
 
     if (pathname !== '/newsletter') {
-      if (window.location.search === '?key=swid') {
-        window.localStorage.setItem('key', 'swid');
-      } else if (window.localStorage.getItem('key') !== 'swid') {
+      if (window.location.search === `?key=${accessKey}`) {
+        window.localStorage.setItem('key', accessKey);
+      } else if (window.localStorage.getItem('key') !== accessKey) {
         window.location.replace('/newsletter');
       }
     }
