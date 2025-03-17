@@ -8,6 +8,7 @@ import {parseFields} from '~/utils/parseFields';
 
 import {Logos} from '~/components/Logos';
 import {BackgroundMedia} from '~/components/BackgroundMedia';
+import moment from 'moment';
 
 /**
  * @type {MetaFunction}
@@ -39,10 +40,12 @@ async function loadCriticalData({context, request}) {
     pageBy: 6,
   });
 
+  const searchParams = new URL(request.url).searchParams;
   const [{blog}, {metaobjects}] = await Promise.all([
     context.storefront.query(BLOG_QUERY, {
       variables: {
         blogHandle: 'news',
+        query: `created_at:<=${searchParams.get('max-date')}`,
         ...paginationVariables,
       },
     }),
@@ -53,7 +56,7 @@ async function loadCriticalData({context, request}) {
     throw new Response('Not found', {status: 404});
   }
 
-  return {blog, metaobjects};
+  return {blog, metaobjects, maxDate: searchParams.get('max-date')};
 }
 
 /**
@@ -68,12 +71,28 @@ function loadDeferredData({context}) {
     console.error(error);
     return null;
   });
-  return {logos: logosData};
+  const blogDatesData = context.storefront
+    .query(BLOG_DATES_QUERY, {
+      variables: {
+        blogHandle: 'news',
+        first: 250,
+      },
+    })
+    .catch((error) => {
+      // Log query errors, but don't throw them so the page can still render
+      console.error(error);
+      return null;
+    });
+
+  return {
+    logos: logosData,
+    blogDates: blogDatesData,
+  };
 }
 
 export default function Blog() {
   /** @type {LoaderReturnData} */
-  const {blog, metaobjects, logos} = useLoaderData();
+  const {blog, metaobjects, logos, blogDates, maxDate} = useLoaderData();
   const {articles} = blog;
   const pageData = metaobjects.nodes[0];
   const fields = parseFields(pageData.fields);
@@ -116,20 +135,41 @@ export default function Blog() {
       <h1 className="sr-only">Blog</h1>
       <BackgroundMedia loading="eager" media={fields?.background?.reference} />
       <div className="pt-64 pb-32 container grid-layout !max-w-[1200px]">
-        {/* <div className="-sm:hidden col-start-1 col-end-3">
-          <ul className="relative z-10 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
-            <li>
-              <Link className="clip-hover clip-hover--white" to="/blog">
-                Latest
-              </Link>
-            </li>
-            <li>
-              <Link className="clip-hover clip-hover--white" to="/blog">
-                Jan 2024
-              </Link>
-            </li>
-          </ul>
-        </div> */}
+        <div className="-sm:hidden col-start-1 col-end-3">
+          <Suspense>
+            <Await resolve={blogDates}>
+              {(data) => (
+                <ul className="relative z-10 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
+                  <Link
+                    to="/blog"
+                    className={`clip-hover ${
+                      maxDate == null ? 'current' : ''
+                    } `}
+                  >
+                    Latest
+                  </Link>
+                  {Array.from(
+                    new Set(
+                      data.blog.articles.nodes.map((x) =>
+                        moment(x.publishedAt).endOf('month'),
+                      ),
+                    ),
+                  ).map((d, i) => (
+                    <Link
+                      key={i}
+                      to={`/blog?max-date=${d.format('YYYY-MM-DD')}`}
+                      className={`clip-hover ${
+                        maxDate == d.format('YYYY-MM-DD') ? 'current' : ''
+                      }`}
+                    >
+                      {d.format('MMM YYYY')}
+                    </Link>
+                  ))}
+                </ul>
+              )}
+            </Await>
+          </Suspense>
+        </div>
         <div className="col-start-1 sm:col-start-3 col-end-11 blog-pagination relative z-10 ">
           <PaginatedResourceSection
             resourcesClassName="flex flex-col gap-y-10 paginated-resource-section"
@@ -239,7 +279,7 @@ const BLOG_PAGE_QUERY = `#graphql
 
 const LOGOS_QUERY = `#graphql 
   query Logos {  
-    metaobjects(type: "logo" first: 20) {
+    metaobjects(type: "logo" first: 50) {
       nodes {
         fields {
           key
@@ -261,6 +301,28 @@ const LOGOS_QUERY = `#graphql
   }
 `;
 
+const BLOG_DATES_QUERY = `#graphql
+  query BlogDates(
+    $blogHandle: String!
+    $language: LanguageCode
+    $first: Int
+    $last: Int
+  ) @inContext(language: $language) {
+    blog(handle: $blogHandle) {
+      articles(
+        first: $first,
+        last: $last,
+        sortKey: PUBLISHED_AT,
+        reverse: false,
+      ) {
+        nodes {
+          publishedAt
+        }
+      }
+    }
+  }
+`;
+
 const BLOG_QUERY = `#graphql
   query Blog(
     $blogHandle: String!
@@ -269,6 +331,7 @@ const BLOG_QUERY = `#graphql
     $last: Int
     $startCursor: String
     $endCursor: String
+    $query: String
   ) @inContext(language: $language) {
     blog(handle: $blogHandle) {
       title
@@ -283,6 +346,7 @@ const BLOG_QUERY = `#graphql
         after: $endCursor,
         sortKey: PUBLISHED_AT,
         reverse: true,
+        query: $query,
       ) {
         nodes {
           ...ArticleItem

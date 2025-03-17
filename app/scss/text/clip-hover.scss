@@ -27,6 +27,10 @@
     @apply content-[''] absolute right-full mr-[0.1em] sm:mr-[0.15em] md:mr-[0.25em] bg-red rounded-full size-[0.25em];
   }
 
+  &.current {
+    background-position: 0 100%;
+  }
+
   &--white {
     background-position: 0 100%;
 
