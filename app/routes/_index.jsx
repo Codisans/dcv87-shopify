@@ -62,7 +62,7 @@ export default function Homepage() {
 }
 
 const HOME_PAGE_QUERY = `#graphql 
-  query HomePage {  
+  query HomePageData {  
     metaobjects(type: "home_page" first: 1) {
       nodes {
         seo {

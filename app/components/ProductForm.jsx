@@ -7,9 +7,10 @@ import {useState} from 'react';
  * @param {{
  *   productOptions: MappedProductOptions[];
  *   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
+ *   comingSoon: boolean;
  * }}
  */
-export function ProductForm({productOptions, selectedVariant}) {
+export function ProductForm({productOptions, selectedVariant, comingSoon}) {
   const navigate = useNavigate();
   const [showCartButton, setShowCartButton] = useState(false);
 
@@ -91,7 +92,9 @@ export function ProductForm({productOptions, selectedVariant}) {
       })}
       <div className="pt-6 sm:pt-8 [&_form]:w-full">
         <AddToCartButton
-          disabled={!selectedVariant || !selectedVariant.availableForSale}
+          disabled={
+            comingSoon || !selectedVariant || !selectedVariant.availableForSale
+          }
           onClick={() => setShowCartButton(true)}
           lines={
             selectedVariant
@@ -105,7 +108,11 @@ export function ProductForm({productOptions, selectedVariant}) {
               : []
           }
         >
-          {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
+          {comingSoon
+            ? 'Coming Soon'
+            : selectedVariant?.availableForSale
+            ? 'Add to cart'
+            : 'Sold out'}
         </AddToCartButton>
 
         <TransitionLink

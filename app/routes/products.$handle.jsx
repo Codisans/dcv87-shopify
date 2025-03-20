@@ -133,9 +133,21 @@ export default function Product() {
     [];
   const carouselMedia = [selectedVariant.image, ...variantMedia];
 
+  const comingSoon = Boolean(
+    product?.metafields.find((metafield) => metafield?.key === 'coming_soon')
+      ?.value,
+  );
+
   return (
     <main ref={mainRef} className="min-h-lvh">
-      <BackgroundMedia loading="eager" media={product?.metafield?.reference} />
+      <BackgroundMedia
+        loading="eager"
+        media={
+          product?.metafields.find(
+            (metafield) => metafield?.key === 'background',
+          )?.reference
+        }
+      />
 
       <div
         ref={zoomContainerRef}
@@ -237,6 +249,7 @@ export default function Product() {
             dangerouslySetInnerHTML={{__html: descriptionHtml}}
           />
           <ProductForm
+            comingSoon={comingSoon}
             productOptions={productOptions}
             selectedVariant={selectedVariant}
           />
@@ -358,7 +371,9 @@ const PRODUCT_FRAGMENT = `#graphql
         }
       }
     }
-    metafield(namespace: "custom" key: "background") {
+    metafields(identifiers: [{namespace: "custom", key: "coming_soon"}, {namespace: "custom", key: "background"}]) {
+      key
+      value
       reference {
         __typename
         ... on Video {

@@ -1,7 +1,6 @@
 import {Suspense} from 'react';
 import {Await, NavLink} from '@remix-run/react';
 import {WeatherWidget} from './WeatherWidget';
-import {ClientOnly} from 'remix-utils/client-only';
 
 /**
  * @param {FooterProps}
@@ -9,7 +8,7 @@ import {ClientOnly} from 'remix-utils/client-only';
 export function Footer({footer: footerPromise, header, publicStoreDomain}) {
   return (
     <footer className="fixed inset-x-gutter -sm:right-28 bottom-4 z-header flex flex-col items-start gap-2 md:gap-6 pointer-events-none">
-      <ClientOnly>{() => <WeatherWidget />}</ClientOnly>
+      <WeatherWidget />
       <Suspense>
         <Await resolve={footerPromise}>
           {(footer) => (
