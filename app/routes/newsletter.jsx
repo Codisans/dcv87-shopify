@@ -58,7 +58,7 @@ export default function Newsletter() {
       </div>
       <div className="min-h-svh relative z-10 container flex justify-center items-center flex-col pt-24 pb-20 lg:pt-32">
         <div className="flex flex-col items-center text-center max-w-md w-full px-gutter">
-          <h1 className="text-h3 text-red pb-10 lg:pb-16 uppercase">
+          <h1 className="text-h3 text-red text-outline pb-10 lg:pb-16 uppercase">
             {fields?.heading?.value || 'Join our newsletter'}
           </h1>
           <MailchimpForm successMessage={fields?.success_message?.value} />

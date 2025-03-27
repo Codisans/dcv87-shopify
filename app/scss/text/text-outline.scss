@@ -1,0 +1,11 @@
+:root {
+  --text-outline-width: 1px;
+}
+.text-outline {
+  text-shadow: calc(var(--text-outline-width) * -1) var(--text-outline-width) 0
+      #fff,
+    calc(var(--text-outline-width) * -1) var(--text-outline-width) 0 #fff,
+    var(--text-outline-width) calc(var(--text-outline-width) * -1) 0 #fff,
+    calc(var(--text-outline-width) * -1) calc(var(--text-outline-width) * -1) 0
+      #fff;
+}
