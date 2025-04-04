@@ -139,7 +139,7 @@ export default function Blog() {
           <Suspense>
             <Await resolve={blogDates}>
               {(data) => (
-                <ul className="relative z-10 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white px-gap">
+                <ul className="relative z-10 flex flex-col gap-y-2 text-h3 uppercase border-l border-r border-white pl-gap pr-2">
                   <Link
                     to="/blog"
                     className={`clip-hover ${
@@ -158,7 +158,7 @@ export default function Blog() {
                     <Link
                       key={i}
                       to={`/blog?max-date=${d.format('YYYY-MM-DD')}`}
-                      className={`clip-hover ${
+                      className={`clip-hover text-nowrap ${
                         maxDate == d.format('YYYY-MM-DD') ? 'current' : ''
                       }`}
                     >
