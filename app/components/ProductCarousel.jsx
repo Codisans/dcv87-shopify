@@ -238,7 +238,7 @@ export const ProductCarousel = ({products}) => {
               <ProductItem
                 product={product}
                 navigateToProduct={navigateToProduct}
-                loading={i < 8 ? 'eager' : undefined}
+                loading="eager"
               />
             </li>
           ))}
